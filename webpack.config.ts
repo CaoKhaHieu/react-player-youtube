@@ -1,12 +1,13 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './index.tsx',
+  entry: './index.ts',
   devtool: 'inline-source-map',
   output: {
-    path: path.join(__dirname, '/build'),
-    filename: 'bundle.js'
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'index.js',
+    libraryTarget: "umd",
+    library: "react-player-youtube"
   },
   module: {
     rules: [
@@ -22,19 +23,11 @@ module.exports = {
       },
     ]
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: "./index.html"
-    })
-  ],
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },
-  devServer: {
-    static: {
-      directory: path.join(__dirname, 'public'),
-    },
-    compress: true,
-    port: 3000,
-  },
+  externals: {
+    'react': 'commonjs2 react',
+    'react-dom': 'commonjs2 react-dom'
+  }
 }
