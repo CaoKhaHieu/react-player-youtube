@@ -1,5 +1,5 @@
-import Video from "./src/components/video";
+import VideoPlayer from "./src/components/video-player/index";
 
 export {
-  Video,
+  VideoPlayer,
 };
