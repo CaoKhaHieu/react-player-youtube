@@ -2,6 +2,7 @@ import babel from 'rollup-plugin-babel';
 import typescript from 'rollup-plugin-typescript2';
 import cleaner from 'rollup-plugin-cleaner';
 import postcss from 'rollup-plugin-postcss';
+import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 
 export default {
   input: 'index.ts',
@@ -35,5 +36,6 @@ export default {
       },
     }),
     postcss(),
+    peerDepsExternal(),
   ],
 };
