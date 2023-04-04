@@ -54,8 +54,19 @@
       .vjs-fullscreen-control,
       .vjs-picture-in-picture-control,
       .vjs-audio-button,
-      .vjs-subs-caps-button  {
+      .vjs-subs-caps-button,
+      .vjs-setting-btn {
         margin-right: 0.75rem;
+      }
+
+      .vjs-setting-btn {
+        cursor: pointer;
+        .vjs-icon-placeholder::before {
+          font-family: "Material Icons";
+          content: "\e8b8";
+          font-size: 2.5em;
+          line-height: 0.95;
+        }
       }
     }
 

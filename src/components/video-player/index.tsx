@@ -3,7 +3,8 @@ import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
 import './index.scss';
 import { VideoOptions } from '../../types';
-import { SettingButton } from '../controls-btn/index';
+import { SettingButton } from '../controls-btn/index.js';
+import { applyFontIcons } from '../../utils';
 
 videojs.registerComponent('SettingButton', SettingButton);
 
@@ -12,7 +13,10 @@ const VideoPlayer = memo(forwardRef((props: VideoOptions, playerRef: any) => {
   const videoRef = useRef<any>();
 
   useEffect(() => {
-    initPlayer();
+    if (options) {
+      initPlayer();
+      applyFontIcons();
+    }
   }, []);
 
   const initPlayer = () => {
@@ -28,9 +32,9 @@ const VideoPlayer = memo(forwardRef((props: VideoOptions, playerRef: any) => {
   };
 
   const initBtnControls = () => {
-    const settingBtn =  playerRef.current.controlBar.getChild('buttonName');
+    const settingBtn = playerRef.current.controlBar.getChild('buttonName');
     if (!settingBtn) {
-      playerRef.current.controlBar.addChild('SettingButton', {});
+      playerRef.current.controlBar.addChild('SettingButton', {}, 16);
     }
   };
 
