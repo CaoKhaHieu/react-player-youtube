@@ -1,0 +1,26 @@
+
+
+.settings {
+  position: absolute;
+  right: 0.5rem;
+  bottom: 4rem;
+  border-radius: 0.5rem;
+  background: rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+  width: 35em;
+  height: auto;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease-in-out;
+  animation: fade-in 0.3s ease forwards;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

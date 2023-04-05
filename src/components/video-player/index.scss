@@ -1,4 +1,6 @@
 .video-js-custom {
+  position: relative;
+  font-family: Roboto, Arial, sans-serif;
   aspect-ratio: 16 / 9;
   .video-js {
     .vjs-control-bar {
@@ -67,6 +69,17 @@
           font-size: 2.5em;
           line-height: 0.95;
         }
+        &.vjs-setting-btn-on {
+          .vjs-icon-placeholder::before {
+            transition: transform 0.3s ease-in-out;
+            transform: rotate(30deg);
+          }
+        }
+        &.vjs-setting-btn-off {
+          .vjs-icon-placeholder::before {
+            transition: transform 0.3s ease-in-out;
+          }
+        }
       }
     }
 
@@ -77,6 +90,7 @@
       justify-content: center;
       padding-top: 1px;
     }
+
     .vjs-button {
       &.vjs-ended {
         .vjs-icon-placeholder::before {

@@ -1,0 +1,10 @@
+.option {
+  padding: 0.8rem 1rem;
+  font-size: 0.875rem;
+  background: transparent;
+  cursor: pointer;
+  &:hover {
+    background: rgba(56, 56, 56, 0.8);
+    transition: 0.3s;
+  }
+}
