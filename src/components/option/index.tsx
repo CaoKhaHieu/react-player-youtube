@@ -7,6 +7,7 @@ const Option = (props: any) => {
   return (
     <div className='option'>
       <div className='icon'>
+        {option.icon}
       </div>
       <div className='content'>
         {option.label}

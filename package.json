@@ -10,6 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "classnames": "^2.3.2",
+    "i": "^0.3.7",
+    "npm": "^9.6.3",
     "react-helmet": "^6.1.0",
     "video.js": "^7.17.0"
   },
