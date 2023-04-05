@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import './index.scss';
+import './style.scss';
 import Option from '../option';
 import Icon from '../icon';
 
@@ -10,7 +10,17 @@ interface SettingOptions {
 const menuSettings = {
   speed: {
     label: 'Playback speed',
-    icon: <Icon className='material-symbols-outlined' content={'slow_motion_video'} />
+    icon: <Icon className='material-symbols-outlined' content={'slow_motion_video'} />,
+    options: [
+      {
+        label: 'Normal',
+        value: 1
+      },
+      {
+        label: '2',
+        value: 2,
+      }
+    ]
   },
   subtitles: {
     label: 'Subtitles',

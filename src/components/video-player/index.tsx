@@ -1,7 +1,7 @@
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
-import './index.scss';
+import './style.scss';
 import { VideoOptions } from '../../types';
 import { SettingButton } from '../controls-btn/index.js';
 import { applyFontIcons } from '../../utils';

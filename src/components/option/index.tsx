@@ -1,5 +1,5 @@
 import React from 'react';
-import './index.scss';
+import './style.scss';
 
 const Option = (props: any) => {
   const { option } = props;
