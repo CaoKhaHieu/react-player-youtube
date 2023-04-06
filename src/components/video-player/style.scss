@@ -3,6 +3,7 @@
   font-family: Roboto, Arial, sans-serif;
   aspect-ratio: 16 / 9;
   .video-js {
+    position: relative;
     .vjs-control-bar {
       margin-bottom: 0.5rem;
       z-index: 10;
@@ -180,6 +181,14 @@
 
     .vjs-remaining-time {
       display: none;
+    }
+
+    // style for subtitle
+    .vjs-text-track-display {
+      bottom: 6em;
+      & > div {
+        position: relative;
+      }
     }
   }
 }

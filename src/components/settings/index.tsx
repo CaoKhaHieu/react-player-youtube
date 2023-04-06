@@ -6,6 +6,7 @@ import SettingDetail from './setting-detail';
 import { DATA_LOCAL, INIT_PLAYER_CONFIG } from '../../constants';
 import { MenuSettingItem, MenuSettings } from '../../types';
 import { getDataLocal } from '../../utils';
+import { dummySubtitles } from '../video-player';
 
 interface SettingOptions {
   handleToggle: () => void;
@@ -55,12 +56,7 @@ export const menuSettings: MenuSettings = {
     id: 'subtitles',
     label: 'Subtitles',
     icon: <Icon className='material-symbols-outlined' content={'closed_caption'} />,
-    options: [
-      {
-        label: '0.25',
-        value: 0.25,
-      },
-    ]
+    options: dummySubtitles,
   },
   quality: {
     id: 'Quality',

@@ -5,7 +5,7 @@ import Icon from '../icon';
 export interface OptionData {
   icon?: ReactElement;
   label: string;
-  value?: number;
+  value?: any;
 }
 
 export interface IOption {

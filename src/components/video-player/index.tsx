@@ -5,7 +5,7 @@ import 'video.js/dist/video-js.css';
 
 import './style.scss';
 import '../../stylesheets/style.scss';
-import { VideoOptions } from '../../types';
+import { SubtitleItem, VideoOptions } from '../../types';
 import { SettingButton } from '../controls-btn/index.js';
 import { applyFontIcons, getDataLocal } from '../../utils';
 import Settings from '../settings';
@@ -25,6 +25,21 @@ export const useVideoPlayer = () => {
 };
 
 videojs.registerComponent('SettingButton', SettingButton);
+
+export const dummySubtitles: SubtitleItem[] = [
+  {
+    isDefault: true,
+    value: 'en',
+    label: 'English',
+    url: 'https://kot-politiken.s3-eu-west-1.amazonaws.com/2019/114_en.vtt.txt'
+  },
+  {
+    isDefault: false,
+    value: 'vn',
+    label: 'Vietnamese',
+    url: 'https://kot-politiken.s3-eu-west-1.amazonaws.com/2019/114_en.vtt.txt'
+  },
+];
 
 const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   const { options, initSuccess, } = props;
@@ -47,6 +62,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
       const newPlayer = videojs(videoRef.current, videojsOptions, () => {
         playerRef.current = newPlayer;
         playerRef.current.playbackRate(configPlayerDefault ? configPlayerDefault[DATA_LOCAL.SPEED_CONTROL].value : INIT_PLAYER_CONFIG.SPEED_CONTROL);
+        addTextTracks();
         initBtnControls();
         if (typeof initSuccess === 'function') {
           initSuccess();
@@ -62,6 +78,17 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
         onClick: handleToggle
       }, 15);
     }
+  };
+
+  const addTextTracks = () => {
+    dummySubtitles.forEach((item: SubtitleItem) => {
+      playerRef.current.addRemoteTextTrack({
+        src: item.url,
+        kind: 'captions',
+        srclang: item.value,
+        label: item.label,
+      }, false);
+    });
   };
 
   const valueContext = {
