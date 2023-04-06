@@ -1,4 +1,5 @@
 import videojs from 'video.js';
+
 const Button = videojs.getComponent('Button');
 // const VjsComponent = videojs.getComponent('Component');
 
@@ -8,6 +9,7 @@ export class SettingButton extends Button {
     this.toggle = false;
     this.onClick = options.onClick;
     this.getClass();
+    this.controlText('Settings');
   }
 
   
