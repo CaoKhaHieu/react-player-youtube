@@ -11,7 +11,7 @@ import { applyFontIcons, getDataLocal } from '../../utils';
 import Settings from '../settings';
 import { Helmet } from "react-helmet";
 import useToggle from '../../hooks/useToggle';
-import { DATA_LOCAL, ERRORS, INIT_PLAYER_CONFIG } from '../../constants';
+import { ERRORS, PLAYER_CONFIG, dummySubtitles } from '../../constants';
 
 const VideoContext = createContext<any>(null);
 
@@ -25,21 +25,6 @@ export const useVideoPlayer = () => {
 };
 
 videojs.registerComponent('SettingButton', SettingButton);
-
-export const dummySubtitles: SubtitleItem[] = [
-  {
-    isDefault: true,
-    value: 'en',
-    label: 'English',
-    url: 'https://kot-politiken.s3-eu-west-1.amazonaws.com/2019/114_en.vtt.txt'
-  },
-  {
-    isDefault: false,
-    value: 'vn',
-    label: 'Vietnamese',
-    url: 'https://kot-politiken.s3-eu-west-1.amazonaws.com/2019/114_en.vtt.txt'
-  },
-];
 
 const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   const { options, initSuccess, } = props;
@@ -61,7 +46,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     if (!playerRef.current) {
       const newPlayer = videojs(videoRef.current, videojsOptions, () => {
         playerRef.current = newPlayer;
-        playerRef.current.playbackRate(configPlayerDefault ? configPlayerDefault[DATA_LOCAL.SPEED_CONTROL].value : INIT_PLAYER_CONFIG.SPEED_CONTROL);
+        playerRef.current.playbackRate(configPlayerDefault ? configPlayerDefault[PLAYER_CONFIG.SPEED_CONTROL].value : PLAYER_CONFIG.SPEED_CONTROL);
         addTextTracks();
         initBtnControls();
         if (typeof initSuccess === 'function') {

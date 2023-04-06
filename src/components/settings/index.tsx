@@ -3,18 +3,17 @@ import './style.scss';
 import Option from '../option';
 import Icon from '../icon';
 import SettingDetail from './setting-detail';
-import { DATA_LOCAL, INIT_PLAYER_CONFIG } from '../../constants';
+import { PLAYER_CONFIG, dummySubtitles } from '../../constants';
 import { MenuSettingItem, MenuSettings } from '../../types';
 import { getDataLocal } from '../../utils';
-import { dummySubtitles } from '../video-player';
 
 interface SettingOptions {
   handleToggle: () => void;
 };
 
 export const menuSettings: MenuSettings = {
-  [DATA_LOCAL.SPEED_CONTROL]: {
-    id: DATA_LOCAL.SPEED_CONTROL,
+  [PLAYER_CONFIG.SPEED_CONTROL]: {
+    id: PLAYER_CONFIG.SPEED_CONTROL,
     label: 'Playback speed',
     icon: <Icon className='material-symbols-outlined' content={'slow_motion_video'} />,
     options: [
@@ -52,32 +51,33 @@ export const menuSettings: MenuSettings = {
       },
     ]
   },
-  subtitles: {
-    id: 'subtitles',
+  [PLAYER_CONFIG.SUBTITLES]: {
+    id: PLAYER_CONFIG.SUBTITLES,
     label: 'Subtitles',
     icon: <Icon className='material-symbols-outlined' content={'closed_caption'} />,
     options: dummySubtitles,
   },
-  quality: {
-    id: 'Quality',
-    label: 'Quality',
-    icon: <Icon className='material-symbols-outlined' content={'tune'} />,
-    options: [
-      {
-        label: '0.25',
-        value: 0.25,
-      },
-    ]
-  },
+  // quality: {
+  //   id: 'Quality',
+  //   label: 'Quality',
+  //   icon: <Icon className='material-symbols-outlined' content={'tune'} />,
+  //   options: [
+  //     {
+  //       label: '0.25',
+  //       value: 0.25,
+  //     },
+  //   ]
+  // },
 };
 
 const Settings = (props: SettingOptions) => {
   const { handleToggle } = props;
   const subRef = useRef<HTMLDivElement>(null);
-  const [settingDetail, setSettingDetail] = useState<string | null>();
+  const [settingDetail, setSettingDetail] = useState<number | null>();
   const settingsOptions: MenuSettingItem[] = Object.values(menuSettings);
+  console.log({settingsOptions, menuSettings})
   const configPlayer = {
-    ...INIT_PLAYER_CONFIG,
+    ...PLAYER_CONFIG,
     ...getDataLocal(),
   };
 
