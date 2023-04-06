@@ -6,6 +6,7 @@ import SettingDetail from './setting-detail';
 import { PLAYER_CONFIG, dummySubtitles } from '../../constants';
 import { MenuSettingItem, MenuSettings } from '../../types';
 import { getDataLocal } from '../../utils';
+import useSettings from '../../hooks/useSettings';
 
 interface SettingOptions {
   handleToggle: () => void;
@@ -75,11 +76,12 @@ const Settings = (props: SettingOptions) => {
   const subRef = useRef<HTMLDivElement>(null);
   const [settingDetail, setSettingDetail] = useState<number | null>();
   const settingsOptions: MenuSettingItem[] = Object.values(menuSettings);
-  console.log({settingsOptions, menuSettings})
-  const configPlayer = {
-    ...PLAYER_CONFIG,
-    ...getDataLocal(),
-  };
+  const dataLocal = getDataLocal();
+
+  const [configSetting, setConfigSetting] = useState<any>({
+    [PLAYER_CONFIG.SUBTITLES]: 'Off',
+    [PLAYER_CONFIG.SPEED_CONTROL]: dataLocal ? dataLocal[PLAYER_CONFIG.SPEED_CONTROL].label : 'Normal',
+  });
 
   useEffect(() => {
     const handleClickOutside = (e: Event) => {
@@ -105,6 +107,10 @@ const Settings = (props: SettingOptions) => {
     setSettingDetail(null);
   };
 
+  const handleConfigSetting = (data: any) => {
+    setConfigSetting((prev: any) => ({...prev, ...data}));
+  };
+
   return (
     <div className='settings' ref={subRef}>
       {
@@ -114,7 +120,7 @@ const Settings = (props: SettingOptions) => {
             option={item}
             alwaysShowIcon
             hasOptionList
-            currentValue={configPlayer[item.id]?.label}
+            currentValue={configSetting[item.id]}
             onClick={openSettingDetail(item)}
           />
         )
@@ -125,6 +131,7 @@ const Settings = (props: SettingOptions) => {
         <SettingDetail
           type={settingDetail}
           goBack={goBack}
+          handleConfigSetting={handleConfigSetting}
         />
       }
     </div>

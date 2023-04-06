@@ -11,10 +11,24 @@ export const PLAYER_CONFIG = {
 
 export const LIBRARY_NAME = 'REACT_PLAYER_YOUTUBE';
 
+export const CAPTIONS = 'captions';
+export const SUBTITLE_OFF = 'off';
+
+export const SUBTITLE_MODE = {
+  SHOWING: 'showing',
+  DISABLED: 'disabled',
+};
+
+export const SUBTITLE_ACTIONS = {
+  SWITCH: 'SWITCH',
+  TURNOFF: 'TURNOFF',
+  'GET_CURRENT_SUB': 'GET_CURRENT_SUB',
+};
+
 export const dummySubtitles: SubtitleItem[] = [
   {
     isDefault: true,
-    value: 'off',
+    value: SUBTITLE_OFF,
     label: 'Off',
   },
   {
@@ -27,6 +41,6 @@ export const dummySubtitles: SubtitleItem[] = [
     isDefault: false,
     value: 'vn',
     label: 'Vietnamese',
-    url: 'https://kot-politiken.s3-eu-west-1.amazonaws.com/2019/114_en.vtt.txt'
+    url: 'https://d2zihajmogu5jn.cloudfront.net/elephantsdream/captions.ar.vtt'
   },
 ];
