@@ -21,13 +21,14 @@ const SettingDetail = (props: SettingDetailOptions) => {
   const { playerRef } = useVideoPlayer();
   const settingData: MenuSettingItem = menuSettings[type];
   const listOptions = [...settingData.options].map((item: OptionData) => ({...item, icon}));
-  const [currentValue, setCurrentValue] = useState<number>(defaultValue && defaultValue[type] || INIT_PLAYER_CONFIG.SPEED_CONTROL);
+  const [currentValue, setCurrentValue] = useState<number>(defaultValue && defaultValue[type].value || INIT_PLAYER_CONFIG.SPEED_CONTROL);
 
   const handleSpeedVideo = (item: OptionData) => {
     return () => {
       setCurrentValue(item.value || 1);
-      saveDataLocal(DATA_LOCAL.SPEED_CONTROL, item.value);
+      saveDataLocal(DATA_LOCAL.SPEED_CONTROL, item);
       playerRef.current.playbackRate(item.value);
+      goBack();
     };
   };
 

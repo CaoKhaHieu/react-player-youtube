@@ -46,7 +46,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     if (!playerRef.current) {
       const newPlayer = videojs(videoRef.current, videojsOptions, () => {
         playerRef.current = newPlayer;
-        playerRef.current.playbackRate(configPlayerDefault ? configPlayerDefault[DATA_LOCAL.SPEED_CONTROL] : INIT_PLAYER_CONFIG.SPEED_CONTROL);
+        playerRef.current.playbackRate(configPlayerDefault ? configPlayerDefault[DATA_LOCAL.SPEED_CONTROL].value : INIT_PLAYER_CONFIG.SPEED_CONTROL);
         initBtnControls();
         if (typeof initSuccess === 'function') {
           initSuccess();

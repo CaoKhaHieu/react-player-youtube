@@ -3,8 +3,9 @@ import './style.scss';
 import Option from '../option';
 import Icon from '../icon';
 import SettingDetail from './setting-detail';
-import { DATA_LOCAL } from '../../constants';
+import { DATA_LOCAL, INIT_PLAYER_CONFIG } from '../../constants';
 import { MenuSettingItem, MenuSettings } from '../../types';
+import { getDataLocal } from '../../utils';
 
 interface SettingOptions {
   handleToggle: () => void;
@@ -79,6 +80,10 @@ const Settings = (props: SettingOptions) => {
   const subRef = useRef<HTMLDivElement>(null);
   const [settingDetail, setSettingDetail] = useState<string | null>();
   const settingsOptions: MenuSettingItem[] = Object.values(menuSettings);
+  const configPlayer = {
+    ...INIT_PLAYER_CONFIG,
+    ...getDataLocal(),
+  };
 
   useEffect(() => {
     const handleClickOutside = (e: Event) => {
@@ -94,7 +99,7 @@ const Settings = (props: SettingOptions) => {
     };
   }, []);
 
-  const handleClick = (item: MenuSettingItem) => {
+  const openSettingDetail = (item: MenuSettingItem) => {
     return () => {
       setSettingDetail(item.id);
     };
@@ -107,18 +112,24 @@ const Settings = (props: SettingOptions) => {
   return (
     <div className='settings' ref={subRef}>
       {
-        !settingDetail && settingsOptions.map((item: MenuSettingItem, index: number) =>
+        !settingDetail && settingsOptions.map((item: MenuSettingItem) =>
           <Option
-            key={index}
+            key={item.id}
             option={item}
             alwaysShowIcon
-            onClick={handleClick(item)}
+            hasOptionList
+            currentValue={configPlayer[item.id]?.label}
+            onClick={openSettingDetail(item)}
           />
         )
       }
 
       {
-        settingDetail && <SettingDetail type={settingDetail} goBack={goBack} />
+        settingDetail &&
+        <SettingDetail
+          type={settingDetail}
+          goBack={goBack}
+        />
       }
     </div>
   );

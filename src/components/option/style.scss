@@ -5,18 +5,28 @@
   font-size: 0.875rem;
   background: transparent;
   cursor: pointer;
-  
-  .icon {
-    min-width: 1.5rem;
-    min-height: 1.5rem;
-  }
-  
+
   &:hover {
     background-color: rgba(255,255,255,.1);
     transition: 0.3s;
   }
+  
+  .option-icon {
+    min-width: 1.5rem;
+    min-height: 1.5rem;
+  }
 
-  .content {
+  .option-label {
     padding-left: 0.5rem;
+    flex-grow: 1;
+  }
+
+  .option-content {
+    display: flex;
+    align-items: center;
+    .value {
+      font-size: 0.75rem;
+      color: #ccc;
+    }
   }
 }
