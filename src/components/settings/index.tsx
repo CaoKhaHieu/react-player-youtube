@@ -6,7 +6,6 @@ import SettingDetail from './setting-detail';
 import { PLAYER_CONFIG, dummySubtitles } from '../../constants';
 import { MenuSettingItem, MenuSettings } from '../../types';
 import { getDataLocal } from '../../utils';
-import useSettings from '../../hooks/useSettings';
 
 interface SettingOptions {
   handleToggle: () => void;
@@ -74,13 +73,13 @@ export const menuSettings: MenuSettings = {
 const Settings = (props: SettingOptions) => {
   const { handleToggle } = props;
   const subRef = useRef<HTMLDivElement>(null);
-  const [settingDetail, setSettingDetail] = useState<number | null>();
+  const [settingDetail, setSettingDetail] = useState<string>('');
   const settingsOptions: MenuSettingItem[] = Object.values(menuSettings);
   const dataLocal = getDataLocal();
 
   const [configSetting, setConfigSetting] = useState<any>({
     [PLAYER_CONFIG.SUBTITLES]: 'Off',
-    [PLAYER_CONFIG.SPEED_CONTROL]: dataLocal ? dataLocal[PLAYER_CONFIG.SPEED_CONTROL].label : 'Normal',
+    [PLAYER_CONFIG.SPEED_CONTROL]: dataLocal ? dataLocal[PLAYER_CONFIG.SPEED_CONTROL]?.label : 'Normal',
   });
 
   useEffect(() => {
@@ -104,7 +103,7 @@ const Settings = (props: SettingOptions) => {
   };
 
   const goBack = () => {
-    setSettingDetail(null);
+    setSettingDetail('');
   };
 
   const handleConfigSetting = (data: any) => {

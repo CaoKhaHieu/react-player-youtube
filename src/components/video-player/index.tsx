@@ -46,7 +46,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     if (!playerRef.current) {
       const newPlayer = videojs(videoRef.current, videojsOptions, () => {
         playerRef.current = newPlayer;
-        playerRef.current.playbackRate(configPlayerDefault ? configPlayerDefault[PLAYER_CONFIG.SPEED_CONTROL].value : PLAYER_CONFIG.SPEED_CONTROL);
+        playerRef.current.playbackRate(configPlayerDefault ? configPlayerDefault[PLAYER_CONFIG.SPEED_CONTROL].value : 1);
         addTextTracks();
         initBtnControls();
         if (typeof initSuccess === 'function') {

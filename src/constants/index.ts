@@ -5,8 +5,8 @@ export const ERRORS = {
 };
 
 export const PLAYER_CONFIG = {
-  SPEED_CONTROL: 1,
-  SUBTITLES: 2,
+  SPEED_CONTROL: 'SPEED_CONTROL',
+  SUBTITLES: 'SUBTITLES',
 };
 
 export const LIBRARY_NAME = 'REACT_PLAYER_YOUTUBE';

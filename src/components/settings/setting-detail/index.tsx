@@ -9,8 +9,9 @@ import { PLAYER_CONFIG, SUBTITLE_ACTIONS, SUBTITLE_OFF } from '../../../constant
 import { MenuSettingItem } from '../../../types';
 import useSettings from '../../../hooks/useSettings';
 
+
 interface SettingDetailOptions {
-  type: number;
+  type: string;
   goBack: () => void;
   handleConfigSetting: (data: any) => void;
 }
@@ -25,7 +26,7 @@ interface HandleClickOptions {
 const icon = <Icon className='material-symbols-outlined' content={'check_small'} />
 
 const SettingDetail = (props: SettingDetailOptions) => {
-  const { type = 0, goBack, handleConfigSetting } = props;
+  const { type, goBack, handleConfigSetting } = props;
   const dataLocal = getDataLocal();
   const { playerRef } = useVideoPlayer();
   const { handleSpeedVideo, handleSubtitle }: any = useSettings();
@@ -34,7 +35,7 @@ const SettingDetail = (props: SettingDetailOptions) => {
   const listOptions = [...settingData.options].map((item: OptionData) => ({...item, icon}));
   const settingDetailData: HandleClickOptions = {
     [PLAYER_CONFIG.SPEED_CONTROL]: {
-      defaultValue: dataLocal && dataLocal[type]?.value || PLAYER_CONFIG.SPEED_CONTROL,
+      defaultValue: dataLocal && dataLocal[type]?.value || 1,
       onClick: (item: OptionData) => {
         return () => {
           const keyLocal = PLAYER_CONFIG.SPEED_CONTROL.toString();
@@ -63,7 +64,7 @@ const SettingDetail = (props: SettingDetailOptions) => {
     },
   };
 
-  const [currentValue, setCurrentValue] = useState<number | string>(settingDetailData[type].defaultValue);
+  const [currentValue, setCurrentValue] = useState<string>(settingDetailData[type as any].defaultValue);
 
   useEffect(() => {
     if (type === PLAYER_CONFIG.SUBTITLES) {
@@ -88,7 +89,7 @@ const SettingDetail = (props: SettingDetailOptions) => {
           <Option
             key={index}
             option={item}
-            onClick={settingDetailData[type].onClick(item) as any}
+            onClick={settingDetailData[type as any].onClick(item) as any}
             active={currentValue === item.value}
           />
         )

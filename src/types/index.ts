@@ -4,14 +4,14 @@ export interface VideoOptions {
 };
 
 export interface MenuSettingItem {
-  id: number;
+  id: string;
   label: string;
   icon: JSX.Element;
   options: Array<{ label: string; value: number | string, isDefault?: boolean, url?: string }>;
 }
 
 export interface MenuSettings {
-  [key: number]: MenuSettingItem;
+  [key: string]: MenuSettingItem;
 }
 
 export interface SubtitleItem {
