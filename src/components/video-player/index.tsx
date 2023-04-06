@@ -60,7 +60,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     if (!settingBtn) {
       playerRef.current.controlBar.addChild('SettingButton', {
         onClick: handleToggle
-      }, 16);
+      }, 15);
     }
   };
 
