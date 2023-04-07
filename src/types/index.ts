@@ -1,5 +1,6 @@
 export interface VideoOptions {
   options: any;
+  subtitles?: SubtitleItem[];
   initSuccess?: () => void;
 };
 
@@ -15,7 +16,7 @@ export interface MenuSettings {
 }
 
 export interface SubtitleItem {
-  isDefault: boolean;
+  isDefault?: boolean;
   value: string;
   label: string;
   url?: string;

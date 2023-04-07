@@ -55,7 +55,7 @@ export const menuSettings: MenuSettings = {
     id: PLAYER_CONFIG.SUBTITLES,
     label: 'Subtitles',
     icon: <Icon className='material-symbols-outlined' content={'closed_caption'} />,
-    options: dummySubtitles,
+    options: [],
   },
   // quality: {
   //   id: 'Quality',

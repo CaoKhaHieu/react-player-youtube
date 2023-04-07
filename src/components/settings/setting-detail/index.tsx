@@ -19,6 +19,7 @@ interface SettingDetailOptions {
 interface HandleClickOptions {
   [key: number]: {
     defaultValue: any;
+    listOptions: any[];
     onClick: (item: OptionData) => void
   };
 }
@@ -28,13 +29,13 @@ const icon = <Icon className='material-symbols-outlined' content={'check_small'}
 const SettingDetail = (props: SettingDetailOptions) => {
   const { type, goBack, handleConfigSetting } = props;
   const dataLocal = getDataLocal();
-  const { playerRef } = useVideoPlayer();
+  const { subtitles } = useVideoPlayer();
   const { handleSpeedVideo, handleSubtitle }: any = useSettings();
   
   const settingData: MenuSettingItem = menuSettings[type];
-  const listOptions = [...settingData.options].map((item: OptionData) => ({...item, icon}));
   const settingDetailData: HandleClickOptions = {
     [PLAYER_CONFIG.SPEED_CONTROL]: {
+      listOptions: [...settingData.options],
       defaultValue: dataLocal && dataLocal[type]?.value || 1,
       onClick: (item: OptionData) => {
         return () => {
@@ -50,6 +51,7 @@ const SettingDetail = (props: SettingDetailOptions) => {
       },
     },
     [PLAYER_CONFIG.SUBTITLES]: {
+      listOptions: subtitles,
       defaultValue: SUBTITLE_OFF,
       onClick: (item: OptionData) => {
         return () => {
@@ -63,6 +65,7 @@ const SettingDetail = (props: SettingDetailOptions) => {
       }
     },
   };
+  const listOptions = settingDetailData[type as any].listOptions.map((item: OptionData) => ({...item, icon}));
 
   const [currentValue, setCurrentValue] = useState<string>(settingDetailData[type as any].defaultValue);
 

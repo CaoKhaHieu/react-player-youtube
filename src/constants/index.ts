@@ -32,16 +32,4 @@ export const dummySubtitles: SubtitleItem[] = [
     value: SUBTITLE_OFF,
     label: 'Off',
   },
-  {
-    isDefault: true,
-    value: 'en',
-    label: 'English',
-    url: 'https://kot-politiken.s3-eu-west-1.amazonaws.com/2019/114_en.vtt.txt'
-  },
-  {
-    isDefault: false,
-    value: 'vn',
-    label: 'Vietnamese',
-    url: 'https://d2zihajmogu5jn.cloudfront.net/elephantsdream/captions.ar.vtt'
-  },
 ];

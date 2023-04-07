@@ -27,7 +27,7 @@ export const useVideoPlayer = () => {
 videojs.registerComponent('SettingButton', SettingButton);
 
 const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
-  const { options, initSuccess, } = props;
+  const { options, subtitles, initSuccess, } = props;
   const videoRef = useRef<any>();
   const { toggle, handleToggle } = useToggle();
 
@@ -47,7 +47,9 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
       const newPlayer = videojs(videoRef.current, videojsOptions, () => {
         playerRef.current = newPlayer;
         playerRef.current.playbackRate(configPlayerDefault ? configPlayerDefault[PLAYER_CONFIG.SPEED_CONTROL].value : 1);
-        addTextTracks();
+        if (subtitles?.length) {
+          addTextTracks();
+        }
         initBtnControls();
         if (typeof initSuccess === 'function') {
           initSuccess();
@@ -66,7 +68,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   };
 
   const addTextTracks = () => {
-    dummySubtitles.forEach((item: SubtitleItem) => {
+    subtitles?.length && subtitles.forEach((item: SubtitleItem) => {
       playerRef.current.addRemoteTextTrack({
         src: item.url,
         kind: 'captions',
@@ -78,6 +80,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
 
   const valueContext = {
     playerRef,
+    subtitles: [...dummySubtitles, ...subtitles || []],
   };
 
   return (
