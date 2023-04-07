@@ -23,6 +23,7 @@ const useSettings = () => {
         [SUBTITLE_ACTIONS.SWITCH]: (track: TextTrack) => {
           if (item && item.value === SUBTITLE_OFF) {
             actions[SUBTITLE_ACTIONS.TURNOFF](track);
+            toggleSubtitleBtn(SUBTITLE_OFF);
             return;
           }
           if (track.kind === CAPTIONS && track.language === item?.value) {
@@ -30,6 +31,7 @@ const useSettings = () => {
           } else {
             track.mode = SUBTITLE_MODE.DISABLED as TextTrackMode;
           }
+          toggleSubtitleBtn(item?.value || SUBTITLE_OFF);
         },
         [SUBTITLE_ACTIONS.TURNOFF]: (track: TextTrack) => {
           track.mode = SUBTITLE_MODE.DISABLED as TextTrackMode;
@@ -44,6 +46,16 @@ const useSettings = () => {
         const track = tracks[i];
         actions[action](track);
       }
+    }
+  };
+
+  const toggleSubtitleBtn = (value: string) => {
+    const subtitleButton = playerRef.current.controlBar.subsCapsButton?.el();
+    const hasActive = subtitleButton.classList.contains('active');
+    if (value === SUBTITLE_OFF) {
+      hasActive && subtitleButton.classList.remove('active');
+    } else {
+      !hasActive && subtitleButton.classList.add('active');
     }
   };
 

@@ -12,6 +12,7 @@ export const PLAYER_CONFIG = {
 export const LIBRARY_NAME = 'REACT_PLAYER_YOUTUBE';
 
 export const CAPTIONS = 'captions';
+
 export const SUBTITLE_OFF = 'off';
 
 export const SUBTITLE_MODE = {

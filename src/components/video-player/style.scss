@@ -2,6 +2,7 @@
   position: relative;
   font-family: Roboto, Arial, sans-serif;
   aspect-ratio: 16 / 9;
+  
   .video-js {
     position: relative;
     .vjs-control-bar {
@@ -79,6 +80,29 @@
         &.vjs-setting-btn-off {
           .vjs-icon-placeholder::before {
             transition: transform 0.3s ease-in-out;
+          }
+        }
+      }
+
+      .vjs-subs-caps-button {
+        // &.active
+        .vjs-menu {
+          display: none;
+        }
+        &.vjs-control {
+          &.active {
+            &::after {
+              position: absolute;
+              left: 50%;
+              width: 70%;
+              height: 3px;
+              content: "";
+              background: red;
+              transform: translateX(-50%);
+              border-radius: 4px;
+              transition: all .3s;
+              animation: drawBorderSubtitle 0.3s ease;
+            }
           }
         }
       }
@@ -190,5 +214,14 @@
         position: relative;
       }
     }
+  }
+}
+
+@keyframes drawBorderSubtitle {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 70%;
   }
 }
