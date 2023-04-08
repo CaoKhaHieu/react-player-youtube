@@ -1,12 +1,5 @@
 import { LIBRARY_NAME } from "../constants";
 
-export const applyFontIcons = () => {
-  const link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
-  document.head.appendChild(link);
-};
-
 export const saveDataLocal = (key: string, value: any) => {
   const oldValueLocal = getDataLocal();
   const data = {

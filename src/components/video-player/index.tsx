@@ -7,7 +7,7 @@ import './style.scss';
 import '../../stylesheets/style.scss';
 import { SubtitleActions, SubtitleItem, VideoOptions } from '../../types';
 import { SettingButton } from '../controls-btn/index.js';
-import { applyFontIcons, getDataLocal } from '../../utils';
+import { getDataLocal } from '../../utils';
 import Settings from '../settings';
 import { Helmet } from "react-helmet";
 import useToggle from '../../hooks/useToggle';
@@ -17,7 +17,7 @@ import useSettings from '../../hooks/useSettings';
 const VideoContext = createContext<any>({
   playerRef: null,
   subtitles: [],
-  handleChooseSublanguage: () => {},
+  handleChooseSubLanguage: () => {},
   handleConfigSetting: () => {},
 });
 
@@ -59,7 +59,6 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   useEffect(() => {
     if (options) {
       initPlayer();
-      applyFontIcons();
     }
   }, []);
 
@@ -68,6 +67,8 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
       watchSubtitleBtn();
     }
   }, [inited, subLanguage]);
+
+  // INITPLAYER
 
   const initPlayer = () => {
     const videojsOptions = {
@@ -91,6 +92,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     }
   };
 
+  // CUSTOM BUTTON
   const initBtnControls = () => {
     const settingBtn = playerRef.current.controlBar.getChild('buttonName');
     if (!settingBtn) {
@@ -99,6 +101,14 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
       }, 15);
     }
   };
+
+  // SAVE DATA SETTINGS
+
+  const handleConfigSetting = (data: any) => {
+    setConfigSetting((prev: any) => ({...prev, ...data}));
+  };
+
+  // SUBTITLES
 
   const addTextTracks = () => {
     subtitles?.length && subtitles.forEach((item: SubtitleItem) => {
@@ -115,7 +125,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     const tracks = playerRef?.current?.textTracks();
     if (defaultSub) {
       handleSubtitle(SUBTITLE_ACTIONS.SWITCH as SubtitleActions, defaultSub, () => {}, tracks);
-      handleChooseSublanguage(defaultSub);
+      handleChooseSubLanguage(defaultSub);
       toggleSubtitleBtn(playerRef, defaultSub.value);
       handleConfigSetting({
         [PLAYER_CONFIG.SUBTITLES]: defaultSub,
@@ -123,11 +133,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     }
   };
 
-  const handleConfigSetting = (data: any) => {
-    setConfigSetting((prev: any) => ({...prev, ...data}));
-  };
-
-  const handleChooseSublanguage = (language: SubtitleItem) => {
+  const handleChooseSubLanguage = (language: SubtitleItem) => {
     setSubLanguage(() => language);
   };
 
@@ -157,7 +163,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     playerRef,
     configSetting,
     handleConfigSetting,
-    handleChooseSublanguage,
+    handleChooseSubLanguage,
     subtitles: [dummySubtitle, ...subtitles],
   };
 

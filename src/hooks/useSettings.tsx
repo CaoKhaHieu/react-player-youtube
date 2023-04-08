@@ -4,7 +4,7 @@ import { SubtitleActions, SubtitleItem } from '../types';
 import { CAPTIONS, PLAYER_CONFIG, SUBTITLE_ACTIONS, SUBTITLE_MODE, SUBTITLE_OFF } from '../constants';
 
 const useSettings = () => {
-  const { playerRef, handleChooseSublanguage, handleConfigSetting }: any = useVideoPlayer();
+  const { playerRef, handleChooseSubLanguage, handleConfigSetting }: any = useVideoPlayer();
   const tracks = playerRef?.current?.textTracks();
 
   const handleSpeedVideo = (data: { label: string, value: number}) => {
@@ -33,7 +33,7 @@ const useSettings = () => {
             },
           };
           if (track.kind === CAPTIONS && track.language === subtitle.value) {
-            subtitle.value !== SUBTITLE_OFF && handleChooseSublanguage(subtitle);
+            subtitle.value !== SUBTITLE_OFF && handleChooseSubLanguage(subtitle);
             track.mode = SUBTITLE_MODE.SHOWING as TextTrackMode;
           } else {
             track.mode = SUBTITLE_MODE.DISABLED as TextTrackMode;
