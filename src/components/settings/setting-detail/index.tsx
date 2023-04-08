@@ -7,7 +7,6 @@ import { useVideoPlayer } from '../../video-player';
 import { saveDataLocal } from '../../../utils';
 import { PLAYER_CONFIG, SUBTITLE_ACTIONS } from '../../../constants';
 import { MenuSettingItem } from '../../../types';
-import useSettings from '../../../hooks/useSettings';
 
 
 interface SettingDetailOptions {
@@ -26,8 +25,7 @@ const icon = <Icon className='material-symbols-outlined' content={'check_small'}
 
 const SettingDetail = (props: SettingDetailOptions) => {
   const { type, goBack } = props;
-  const { subtitles, configSetting } = useVideoPlayer();
-  const { handleSpeedVideo, handleSubtitle }: any = useSettings();
+  const { subtitles, configSetting, handleSpeedVideo, handleSubtitle } = useVideoPlayer();
   
   const settingData: MenuSettingItem = menuSettings[type];
   const settingDetailData: HandleClickOptions = {

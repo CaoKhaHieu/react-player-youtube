@@ -11,8 +11,7 @@ import { getDataLocal } from '../../utils';
 import Settings from '../settings';
 import { Helmet } from "react-helmet";
 import useToggle from '../../hooks/useToggle';
-import { ERRORS, PLAYER_CONFIG, SUBTITLE_ACTIONS, SUBTITLE_OFF, dummySubtitle } from '../../constants';
-import useSettings from '../../hooks/useSettings';
+import { CAPTIONS, ERRORS, PLAYER_CONFIG, SUBTITLE_ACTIONS, SUBTITLE_MODE, SUBTITLE_OFF, dummySubtitle } from '../../constants';
 
 const VideoContext = createContext<any>({
   playerRef: null,
@@ -54,7 +53,6 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   const [subLanguage, setSubLanguage] = useState<SubtitleItem>(defaultSub);
 
   const { toggle, handleToggle } = useToggle();
-  const { handleSubtitle, toggleSubtitleBtn } = useSettings();
 
   useEffect(() => {
     if (options) {
@@ -108,6 +106,18 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     setConfigSetting((prev: any) => ({...prev, ...data}));
   };
 
+  // SPEED VIDEO
+
+  const handleSpeedVideo = (data: { label: string, value: number}) => {
+    handleConfigSetting({
+      [PLAYER_CONFIG.SPEED_CONTROL]: {
+        label: data.label,
+        value: data.value,
+      },
+    });
+    playerRef.current.playbackRate(data.value);
+  };
+
   // SUBTITLES
 
   const addTextTracks = () => {
@@ -122,14 +132,8 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   };
 
   const showDefaultSubtitle = () => {
-    const tracks = playerRef?.current?.textTracks();
     if (defaultSub) {
-      handleSubtitle(SUBTITLE_ACTIONS.SWITCH as SubtitleActions, defaultSub, () => {}, tracks);
-      handleChooseSubLanguage(defaultSub);
-      toggleSubtitleBtn(playerRef, defaultSub.value);
-      handleConfigSetting({
-        [PLAYER_CONFIG.SUBTITLES]: defaultSub,
-      });
+      handleSubtitle(SUBTITLE_ACTIONS.SWITCH as SubtitleActions, defaultSub, () => {});
     }
   };
 
@@ -139,7 +143,6 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
 
   const watchSubtitleBtn = () => {
     const subtitleButton = playerRef.current.controlBar.subsCapsButton;
-    const tracks = playerRef?.current?.textTracks();
     subtitleButton.off('click');
     subtitleButton.on('click', () => {
       const hasActive = subtitleButton.el().classList?.contains('active') || false;
@@ -148,8 +151,8 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
         label: hasActive ? 'Off' : subLanguage.label,
         value: hasActive ? SUBTITLE_OFF : subLanguage.value
       }
-      handleSubtitle(actions.type as SubtitleActions, subLanguage, () => {}, tracks);
-      toggleSubtitleBtn(playerRef, actions.value);
+      handleSubtitle(actions.type as SubtitleActions, subLanguage, () => {});
+      toggleSubtitleBtn(actions.value);
       handleConfigSetting({
         [PLAYER_CONFIG.SUBTITLES]: {
           label: actions.label,
@@ -159,10 +162,68 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     });
   };
 
+  const handleSubtitle = (
+    action: SubtitleActions,
+    subtitle: SubtitleItem,
+    callback: (track: TextTrack) => void,
+  ) => {
+    const tracksList = playerRef?.current?.textTracks();
+    if (tracksList) {
+      const actions = {
+        [SUBTITLE_ACTIONS.SWITCH]: (track: TextTrack) => {
+          const configSub = {
+            [PLAYER_CONFIG.SUBTITLES]: {
+              label: subtitle.label,
+              value: subtitle.value,
+            },
+          };
+          if (track.kind === CAPTIONS && track.language === subtitle.value) {
+            subtitle.value !== SUBTITLE_OFF && handleChooseSubLanguage(subtitle);
+            track.mode = SUBTITLE_MODE.SHOWING as TextTrackMode;
+          } else {
+            track.mode = SUBTITLE_MODE.DISABLED as TextTrackMode;
+          }
+          toggleSubtitleBtn(subtitle.value);
+          handleConfigSetting(configSub);
+        },
+        [SUBTITLE_ACTIONS.TURNOFF]: (track: TextTrack) => {
+          track.mode = SUBTITLE_MODE.DISABLED as TextTrackMode;
+        },
+        [SUBTITLE_ACTIONS.GET_CURRENT_SUB]: (track: TextTrack) => {
+          if (track.kind === CAPTIONS && track.mode === SUBTITLE_MODE.SHOWING) {
+            callback && callback(track);
+          }
+        }
+      };
+      for (let i = 0; i < tracksList.length; i++) {
+        const track = tracksList[i];
+        actions[action](track);
+      }
+    }
+  };
+
+  const toggleSubtitleBtn = (value: string) => {
+    const subtitleButton = playerRef?.current?.controlBar?.subsCapsButton?.el();
+    if (subtitleButton) {
+      const hasActive = subtitleButton?.classList?.contains('active');
+      if (subtitleButton && value === SUBTITLE_OFF) {
+        hasActive && subtitleButton?.classList?.remove('active');
+      } else {
+        !hasActive && subtitleButton?.classList?.add('active');
+      }
+    }
+  };
+
   const valueContext = {
     playerRef,
+    // CONFIG SETTING
     configSetting,
     handleConfigSetting,
+    // SPEED
+    handleSpeedVideo,
+    // SUBTITLE
+    handleSubtitle,
+    toggleSubtitleBtn,
     handleChooseSubLanguage,
     subtitles: [dummySubtitle, ...subtitles],
   };
