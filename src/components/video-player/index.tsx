@@ -1,16 +1,16 @@
 import React, { createContext, forwardRef, useContext, useEffect, useRef, useState } from 'react';
-
+import { Helmet } from "react-helmet";
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
 
 import './style.scss';
 import '../../stylesheets/style.scss';
-import { SubtitleActions, SubtitleItem, VideoOptions } from '../../types';
-import { SettingButton } from '../controls-btn/index.js';
-import { getDataLocal } from '../../utils';
+
 import Settings from '../settings';
-import { Helmet } from "react-helmet";
+import { getDataLocal } from '../../utils';
 import useToggle from '../../hooks/useToggle';
+import { SettingButton } from '../controls-btn/index.js';
+import { SubtitleActions, SubtitleItem, VideoOptions } from '../../types';
 import { CAPTIONS, ERRORS, PLAYER_CONFIG, SUBTITLE_ACTIONS, SUBTITLE_MODE, SUBTITLE_OFF, dummySubtitle } from '../../constants';
 
 const VideoContext = createContext<any>({
