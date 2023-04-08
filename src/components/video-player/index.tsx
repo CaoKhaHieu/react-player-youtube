@@ -143,6 +143,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
 
   const watchSubtitleBtn = () => {
     const subtitleButton = playerRef.current.controlBar.subsCapsButton;
+    // Clear event click registered previous
     subtitleButton.off('click');
     subtitleButton.on('click', () => {
       const hasActive = subtitleButton.el().classList?.contains('active') || false;
