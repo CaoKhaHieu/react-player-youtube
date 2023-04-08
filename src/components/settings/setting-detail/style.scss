@@ -2,15 +2,22 @@
   transition: transform 0.3s ease-in-out;
   
   .setting-detail-header {
+    display: flex;
+    align-items: center;
     padding: 0.7rem 1.3rem;
     border-bottom: #666666 1px solid;
   }
   .header-left {
     display: flex;
     align-items: center;
+    flex-grow: 1;
   }
   .header-title {
     font-size: 0.75rem;
     margin-left: 1rem;
+  }
+  .header-right {
+    cursor: pointer;
+    font-size: 0.75rem;
   }
 }

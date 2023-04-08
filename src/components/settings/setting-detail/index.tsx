@@ -63,6 +63,9 @@ const SettingDetail = (props: SettingDetailOptions) => {
           />
           <p className='header-title'>{settingData.label}</p>
         </div>
+        <div className='header-right'>
+          Options
+        </div>
       </div>
       {
         listOptions && listOptions.map((item: OptionData, index: number) =>
