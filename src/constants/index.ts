@@ -26,10 +26,8 @@ export const SUBTITLE_ACTIONS = {
   'GET_CURRENT_SUB': 'GET_CURRENT_SUB',
 };
 
-export const dummySubtitles: SubtitleItem[] = [
-  {
-    isDefault: true,
-    value: SUBTITLE_OFF,
-    label: 'Off',
-  },
-];
+export const dummySubtitle: SubtitleItem = {
+  isDefault: false,
+  value: SUBTITLE_OFF,
+  label: 'Off',
+};

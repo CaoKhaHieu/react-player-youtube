@@ -11,7 +11,7 @@ import { applyFontIcons, getDataLocal } from '../../utils';
 import Settings from '../settings';
 import { Helmet } from "react-helmet";
 import useToggle from '../../hooks/useToggle';
-import { ERRORS, PLAYER_CONFIG, SUBTITLE_ACTIONS, dummySubtitles } from '../../constants';
+import { ERRORS, PLAYER_CONFIG, SUBTITLE_ACTIONS, SUBTITLE_OFF, dummySubtitle } from '../../constants';
 import useSettings from '../../hooks/useSettings';
 
 const VideoContext = createContext<any>({
@@ -34,7 +34,7 @@ videojs.registerComponent('SettingButton', SettingButton);
 
 const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   const { options, subtitles = [], initSuccess, } = props;
-  const defaultSub = subtitles?.find((item: SubtitleItem) => item.isDefault);
+  const defaultSub = subtitles?.find((item: SubtitleItem) => item.isDefault) || dummySubtitle;
   const dataLocal = getDataLocal();
 
   const videoRef = useRef<any>();
@@ -50,8 +50,8 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
       value: dataLocal ? dataLocal[PLAYER_CONFIG.SPEED_CONTROL]?.value : 1,
     },
   });
-  const [subLanguage, setSubLanguage] = useState<SubtitleItem | null>(defaultSub || null);
-  console.log('video', configSetting, subLanguage)
+  const [inited, setInited] = useState<boolean>(false);
+  const [subLanguage, setSubLanguage] = useState<SubtitleItem>(defaultSub);
 
   const { toggle, handleToggle } = useToggle();
   const { handleSubtitle, toggleSubtitleBtn } = useSettings();
@@ -63,6 +63,12 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (playerRef.current) {
+      watchSubtitleBtn();
+    }
+  }, [inited, subLanguage]);
+
   const initPlayer = () => {
     const videojsOptions = {
       ...options,
@@ -72,14 +78,15 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
       const newPlayer = videojs(videoRef.current, videojsOptions, () => {
         playerRef.current = newPlayer;
         playerRef.current.playbackRate(configPlayerDefault ? configPlayerDefault[PLAYER_CONFIG.SPEED_CONTROL].value : 1);
+        initBtnControls();
         if (subtitles?.length) {
           addTextTracks();
           showDefaultSubtitle();
         }
-        initBtnControls();
         if (typeof initSuccess === 'function') {
           initSuccess();
         }
+        setInited(true);
       });
     }
   };
@@ -108,6 +115,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     const tracks = playerRef?.current?.textTracks();
     if (defaultSub) {
       handleSubtitle(SUBTITLE_ACTIONS.SWITCH as SubtitleActions, defaultSub, () => {}, tracks);
+      handleChooseSublanguage(defaultSub);
       toggleSubtitleBtn(playerRef, defaultSub.value);
       handleConfigSetting({
         [PLAYER_CONFIG.SUBTITLES]: defaultSub,
@@ -120,7 +128,29 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   };
 
   const handleChooseSublanguage = (language: SubtitleItem) => {
-    setSubLanguage(language);
+    setSubLanguage(() => language);
+  };
+
+  const watchSubtitleBtn = () => {
+    const subtitleButton = playerRef.current.controlBar.subsCapsButton;
+    const tracks = playerRef?.current?.textTracks();
+    subtitleButton.off('click');
+    subtitleButton.on('click', () => {
+      const hasActive = subtitleButton.el().classList?.contains('active') || false;
+      const actions = {
+        type: hasActive ? SUBTITLE_ACTIONS.TURNOFF : SUBTITLE_ACTIONS.SWITCH,
+        label: hasActive ? 'Off' : subLanguage.label,
+        value: hasActive ? SUBTITLE_OFF : subLanguage.value
+      }
+      handleSubtitle(actions.type as SubtitleActions, subLanguage, () => {}, tracks);
+      toggleSubtitleBtn(playerRef, actions.value);
+      handleConfigSetting({
+        [PLAYER_CONFIG.SUBTITLES]: {
+          label: actions.label,
+          value: actions.value,
+        },
+      })
+    });
   };
 
   const valueContext = {
@@ -128,7 +158,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     configSetting,
     handleConfigSetting,
     handleChooseSublanguage,
-    subtitles: [...dummySubtitles, ...subtitles],
+    subtitles: [dummySubtitle, ...subtitles],
   };
 
   return (

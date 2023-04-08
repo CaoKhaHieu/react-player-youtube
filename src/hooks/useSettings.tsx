@@ -33,7 +33,7 @@ const useSettings = () => {
             },
           };
           if (track.kind === CAPTIONS && track.language === subtitle.value) {
-            handleChooseSublanguage(subtitle);
+            subtitle.value !== SUBTITLE_OFF && handleChooseSublanguage(subtitle);
             track.mode = SUBTITLE_MODE.SHOWING as TextTrackMode;
           } else {
             track.mode = SUBTITLE_MODE.DISABLED as TextTrackMode;

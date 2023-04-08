@@ -81,7 +81,7 @@ const Settings = forwardRef((props: SettingOptions, ref) => {
     // trigger click outside setting component
     const handleClickOutside = (e: Event) => {
       const targetElement = e?.target as HTMLDivElement;
-      if (!subRef.current?.contains(targetElement)) {
+      if (!subRef.current?.contains(targetElement) && targetElement?.className !== 'vjs-icon-placeholder') {
         handleToggle();
       }
     };
