@@ -1,19 +1,25 @@
-import React, { createContext, forwardRef, useContext, useEffect, useRef } from 'react';
+import React, { createContext, forwardRef, useContext, useEffect, useRef, useState } from 'react';
 
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
 
 import './style.scss';
 import '../../stylesheets/style.scss';
-import { SubtitleItem, VideoOptions } from '../../types';
+import { SubtitleActions, SubtitleItem, VideoOptions } from '../../types';
 import { SettingButton } from '../controls-btn/index.js';
 import { applyFontIcons, getDataLocal } from '../../utils';
 import Settings from '../settings';
 import { Helmet } from "react-helmet";
 import useToggle from '../../hooks/useToggle';
-import { ERRORS, PLAYER_CONFIG, dummySubtitles } from '../../constants';
+import { ERRORS, PLAYER_CONFIG, SUBTITLE_ACTIONS, dummySubtitles } from '../../constants';
+import useSettings from '../../hooks/useSettings';
 
-const VideoContext = createContext<any>(null);
+const VideoContext = createContext<any>({
+  playerRef: null,
+  subtitles: [],
+  handleChooseSublanguage: () => {},
+  handleConfigSetting: () => {},
+});
 
 export const useVideoPlayer = () => {
   const context = useContext(VideoContext);
@@ -27,9 +33,28 @@ export const useVideoPlayer = () => {
 videojs.registerComponent('SettingButton', SettingButton);
 
 const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
-  const { options, subtitles, initSuccess, } = props;
+  const { options, subtitles = [], initSuccess, } = props;
+  const defaultSub = subtitles?.find((item: SubtitleItem) => item.isDefault);
+  const dataLocal = getDataLocal();
+
   const videoRef = useRef<any>();
+  const settingRef = useRef<any>();
+
+  const [configSetting, setConfigSetting] = useState({
+    [PLAYER_CONFIG.SUBTITLES]: {
+      label: 'Off',
+      value: 'off',
+    },
+    [PLAYER_CONFIG.SPEED_CONTROL]: {
+      label: dataLocal ? dataLocal[PLAYER_CONFIG.SPEED_CONTROL]?.label : 'Normal',
+      value: dataLocal ? dataLocal[PLAYER_CONFIG.SPEED_CONTROL]?.value : 1,
+    },
+  });
+  const [subLanguage, setSubLanguage] = useState<SubtitleItem | null>(defaultSub || null);
+  console.log('video', configSetting, subLanguage)
+
   const { toggle, handleToggle } = useToggle();
+  const { handleSubtitle, toggleSubtitleBtn } = useSettings();
 
   useEffect(() => {
     if (options) {
@@ -49,6 +74,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
         playerRef.current.playbackRate(configPlayerDefault ? configPlayerDefault[PLAYER_CONFIG.SPEED_CONTROL].value : 1);
         if (subtitles?.length) {
           addTextTracks();
+          showDefaultSubtitle();
         }
         initBtnControls();
         if (typeof initSuccess === 'function') {
@@ -78,9 +104,31 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     });
   };
 
+  const showDefaultSubtitle = () => {
+    const tracks = playerRef?.current?.textTracks();
+    if (defaultSub) {
+      handleSubtitle(SUBTITLE_ACTIONS.SWITCH as SubtitleActions, defaultSub, () => {}, tracks);
+      toggleSubtitleBtn(playerRef, defaultSub.value);
+      handleConfigSetting({
+        [PLAYER_CONFIG.SUBTITLES]: defaultSub,
+      });
+    }
+  };
+
+  const handleConfigSetting = (data: any) => {
+    setConfigSetting((prev: any) => ({...prev, ...data}));
+  };
+
+  const handleChooseSublanguage = (language: SubtitleItem) => {
+    setSubLanguage(language);
+  };
+
   const valueContext = {
     playerRef,
-    subtitles: [...dummySubtitles, ...subtitles || []],
+    configSetting,
+    handleConfigSetting,
+    handleChooseSublanguage,
+    subtitles: [...dummySubtitles, ...subtitles],
   };
 
   return (
@@ -98,7 +146,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
             <video ref={videoRef} className="video-js">
             </video>
             {
-              toggle && <Settings handleToggle={handleToggle} />
+              toggle && <Settings ref={settingRef} handleToggle={handleToggle} />
             }
           </div>
         </div>

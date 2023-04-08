@@ -87,21 +87,23 @@
       .vjs-subs-caps-button {
         // &.active
         .vjs-menu {
-          display: none;
+          display: none !important;
         }
         &.vjs-control {
+          &::after {
+            position: absolute;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            content: "";
+            background: red;
+            transform: translateX(-50%);
+            border-radius: 4px;
+            transition: all .3s;
+          }
           &.active {
             &::after {
-              position: absolute;
-              left: 50%;
               width: 70%;
-              height: 3px;
-              content: "";
-              background: red;
-              transform: translateX(-50%);
-              border-radius: 4px;
-              transition: all .3s;
-              animation: drawBorderSubtitle 0.3s ease;
             }
           }
         }
@@ -214,14 +216,5 @@
         position: relative;
       }
     }
-  }
-}
-
-@keyframes drawBorderSubtitle {
-  from {
-    width: 0%;
-  }
-  to {
-    width: 70%;
   }
 }

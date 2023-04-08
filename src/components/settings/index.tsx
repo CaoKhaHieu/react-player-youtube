@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import './style.scss';
 import Option from '../option';
 import Icon from '../icon';
 import SettingDetail from './setting-detail';
-import { PLAYER_CONFIG, dummySubtitles } from '../../constants';
+import { PLAYER_CONFIG } from '../../constants';
 import { MenuSettingItem, MenuSettings } from '../../types';
-import { getDataLocal } from '../../utils';
+import { useVideoPlayer } from '../video-player';
 
 interface SettingOptions {
   handleToggle: () => void;
@@ -70,25 +70,22 @@ export const menuSettings: MenuSettings = {
   // },
 };
 
-const Settings = (props: SettingOptions) => {
+const Settings = forwardRef((props: SettingOptions, ref) => {
   const { handleToggle } = props;
   const subRef = useRef<HTMLDivElement>(null);
   const [settingDetail, setSettingDetail] = useState<string>('');
   const settingsOptions: MenuSettingItem[] = Object.values(menuSettings);
-  const dataLocal = getDataLocal();
-
-  const [configSetting, setConfigSetting] = useState<any>({
-    [PLAYER_CONFIG.SUBTITLES]: 'Off',
-    [PLAYER_CONFIG.SPEED_CONTROL]: dataLocal ? dataLocal[PLAYER_CONFIG.SPEED_CONTROL]?.label : 'Normal',
-  });
+  const { configSetting } = useVideoPlayer();
 
   useEffect(() => {
+    // trigger click outside setting component
     const handleClickOutside = (e: Event) => {
       const targetElement = e?.target as HTMLDivElement;
-      if (!subRef.current?.contains(targetElement) && targetElement?.className !== 'vjs-icon-placeholder') {
+      if (!subRef.current?.contains(targetElement)) {
         handleToggle();
       }
     };
+
     window.addEventListener('mousedown', handleClickOutside);
 
     return () => {
@@ -106,10 +103,6 @@ const Settings = (props: SettingOptions) => {
     setSettingDetail('');
   };
 
-  const handleConfigSetting = (data: any) => {
-    setConfigSetting((prev: any) => ({...prev, ...data}));
-  };
-
   return (
     <div className='settings' ref={subRef}>
       {
@@ -119,7 +112,7 @@ const Settings = (props: SettingOptions) => {
             option={item}
             alwaysShowIcon
             hasOptionList
-            currentValue={configSetting[item.id]}
+            currentValue={configSetting[item.id].label}
             onClick={openSettingDetail(item)}
           />
         )
@@ -130,11 +123,10 @@ const Settings = (props: SettingOptions) => {
         <SettingDetail
           type={settingDetail}
           goBack={goBack}
-          handleConfigSetting={handleConfigSetting}
         />
       }
     </div>
   );
-};
+});
 
 export default Settings;

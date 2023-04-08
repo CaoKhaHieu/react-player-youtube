@@ -1,37 +1,45 @@
 import React, { useState } from 'react';
 import { useVideoPlayer } from '../components/video-player';
-import { SubtitleItem } from '../types';
-import { CAPTIONS, SUBTITLE_ACTIONS, SUBTITLE_MODE, SUBTITLE_OFF } from '../constants';
-
-export type SUBTITLE_ACTIONS = 'SWITCH' | 'TURNOFF' | 'GET_CURRENT_SUB';
+import { SubtitleActions, SubtitleItem } from '../types';
+import { CAPTIONS, PLAYER_CONFIG, SUBTITLE_ACTIONS, SUBTITLE_MODE, SUBTITLE_OFF } from '../constants';
 
 const useSettings = () => {
-  const { playerRef } = useVideoPlayer();
+  const { playerRef, handleChooseSublanguage, handleConfigSetting }: any = useVideoPlayer();
   const tracks = playerRef?.current?.textTracks();
 
-  const handleSpeedVideo = (value: number) => {
-    playerRef.current.playbackRate(value);
+  const handleSpeedVideo = (data: { label: string, value: number}) => {
+    handleConfigSetting({
+      [PLAYER_CONFIG.SPEED_CONTROL]: {
+        label: data.label,
+        value: data.value,
+      },
+    });
+    playerRef.current.playbackRate(data.value);
   };
 
   const handleSubtitle = (
-    action: SUBTITLE_ACTIONS,
-    item?: SubtitleItem,
-    callback?: (track: TextTrack) => void,
+    action: SubtitleActions,
+    subtitle: SubtitleItem,
+    callback: (track: TextTrack) => void,
+    tracksList: TextTrackList = tracks
   ) => {
-    if (tracks) {
+    if (tracksList) {
       const actions = {
         [SUBTITLE_ACTIONS.SWITCH]: (track: TextTrack) => {
-          if (item && item.value === SUBTITLE_OFF) {
-            actions[SUBTITLE_ACTIONS.TURNOFF](track);
-            toggleSubtitleBtn(SUBTITLE_OFF);
-            return;
-          }
-          if (track.kind === CAPTIONS && track.language === item?.value) {
+          const configSub = {
+            [PLAYER_CONFIG.SUBTITLES]: {
+              label: subtitle.label,
+              value: subtitle.value,
+            },
+          };
+          if (track.kind === CAPTIONS && track.language === subtitle.value) {
+            handleChooseSublanguage(subtitle);
             track.mode = SUBTITLE_MODE.SHOWING as TextTrackMode;
           } else {
             track.mode = SUBTITLE_MODE.DISABLED as TextTrackMode;
           }
-          toggleSubtitleBtn(item?.value || SUBTITLE_OFF);
+          toggleSubtitleBtn(playerRef, subtitle.value);
+          handleConfigSetting(configSub);
         },
         [SUBTITLE_ACTIONS.TURNOFF]: (track: TextTrack) => {
           track.mode = SUBTITLE_MODE.DISABLED as TextTrackMode;
@@ -42,26 +50,29 @@ const useSettings = () => {
           }
         }
       };
-      for (let i = 0; i < tracks.length; i++) {
-        const track = tracks[i];
+      for (let i = 0; i < tracksList.length; i++) {
+        const track = tracksList[i];
         actions[action](track);
       }
     }
   };
 
-  const toggleSubtitleBtn = (value: string) => {
-    const subtitleButton = playerRef.current.controlBar.subsCapsButton?.el();
-    const hasActive = subtitleButton.classList.contains('active');
-    if (value === SUBTITLE_OFF) {
-      hasActive && subtitleButton.classList.remove('active');
-    } else {
-      !hasActive && subtitleButton.classList.add('active');
+  const toggleSubtitleBtn = (player: any = playerRef, value: string) => {
+    const subtitleButton = player?.current?.controlBar?.subsCapsButton?.el();
+    if (subtitleButton) {
+      const hasActive = subtitleButton?.classList?.contains('active');
+      if (subtitleButton && value === SUBTITLE_OFF) {
+        hasActive && subtitleButton?.classList?.remove('active');
+      } else {
+        !hasActive && subtitleButton?.classList?.add('active');
+      }
     }
   };
 
   return {
     handleSpeedVideo,
     handleSubtitle,
+    toggleSubtitleBtn,
   };
 };
 

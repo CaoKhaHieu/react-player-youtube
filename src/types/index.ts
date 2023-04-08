@@ -1,3 +1,4 @@
+export type SubtitleActions = 'SWITCH' | 'TURNOFF' | 'GET_CURRENT_SUB';
 export interface VideoOptions {
   options: any;
   subtitles?: SubtitleItem[];
