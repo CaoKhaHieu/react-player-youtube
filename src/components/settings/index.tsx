@@ -93,10 +93,8 @@ const Settings = forwardRef((props: SettingOptions, ref) => {
     };
   }, []);
 
-  const openSettingDetail = (item: MenuSettingItem) => {
-    return () => {
-      setSettingDetail(item.id);
-    };
+  const openSettingDetail = (value: string) => {
+    setSettingDetail(value);
   };
 
   const goBack = () => {
@@ -113,7 +111,7 @@ const Settings = forwardRef((props: SettingOptions, ref) => {
             alwaysShowIcon
             hasOptionList
             currentValue={configSetting[item.id].label}
-            onClick={openSettingDetail(item)}
+            onClick={() => openSettingDetail(item.id)}
           />
         )
       }
