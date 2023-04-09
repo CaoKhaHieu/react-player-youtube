@@ -7,6 +7,11 @@ export const ERRORS = {
 export const PLAYER_CONFIG = {
   SPEED_CONTROL: 'SPEED_CONTROL',
   SUBTITLES: 'SUBTITLES',
+  BACKGROUND: 'backgroundColor',
+  COLOR: 'color',
+  FONT_PERCENT: 'fontPercent',
+  TEXT_OPACITY: 'textOpacity',
+  BACKGROUND_OPACITY: 'backgroundOpacity',
 };
 
 export const LIBRARY_NAME = 'REACT_PLAYER_YOUTUBE';
