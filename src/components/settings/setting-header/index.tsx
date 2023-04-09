@@ -4,12 +4,13 @@ import Icon from '../../icon';
 
 interface SettingHeaderOptions {
   title: string;
+  hasChild: boolean;
   goBack: () => void;
   optionsClick: () => void;
 }
 
 const SettingHeader = (props: SettingHeaderOptions) => {
-  const { goBack, title, optionsClick } = props;
+  const { goBack, title, hasChild, optionsClick } = props;
 
   return (
     <div className='setting-header'>
@@ -21,9 +22,12 @@ const SettingHeader = (props: SettingHeaderOptions) => {
         />
         <p className='header-title'>{title}</p>
       </div>
-      <div className='header-right' onClick={optionsClick}>
-        Options
-      </div>
+      {
+        hasChild &&
+        <div className='header-right' onClick={optionsClick}>
+          Options
+        </div>
+      }
     </div>
   );
 };

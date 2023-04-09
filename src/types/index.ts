@@ -8,8 +8,10 @@ export interface VideoOptions {
 export interface MenuSettingItem {
   id: string;
   label: string;
-  icon: JSX.Element;
-  options: Array<{ label: string; value: number | string, isDefault?: boolean, url?: string }>;
+  icon?: string;
+  options: Array<{ label: string; value: number | string, isDefault?: boolean, url?: string, isRadio?: boolean, }>;
+  child?: any;
+  isRadio?: boolean;
 }
 
 export interface MenuSettings {

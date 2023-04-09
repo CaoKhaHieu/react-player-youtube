@@ -7,7 +7,7 @@ import './style.scss';
 import '../../stylesheets/style.scss';
 
 import Settings from '../settings';
-import { getDataLocal } from '../../utils';
+import { getConfigSetting, getDataLocal } from '../../utils';
 import useToggle from '../../hooks/useToggle';
 import { SettingButton } from '../controls-btn/index.js';
 import { SubtitleActions, SubtitleItem, VideoOptions } from '../../types';
@@ -31,6 +31,14 @@ export const useVideoPlayer = () => {
 
 videojs.registerComponent('SettingButton', SettingButton);
 
+const defaultSubtitleStyles = {
+  fontPercent: 1,
+  textOpacity: '1',
+  color: '#FFF',
+  backgroundOpacity: '1',
+  backgroundColor: '#000',
+};
+
 const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   const { options, subtitles = [], initSuccess, } = props;
   const defaultSub = subtitles?.find((item: SubtitleItem) => item.isDefault) || dummySubtitle;
@@ -44,10 +52,12 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
       label: 'Off',
       value: 'off',
     },
-    [PLAYER_CONFIG.SPEED_CONTROL]: {
-      label: dataLocal ? dataLocal[PLAYER_CONFIG.SPEED_CONTROL]?.label : 'Normal',
-      value: dataLocal ? dataLocal[PLAYER_CONFIG.SPEED_CONTROL]?.value : 1,
-    },
+    [PLAYER_CONFIG.SPEED_CONTROL]: getConfigSetting(PLAYER_CONFIG.SPEED_CONTROL, { label: 'Normal', value: 1 }),
+    [PLAYER_CONFIG.BACKGROUND]: getConfigSetting(PLAYER_CONFIG.BACKGROUND, { label: 'Black', value: '#000' }),
+    [PLAYER_CONFIG.COLOR]: getConfigSetting(PLAYER_CONFIG.COLOR, { label: 'White', value: '#FFF' }),
+    [PLAYER_CONFIG.BACKGROUND_OPACITY]: getConfigSetting(PLAYER_CONFIG.BACKGROUND_OPACITY, { label: '100%', value: '1' }),
+    [PLAYER_CONFIG.FONT_PERCENT]: getConfigSetting(PLAYER_CONFIG.FONT_PERCENT, { label: '100%', value: 1 }),
+    [PLAYER_CONFIG.TEXT_OPACITY]: getConfigSetting(PLAYER_CONFIG.TEXT_OPACITY, { label: '100%', value: '1' }),
   });
   const [inited, setInited] = useState<boolean>(false);
   const [subLanguage, setSubLanguage] = useState<SubtitleItem>(defaultSub);
@@ -215,6 +225,25 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     }
   };
 
+  const updateStyleSubtitle = (data: { label: string, value: string | number }, key: string) => {
+    const settings = playerRef.current.textTrackSettings;
+    const previousValue = settings.getValues();
+    const newConfigSetting = {
+      [key]: data
+    };
+    // fix not update style when change  fontsize from 1 to other value
+    if (data.value === 1 && key === PLAYER_CONFIG.FONT_PERCENT) {
+      settings.setDefaults();
+    }
+    const newStyle = {
+      ...previousValue,
+      [key]: data.value
+    }
+    settings.setValues(newStyle);
+    settings.updateDisplay();
+    handleConfigSetting(newConfigSetting);
+  };
+
   const valueContext = {
     playerRef,
     // CONFIG SETTING
@@ -226,6 +255,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     handleSubtitle,
     toggleSubtitleBtn,
     handleChooseSubLanguage,
+    updateStyleSubtitle,
     subtitles: [dummySubtitle, ...subtitles],
   };
 
@@ -244,7 +274,11 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
             <video ref={videoRef} className="video-js">
             </video>
             {
-              toggle && <Settings ref={settingRef} handleToggle={handleToggle} />
+              toggle &&
+              <Settings
+                ref={settingRef}
+                handleToggle={handleToggle}
+              />
             }
           </div>
         </div>
