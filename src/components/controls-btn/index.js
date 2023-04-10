@@ -55,10 +55,10 @@ export class NextButton extends Button {
 export class TheaterButton extends Button {
   constructor(player, options) {
     super(player, options);
-    this.controlText('Next');
+    this.controlText('Theater mode');
   }
 
   buildCSSClass() {
-    return `${super.buildCSSClass()} vjs-prev-btn`;
+    return `${super.buildCSSClass()} vjs-theater-btn`;
   }
 }

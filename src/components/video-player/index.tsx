@@ -9,7 +9,7 @@ import '../../stylesheets/style.scss';
 import Settings from '../settings';
 import { getConfigSetting, getDataLocal } from '../../utils';
 import useToggle from '../../hooks/useToggle';
-import { NextButton, PrevButton, SettingButton } from '../controls-btn/index.js';
+import { NextButton, PrevButton, SettingButton, TheaterButton } from '../controls-btn/index.js';
 import { SubtitleActions, SubtitleItem, VideoOptions } from '../../types';
 import { CAPTIONS, ERRORS, PLAYER_CONFIG, SUBTITLE_ACTIONS, SUBTITLE_MODE, SUBTITLE_OFF, dummySubtitle } from '../../constants';
 
@@ -32,6 +32,7 @@ export const useVideoPlayer = () => {
 videojs.registerComponent('SettingButton', SettingButton);
 videojs.registerComponent('PrevButton', PrevButton);
 videojs.registerComponent('NextButton', NextButton);
+videojs.registerComponent('TheaterButton', TheaterButton);
 
 const defaultSubtitleStyles = {
   fontPercent: 1,
@@ -107,12 +108,14 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     const settingBtn = playerRef.current.controlBar.getChild('SettingButton');
     const PrevButton = playerRef.current.controlBar.getChild('PrevButton');
     const NextButton = playerRef.current.controlBar.getChild('NextButton');
-    if (!settingBtn && !PrevButton && !NextButton) {
+    const TheaterButton = playerRef.current.controlBar.getChild('TheaterButton');
+    if (!settingBtn && !PrevButton && !NextButton && !TheaterButton) {
       playerRef.current.controlBar.addChild('SettingButton', {
         onClick: handleToggle
       }, 15);
       playerRef.current.controlBar.addChild('PrevButton', {}, 0);
       playerRef.current.controlBar.addChild('NextButton', {}, 2);
+      playerRef.current.controlBar.addChild('TheaterButton', {}, 19);
     }
   };
 

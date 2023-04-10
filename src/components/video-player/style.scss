@@ -142,6 +142,16 @@
         }
       }
 
+      // next button
+      .vjs-theater-btn {
+        .vjs-icon-placeholder {
+          &::before {
+            font-family: "Material Icons";
+            content: "\e3bc";
+          }
+        }
+      }
+
       // volume button style
       .vjs-volume-panel {
         .vjs-mute-control {
