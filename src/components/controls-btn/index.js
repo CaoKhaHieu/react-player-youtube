@@ -29,3 +29,36 @@ export class SettingButton extends Button {
     return `${super.buildCSSClass()} vjs-setting-btn vjs-setting-btn-${this.toggle ? 'on' : 'off'}`;
   }
 }
+
+export class PrevButton extends Button {
+  constructor(player, options) {
+    super(player, options);
+    this.controlText('Previous');
+  }
+
+  buildCSSClass() {
+    return `${super.buildCSSClass()} vjs-prev-btn`;
+  }
+}
+
+export class NextButton extends Button {
+  constructor(player, options) {
+    super(player, options);
+    this.controlText('Next');
+  }
+
+  buildCSSClass() {
+    return `${super.buildCSSClass()} vjs-next-btn`;
+  }
+}
+
+export class TheaterButton extends Button {
+  constructor(player, options) {
+    super(player, options);
+    this.controlText('Theater mode');
+  }
+
+  buildCSSClass() {
+    return `${super.buildCSSClass()} vjs-theater-btn`;
+  }
+}

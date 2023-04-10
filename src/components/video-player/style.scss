@@ -5,12 +5,6 @@
   
   .video-js {
     position: relative;
-    .vjs-control-bar {
-      margin-bottom: 0.5rem;
-      z-index: 10;
-      background: transparent;
-      // background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);
-    }
 
     .vjs-mouse-display {
       width: 0;
@@ -55,21 +49,37 @@
 
     // icon style
     .vjs-control-bar {
-      .vjs-fullscreen-control,
-      .vjs-picture-in-picture-control,
-      .vjs-audio-button,
-      .vjs-subs-caps-button,
-      .vjs-setting-btn {
-        margin-right: 0.75rem;
+      margin-bottom: 0.5rem;
+      z-index: 10;
+      background: transparent;
+
+      // all button
+      .vjs-button {
+        cursor: pointer;
+        margin-right: 0.5rem;
+
+        &.vjs-ended {
+          .vjs-icon-placeholder::before {
+            font-size: 2.8em;
+          }
+        }
+
+        .vjs-icon-placeholder::before {
+          font-size: 3em;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding-top: 1px;
+        }
       }
 
+      // setting button
       .vjs-setting-btn {
         cursor: pointer;
         .vjs-icon-placeholder::before {
           font-family: "Material Icons";
           content: "\e8b8";
           font-size: 2.5em;
-          line-height: 0.95;
         }
         &.vjs-setting-btn-on {
           .vjs-icon-placeholder::before {
@@ -84,8 +94,11 @@
         }
       }
 
+      // subtitle button
       .vjs-subs-caps-button {
-        // &.active
+        .vjs-icon-placeholder::before {
+          font-size: 2.6em;
+        }
         .vjs-menu {
           display: none !important;
         }
@@ -108,84 +121,89 @@
           }
         }
       }
-    }
 
-    .vjs-button .vjs-icon-placeholder::before {
-      font-size: 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding-top: 1px;
-    }
-
-    .vjs-button {
-      &.vjs-ended {
-        .vjs-icon-placeholder::before {
-          font-size: 2.8em;
+      // prev button
+      .vjs-prev-btn {
+        .vjs-icon-placeholder {
+          &::before {
+            font-family: "Material Icons";
+            content: "\e045";
+          }
         }
       }
-    }
 
-    // play button style
-    .vjs-play-control {
-      margin-left: 0.875rem;
-    }
-
-    // next-video button style
-    .vjs-next-video-btn {
-      .vjs-icon-placeholder::before {
-        font-family: "Material Icons";
-        content: "\e044";
+      // next button
+      .vjs-next-btn {
+        .vjs-icon-placeholder {
+          &::before {
+            font-family: "Material Icons";
+            content: "\e044";
+          }
+        }
       }
-    }
 
-    // volume button style
-    .vjs-volume-panel {
-      .vjs-mute-control {
-        margin-right: 0;
+      // next button
+      .vjs-theater-btn {
+        .vjs-icon-placeholder {
+          &::before {
+            font-family: "Material Icons";
+            content: "\e3bc";
+          }
+        }
       }
-      .vjs-volume-tooltip {
+
+      // volume button style
+      .vjs-volume-panel {
+        .vjs-mute-control {
+          margin-right: 0;
+        }
+        .vjs-volume-tooltip {
+          display: none;
+        }
+        .vjs-icon-placeholder::before {
+          font-size: 2.4em;
+          line-height: 1.3;
+        }
+        .vjs-volume-level::before {
+          line-height: normal;
+          font-size: 1.5em;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+      }
+
+      // pip icon
+      .vjs-picture-in-picture-control .vjs-icon-placeholder::before {
+        font-size: 2.4em;
+      }
+
+      // timer style
+      .vjs-time-control {
+        display: flex;
+        align-items: center;
+        font-size: 0.75rem;
+        &.vjs-time-divider {
+          margin-right: 2px;
+          padding: 0;
+          min-width: 0;
+        }
+        &.vjs-current-time {
+          margin-right: 2px;
+          padding-right: 2px;
+          padding-left: 0.25;
+        }
+        &.vjs-duration {
+          padding-left: 2px;
+          flex-grow: 1;
+        }
+      }
+
+      .vjs-remaining-time {
         display: none;
       }
-      .vjs-icon-placeholder::before {
-        font-size: 2.4em;
-        line-height: 1.3;
-      }
-      .vjs-volume-level::before {
-        line-height: normal;
-        font-size: 1.5em;
-        top: 50%;
-        transform: translateY(-50%);
-      }
     }
 
-    // timer style
-    .vjs-time-control {
-      display: flex;
-      align-items: center;
-      font-size: 0.75rem;
-      &.vjs-time-divider {
-        margin-right: 2px;
-        padding: 0;
-        min-width: 0;
-      }
-      &.vjs-current-time {
-        margin-right: 2px;
-        padding-right: 2px;
-        padding-left: 0.25;
-      }
-      &.vjs-duration {
-        padding-left: 2px;
-        flex-grow: 1;
-      }
-    }
-
-    .vjs-picture-in-picture-control .vjs-icon-placeholder::before {
-      font-size: 2.7em;
-      line-height: 1.15;
-    }
-
-    //big-play button style
+    // big-play button style
     .vjs-big-play-button {
       position: absolute;
       top: 50%;
@@ -195,6 +213,7 @@
       width: 2.5em;
       height: 2.5em;
       border-radius: 50%;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);
       .vjs-icon-placeholder {
         &::before {
           display: flex;
@@ -203,10 +222,6 @@
           align-items: center;
         }
       }
-    }
-
-    .vjs-remaining-time {
-      display: none;
     }
 
     // style for subtitle
