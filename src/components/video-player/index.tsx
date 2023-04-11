@@ -1,7 +1,8 @@
 import React, { createContext, forwardRef, useContext, useEffect, useRef, useState } from 'react';
-import { Helmet } from "react-helmet";
+import classNames from 'classnames';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
+import { Helmet } from "react-helmet";
 
 import './style.scss';
 import '../../stylesheets/style.scss';
@@ -35,7 +36,7 @@ videojs.registerComponent('NextButton', NextButton);
 videojs.registerComponent('TheaterButton', TheaterButton);
 
 const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
-  const { options, subtitles = [], initSuccess, } = props;
+  const { options, subtitles = [], isStreaming, initSuccess} = props;
   const defaultSub = subtitles?.find((item: SubtitleItem) => item.isDefault) || dummySubtitle;
   const dataLocal = getDataLocal();
 
@@ -78,6 +79,11 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   const initPlayer = () => {
     const videojsOptions = {
       ...options,
+      controlBar: {
+        currentTimeDisplay: !isStreaming,
+        durationDisplay: !isStreaming,
+        timeDivider: !isStreaming,
+      },
     };
     const configPlayerDefault = getDataLocal();
     if (!playerRef.current) {
@@ -85,7 +91,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
         playerRef.current = newPlayer;
         playerRef.current.playbackRate(configPlayerDefault ? configPlayerDefault[PLAYER_CONFIG.SPEED_CONTROL].value : 1);
         initBtnControls();
-        if (subtitles?.length) {
+        if (subtitles?.length && !isStreaming) {
           addTextTracks();
           showDefaultSubtitle();
         }
@@ -107,10 +113,10 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     if (!settingBtn && !PrevButton && !NextButton && !TheaterButton) {
       playerRef.current.controlBar.addChild('SettingButton', {
         onClick: handleToggle
-      }, 15);
+      }, isStreaming ? 11 : 15);
       playerRef.current.controlBar.addChild('PrevButton', {}, 0);
       playerRef.current.controlBar.addChild('NextButton', {}, 2);
-      playerRef.current.controlBar.addChild('TheaterButton', {}, 19);
+      playerRef.current.controlBar.addChild('TheaterButton', {}, isStreaming ? 16 : 19);
     }
   };
 
@@ -301,7 +307,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
 
   return (
     <VideoContext.Provider value={valueContext}>
-      <div className='player'>
+      <div className="player">
         <Helmet>
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -309,7 +315,9 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
           <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500;1,700&family=Rubik+Vinyl&display=swap" rel="stylesheet" />
           <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
         </Helmet>
-        <div className="video-js-custom">
+        <div className={classNames('video-js-custom', {
+          'tv-player': isStreaming
+        })}>
           <div data-vjs-player>
             <video ref={videoRef} className="video-js">
             </video>

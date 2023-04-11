@@ -15,7 +15,7 @@
       position: absolute;
       width: 100%;
       height: auto;
-      top: -0.6rem;
+      top: -1rem;
       &:hover {
         .vjs-play-progress.vjs-slider-bar::before {
           content: '';
@@ -49,9 +49,9 @@
 
     // icon style
     .vjs-control-bar {
-      margin-bottom: 0.5rem;
+      padding-bottom: 1rem;
       z-index: 10;
-      background: transparent;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);
 
       // all button
       .vjs-button {
@@ -106,6 +106,7 @@
           &::after {
             position: absolute;
             left: 50%;
+            top: 150%;
             width: 0;
             height: 3px;
             content: "";
@@ -171,6 +172,9 @@
           top: 50%;
           transform: translateY(-50%);
         }
+        .vjs-volume-bar {
+          margin: 0.5em 0.45em;
+        }
       }
 
       // pip icon
@@ -215,7 +219,6 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%,-50%);
-      background: transparent;
       width: 2.5em;
       height: 2.5em;
       border-radius: 50%;
@@ -236,6 +239,33 @@
       & > div {
         position: relative;
       }
+    }
+  }
+
+  &.tv-player {
+    .vjs-live-control {
+      position: relative;
+      display: flex;
+      align-items: center;
+      margin-left: 0.5rem;
+    }
+    .vjs-live-display {
+      font-size: 1.25em;
+      padding-left: 0.5rem;
+      &::before {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        content: '';
+        width: 5px;
+        height: 5px;
+        background: red;
+        border-radius: 50%;
+      }
+    }
+    .vjs-subs-caps-button {
+      display: none;
     }
   }
 }
