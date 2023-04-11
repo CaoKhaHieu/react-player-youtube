@@ -12,6 +12,7 @@ export const PLAYER_CONFIG = {
   FONT_PERCENT: 'fontPercent',
   TEXT_OPACITY: 'textOpacity',
   BACKGROUND_OPACITY: 'backgroundOpacity',
+  QUALITY: 'QUALITY'
 };
 
 export const LIBRARY_NAME = 'REACT_PLAYER_YOUTUBE';

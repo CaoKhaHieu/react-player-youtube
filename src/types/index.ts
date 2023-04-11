@@ -24,3 +24,15 @@ export interface SubtitleItem {
   label: string;
   url?: string;
 };
+
+export interface QualityVideo {
+  label: string;
+  value: number;
+};
+
+export class QualityVideo {
+  constructor(data: any) {
+    this.label = `${data?.height}p`;
+    this.value = data?.bandwidth;
+  }
+};

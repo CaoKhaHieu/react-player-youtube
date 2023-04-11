@@ -10,7 +10,7 @@ import Settings from '../settings';
 import { getConfigSetting, getDataLocal } from '../../utils';
 import useToggle from '../../hooks/useToggle';
 import { NextButton, PrevButton, SettingButton, TheaterButton } from '../controls-btn/index.js';
-import { SubtitleActions, SubtitleItem, VideoOptions } from '../../types';
+import { QualityVideo, SubtitleActions, SubtitleItem, VideoOptions } from '../../types';
 import { CAPTIONS, ERRORS, PLAYER_CONFIG, SUBTITLE_ACTIONS, SUBTITLE_MODE, SUBTITLE_OFF, dummySubtitle } from '../../constants';
 
 const VideoContext = createContext<any>({
@@ -34,14 +34,6 @@ videojs.registerComponent('PrevButton', PrevButton);
 videojs.registerComponent('NextButton', NextButton);
 videojs.registerComponent('TheaterButton', TheaterButton);
 
-const defaultSubtitleStyles = {
-  fontPercent: 1,
-  textOpacity: '1',
-  color: '#FFF',
-  backgroundOpacity: '1',
-  backgroundColor: '#000',
-};
-
 const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   const { options, subtitles = [], initSuccess, } = props;
   const defaultSub = subtitles?.find((item: SubtitleItem) => item.isDefault) || dummySubtitle;
@@ -49,6 +41,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
 
   const videoRef = useRef<any>();
   const settingRef = useRef<any>();
+  const hlsRef = useRef<any>();
 
   const [configSetting, setConfigSetting] = useState({
     [PLAYER_CONFIG.SUBTITLES]: {
@@ -64,6 +57,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   });
   const [inited, setInited] = useState<boolean>(false);
   const [subLanguage, setSubLanguage] = useState<SubtitleItem>(defaultSub);
+  const [qualities, setQualities] = useState<QualityVideo[]>([]);
 
   const { toggle, handleToggle } = useToggle();
 
@@ -99,6 +93,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
           initSuccess();
         }
         setInited(true);
+        watchEvents();
       });
     }
   };
@@ -253,6 +248,39 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     handleConfigSetting(newConfigSetting);
   };
 
+  const watchEvents = () => {
+    playerRef.current.on('loadedmetadata', getListQualityVideo);
+  };
+
+  const getListQualityVideo = () => {
+    const hls = playerRef.current.tech({ IWillNotUseThisInPlugins: true }).hls;
+    hlsRef.current = hls;
+
+    const listQualities = hlsRef.current.representations();
+    const qualitiesMapping: QualityVideo[] = listQualities.map((item: any) => new QualityVideo(item));
+    const sortedQualities: QualityVideo[] = qualitiesMapping.sort((a: QualityVideo, b: QualityVideo) => b.value - a.value);
+    setQualities(sortedQualities);
+
+    // Show default quality
+    const defaultQuality = {
+      label: `${hlsRef.current.selectPlaylist().attributes.RESOLUTION.height}p`,
+      value: hlsRef.current.selectPlaylist().attributes.BANDWIDTH,
+    };
+    handleConfigSetting({
+      [PLAYER_CONFIG.QUALITY]: defaultQuality
+    });
+  };
+
+  const handleChangeQualityVideo = (data: { label: string, value: number }) => {
+    const listQualities = hlsRef.current.representations();
+    listQualities.forEach((quality: any) => {
+      quality.enabled(quality?.bandwidth === data.value);
+    });
+    handleConfigSetting({
+      [PLAYER_CONFIG.QUALITY]: data
+    });
+  };
+
   const valueContext = {
     playerRef,
     // CONFIG SETTING
@@ -266,6 +294,9 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     handleChooseSubLanguage,
     updateStyleSubtitle,
     subtitles: [dummySubtitle, ...subtitles],
+    // quality video
+    qualities,
+    handleChangeQualityVideo
   };
 
   return (
