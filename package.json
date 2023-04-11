@@ -12,7 +12,8 @@
   "dependencies": {
     "classnames": "^2.3.2",
     "react-helmet": "^6.1.0",
-    "video.js": "^7.17.0"
+    "video.js": "^7.17.0",
+    "videojs-contrib-hls": "^5.15.0"
   },
   "devDependencies": {
     "@babel/core": "^7.21.3",

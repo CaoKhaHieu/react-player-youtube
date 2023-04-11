@@ -86,6 +86,12 @@ export const menuSettings: MenuSettings = {
     },
     isRadio: true,
   },
+  [PLAYER_CONFIG.QUALITY]: {
+    id: PLAYER_CONFIG.QUALITY,
+    label: 'Quality',
+    icon: 'tune',
+    options: [],
+  },
 };
 
 export const getSettingData = (keys: string[]) => {
@@ -99,7 +105,7 @@ export const getSettingData = (keys: string[]) => {
 const Settings = forwardRef((props: SettingOptions, ref) => {
   const { handleToggle } = props;
   const subRef = useRef<HTMLDivElement>(null);
-  const { subtitles, configSetting, handleSpeedVideo, handleSubtitle, updateStyleSubtitle } = useVideoPlayer();
+  const { subtitles, qualities, configSetting, handleSpeedVideo, handleSubtitle, updateStyleSubtitle, handleChangeQualityVideo } = useVideoPlayer();
 
   const defaultList = Object.values(menuSettings);
   const [keys, setKeys] = useState<string[]>([]);
@@ -131,9 +137,15 @@ const Settings = forwardRef((props: SettingOptions, ref) => {
     [PLAYER_CONFIG.BACKGROUND_OPACITY]: (item: { label: string, value: string | number }) => {
       updateStyleSubtitle(item, lastKey);
     },
+    [PLAYER_CONFIG.QUALITY]: (item: { label: string, value: string | number }) => {
+      console.log({item})
+      handleChangeQualityVideo(item)
+      // updateStyleSubtitle(item, {});
+    },
   };
   const isRadio = !!keys.length && keys[keys.length - 1] !== 'child' || false;
 
+  console.log({settingData})
   useEffect(() => {
     // trigger click outside setting component
     const handleClickOutside = (e: Event) => {
@@ -155,6 +167,11 @@ const Settings = forwardRef((props: SettingOptions, ref) => {
     setSettingData(settingData);
     if (settingData.id === PLAYER_CONFIG.SUBTITLES) {
       setOptions(subtitles);
+      return;
+    }
+
+    if (settingData.id === PLAYER_CONFIG.QUALITY) {
+      setOptions(qualities);
       return;
     }
     if (keys[keys.length - 1] === 'child') {
@@ -195,7 +212,7 @@ const Settings = forwardRef((props: SettingOptions, ref) => {
       {
         keys.length ? 
         <SettingHeader
-          title='Subtitles'
+          title={settingData?.label || 'Subtitles'}
           hasChild={settingData?.child ? true : false}
           goBack={removeLastKey}
           optionsClick={showChild}

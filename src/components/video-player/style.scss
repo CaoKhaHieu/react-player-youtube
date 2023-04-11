@@ -124,6 +124,7 @@
 
       // prev button
       .vjs-prev-btn {
+        margin-left: 0.5rem;
         .vjs-icon-placeholder {
           &::before {
             font-family: "Material Icons";
@@ -199,6 +200,11 @@
       }
 
       .vjs-remaining-time {
+        display: none;
+      }
+
+      // audio btn 
+      .vjs-audio-button {
         display: none;
       }
     }
