@@ -12,6 +12,10 @@ export const PLAYER_CONFIG = {
   FONT_PERCENT: 'fontPercent',
   TEXT_OPACITY: 'textOpacity',
   BACKGROUND_OPACITY: 'backgroundOpacity',
+  FONT_FAMILY: 'fontFamily',
+  WINDOW_COLOR: 'windowColor',
+  WINDOW_OPACITY: 'windowOpacity',
+  EDGE_STYLE: 'edgeStyle',
   QUALITY: 'QUALITY'
 };
 

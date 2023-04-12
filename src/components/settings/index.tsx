@@ -83,6 +83,50 @@ export const menuSettings: MenuSettings = {
           { label: '100%', value: '1' },
         ]
       },
+      [PLAYER_CONFIG.FONT_FAMILY]: {
+        id: PLAYER_CONFIG.FONT_FAMILY,
+        label: 'Font family',
+        options: [
+          { value: 'proportionalSansSerif', label: 'Proportional Sans-Serif' },
+          { value: 'monospaceSansSerif', label: 'Monospace Sans-Serif' },
+          { value: 'proportionalSerif', label: 'Proportional Serif' },
+          { value: 'monospaceSerif', label: 'Monospace Serif' },
+          { value: 'casual', label: 'Casual' },
+          { value: 'script', label: 'Script' },
+          { value: 'small-caps', label: 'Small Caps' }
+        ]
+      },
+      [PLAYER_CONFIG.EDGE_STYLE]: {
+        id: PLAYER_CONFIG.EDGE_STYLE,
+        label: 'Character egde style',
+        options: [
+          { value: 'none', label: 'None' },
+          { value: 'raised', label: 'Raised' },
+          { value: 'depressed', label: 'Depressed' },
+          { value: 'uniform', label: 'Uniform' },
+          { value: 'dropshadow', label: 'Dropshadow' },
+        ]
+      },
+      [PLAYER_CONFIG.WINDOW_COLOR]: {
+        id: PLAYER_CONFIG.WINDOW_COLOR,
+        label: 'Window color',
+        options: [
+          { label: 'White', value: '#FFF' },
+          { label: 'Black', value: '#000' },
+          { label: 'Green', value: '#0F0' },
+          { label: 'Red', value: '#F00' },
+          { label: 'Yellow', value: '#FF0' },
+          { label: 'Blue', value: '#00F' },
+        ]
+      },
+      [PLAYER_CONFIG.WINDOW_OPACITY]: {
+        id: PLAYER_CONFIG.WINDOW_OPACITY,
+        label: 'Window opacity',
+        options: [
+          { label: '50%', value: '0.5' },
+          { label: '100%', value: '1' },
+        ]
+      },
     },
     isRadio: true,
   },
@@ -137,10 +181,21 @@ const Settings = forwardRef((props: SettingOptions, ref) => {
     [PLAYER_CONFIG.BACKGROUND_OPACITY]: (item: { label: string, value: string | number }) => {
       updateStyleSubtitle(item, lastKey);
     },
+    [PLAYER_CONFIG.FONT_FAMILY]: (item: { label: string, value: string | number }) => {
+      updateStyleSubtitle(item, lastKey);
+    },
+    [PLAYER_CONFIG.WINDOW_COLOR]: (item: { label: string, value: string | number }) => {
+      updateStyleSubtitle(item, lastKey);
+    },
+    [PLAYER_CONFIG.WINDOW_OPACITY]: (item: { label: string, value: string | number }) => {
+      updateStyleSubtitle(item, lastKey);
+    },
+    [PLAYER_CONFIG.EDGE_STYLE]: (item: { label: string, value: string | number }) => {
+      updateStyleSubtitle(item, lastKey);
+    },
     [PLAYER_CONFIG.QUALITY]: (item: { label: string, value: string | number }) => {
       console.log({item})
       handleChangeQualityVideo(item)
-      // updateStyleSubtitle(item, {});
     },
   };
   const isRadio = !!keys.length && keys[keys.length - 1] !== 'child' || false;

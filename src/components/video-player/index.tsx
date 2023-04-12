@@ -55,6 +55,10 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     [PLAYER_CONFIG.BACKGROUND_OPACITY]: getConfigSetting(PLAYER_CONFIG.BACKGROUND_OPACITY, { label: '100%', value: '1' }),
     [PLAYER_CONFIG.FONT_PERCENT]: getConfigSetting(PLAYER_CONFIG.FONT_PERCENT, { label: '100%', value: 1 }),
     [PLAYER_CONFIG.TEXT_OPACITY]: getConfigSetting(PLAYER_CONFIG.TEXT_OPACITY, { label: '100%', value: '1' }),
+    [PLAYER_CONFIG.FONT_FAMILY]: getConfigSetting(PLAYER_CONFIG.TEXT_OPACITY, { label: 'Proportional Sans-Serif', value: 'proportionalSansSerif' }),
+    [PLAYER_CONFIG.EDGE_STYLE]: getConfigSetting(PLAYER_CONFIG.EDGE_STYLE, { label: 'None', value: 'none' }),
+    [PLAYER_CONFIG.WINDOW_COLOR]: getConfigSetting(PLAYER_CONFIG.WINDOW_COLOR, { label: 'Black', value: '#000' }),
+    [PLAYER_CONFIG.WINDOW_OPACITY]: getConfigSetting(PLAYER_CONFIG.WINDOW_OPACITY, { label: '100%', value: '1' }),
   });
   const [inited, setInited] = useState<boolean>(false);
   const [subLanguage, setSubLanguage] = useState<SubtitleItem>(defaultSub);
