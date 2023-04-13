@@ -10,7 +10,8 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint'],
+  extends: ['plugin:prettier/recommended'],
+  plugins: ['@typescript-eslint', 'prettier'],
   rules: {
     // possible-errors
     'no-console': 'off',
@@ -34,7 +35,7 @@ module.exports = {
     'array-bracket-newline': [1, 'consistent'],
     'brace-style': [2],
     camelcase: [1],
-    'comma-spacing': [1, { 'before': false, 'after': true }],
+    'comma-spacing': [1, { before: false, after: true }],
     'eol-last': [2, 'always'],
     'object-curly-newline': [1, { consistent: true }],
     'object-curly-spacing': [1, 'always'],
@@ -45,12 +46,15 @@ module.exports = {
     'no-nested-ternary': [1],
     'no-unneeded-ternary': [2],
     'no-whitespace-before-property': [2],
-    'no-trailing-spaces': [1, { 'skipBlankLines': true }],
-    'no-multiple-empty-lines': [2, { 'max': 1, 'maxEOF': 0, 'maxBOF': 0 }],
+    'no-trailing-spaces': [1, { skipBlankLines: true }],
+    'no-multiple-empty-lines': [2, { max: 1, maxEOF: 0, maxBOF: 0 }],
     '@typescript-eslint/no-var-requires': 0,
 
     // es 6
-    'arrow-spacing': [1, { 'before': true, 'after': true }],
+    'arrow-spacing': [1, { before: true, after: true }],
     'no-duplicate-imports': [1],
+
+    // prettier
+    'prettier/prettier': 'error',
   },
 };

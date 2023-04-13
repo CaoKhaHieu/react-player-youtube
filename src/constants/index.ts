@@ -16,7 +16,7 @@ export const PLAYER_CONFIG = {
   WINDOW_COLOR: 'windowColor',
   WINDOW_OPACITY: 'windowOpacity',
   EDGE_STYLE: 'edgeStyle',
-  QUALITY: 'QUALITY'
+  QUALITY: 'QUALITY',
 };
 
 export const LIBRARY_NAME = 'REACT_PLAYER_YOUTUBE';
@@ -33,7 +33,7 @@ export const SUBTITLE_MODE = {
 export const SUBTITLE_ACTIONS = {
   SWITCH: 'SWITCH',
   TURNOFF: 'TURNOFF',
-  'GET_CURRENT_SUB': 'GET_CURRENT_SUB',
+  GET_CURRENT_SUB: 'GET_CURRENT_SUB',
 };
 
 export const dummySubtitle: SubtitleItem = {

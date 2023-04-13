@@ -10,7 +10,13 @@ export interface MenuSettingItem {
   id: string;
   label: string;
   icon?: string;
-  options: Array<{ label: string; value: number | string, isDefault?: boolean, url?: string, isRadio?: boolean, }>;
+  options: Array<{
+    label: string;
+    value: number | string;
+    isDefault?: boolean;
+    url?: string;
+    isRadio?: boolean;
+  }>;
   child?: any;
   isRadio?: boolean;
 }

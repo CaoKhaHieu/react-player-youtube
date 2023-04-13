@@ -25,30 +25,30 @@
 // const SettingDetail = (props: SettingDetailOptions) => {
 //   const { type, goBack } = props;
 //   const { subtitles, configSetting, handleSpeedVideo, handleSubtitle } = useVideoPlayer();
-  
+
 //   const settingData: MenuSettingItem = menuSettings[type];
-  // const settingDetailData: HandleClickOptions = {
-  //   [PLAYER_CONFIG.SPEED_CONTROL]: {
-  //     listOptions: [...settingData.options],
-  //     onClick: (item: OptionData) => {
-  //       return () => {
-  //         const keyLocal = PLAYER_CONFIG.SPEED_CONTROL.toString();
-  //         handleSpeedVideo(item);
-  //         saveDataLocal(keyLocal, item);
-  //         goBack();
-  //       };
-  //     },
-  //   },
-  //   [PLAYER_CONFIG.SUBTITLES]: {
-  //     listOptions: subtitles,
-  //     onClick: (item: OptionData) => {
-  //       return () => {
-  //         handleSubtitle(SUBTITLE_ACTIONS.SWITCH, item);
-  //         goBack();
-  //       }
-  //     }
-  //   },
-  // };
+// const settingDetailData: HandleClickOptions = {
+//   [PLAYER_CONFIG.SPEED_CONTROL]: {
+//     listOptions: [...settingData.options],
+//     onClick: (item: OptionData) => {
+//       return () => {
+//         const keyLocal = PLAYER_CONFIG.SPEED_CONTROL.toString();
+//         handleSpeedVideo(item);
+//         saveDataLocal(keyLocal, item);
+//         goBack();
+//       };
+//     },
+//   },
+//   [PLAYER_CONFIG.SUBTITLES]: {
+//     listOptions: subtitles,
+//     onClick: (item: OptionData) => {
+//       return () => {
+//         handleSubtitle(SUBTITLE_ACTIONS.SWITCH, item);
+//         goBack();
+//       }
+//     }
+//   },
+// };
 //   const listOptions = settingDetailData[type as any].listOptions.map((item: OptionData) => ({...item, icon}));
 
 //   return (

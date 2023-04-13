@@ -22,12 +22,11 @@ const SettingHeader = (props: SettingHeaderOptions) => {
         />
         <p className='header-title'>{title}</p>
       </div>
-      {
-        hasChild &&
+      {hasChild && (
         <div className='header-right' onClick={optionsClick}>
           Options
         </div>
-      }
+      )}
     </div>
   );
 };

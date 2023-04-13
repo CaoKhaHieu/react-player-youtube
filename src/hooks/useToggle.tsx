@@ -8,7 +8,7 @@ const useToggle = () => {
 
   return {
     toggle,
-    handleToggle
+    handleToggle,
   };
 };
 

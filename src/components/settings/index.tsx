@@ -1,7 +1,11 @@
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import './style.scss';
 import Option from '../option';
-import { PLAYER_CONFIG, SUBTITLE_ACTIONS, dummySubtitle } from '../../constants';
+import {
+  PLAYER_CONFIG,
+  SUBTITLE_ACTIONS,
+  dummySubtitle,
+} from '../../constants';
 import { MenuSettingItem, MenuSettings } from '../../types';
 import { useVideoPlayer } from '../video-player';
 import SettingHeader from './setting-header';
@@ -18,7 +22,7 @@ export const menuSettings: MenuSettings = {
     icon: 'slow_motion_video',
     options: [
       { label: '0.25', value: 0.25 },
-      { label: '0.5', value: 0.5, },
+      { label: '0.5', value: 0.5 },
       { label: '0.75', value: 0.75 },
       { label: 'Normal', value: 1 },
       { label: '1.25', value: 1.25 },
@@ -43,7 +47,7 @@ export const menuSettings: MenuSettings = {
           { label: 'Red', value: '#F00' },
           { label: 'Yellow', value: '#FF0' },
           { label: 'Blue', value: '#00F' },
-        ]
+        ],
       },
       [PLAYER_CONFIG.COLOR]: {
         id: PLAYER_CONFIG.COLOR,
@@ -55,7 +59,7 @@ export const menuSettings: MenuSettings = {
           { label: 'Red', value: '#F00' },
           { label: 'Yellow', value: '#FF0' },
           { label: 'Blue', value: '#00F' },
-        ]
+        ],
       },
       [PLAYER_CONFIG.BACKGROUND_OPACITY]: {
         id: PLAYER_CONFIG.BACKGROUND_OPACITY,
@@ -63,7 +67,7 @@ export const menuSettings: MenuSettings = {
         options: [
           { label: '50%', value: '0.5' },
           { label: '100%', value: '1' },
-        ]
+        ],
       },
       [PLAYER_CONFIG.FONT_PERCENT]: {
         id: PLAYER_CONFIG.FONT_PERCENT,
@@ -72,8 +76,8 @@ export const menuSettings: MenuSettings = {
           { label: '50%', value: 0.5 },
           { label: '75%', value: 0.75 },
           { label: '100%', value: 1 },
-          { label: '200%', value: 2 }
-        ]
+          { label: '200%', value: 2 },
+        ],
       },
       [PLAYER_CONFIG.TEXT_OPACITY]: {
         id: PLAYER_CONFIG.TEXT_OPACITY,
@@ -81,7 +85,7 @@ export const menuSettings: MenuSettings = {
         options: [
           { label: '50%', value: '0.5' },
           { label: '100%', value: '1' },
-        ]
+        ],
       },
       [PLAYER_CONFIG.FONT_FAMILY]: {
         id: PLAYER_CONFIG.FONT_FAMILY,
@@ -93,8 +97,8 @@ export const menuSettings: MenuSettings = {
           { value: 'monospaceSerif', label: 'Monospace Serif' },
           { value: 'casual', label: 'Casual' },
           { value: 'script', label: 'Script' },
-          { value: 'small-caps', label: 'Small Caps' }
-        ]
+          { value: 'small-caps', label: 'Small Caps' },
+        ],
       },
       [PLAYER_CONFIG.EDGE_STYLE]: {
         id: PLAYER_CONFIG.EDGE_STYLE,
@@ -105,7 +109,7 @@ export const menuSettings: MenuSettings = {
           { value: 'depressed', label: 'Depressed' },
           { value: 'uniform', label: 'Uniform' },
           { value: 'dropshadow', label: 'Dropshadow' },
-        ]
+        ],
       },
       [PLAYER_CONFIG.WINDOW_COLOR]: {
         id: PLAYER_CONFIG.WINDOW_COLOR,
@@ -117,7 +121,7 @@ export const menuSettings: MenuSettings = {
           { label: 'Red', value: '#F00' },
           { label: 'Yellow', value: '#FF0' },
           { label: 'Blue', value: '#00F' },
-        ]
+        ],
       },
       [PLAYER_CONFIG.WINDOW_OPACITY]: {
         id: PLAYER_CONFIG.WINDOW_OPACITY,
@@ -125,7 +129,7 @@ export const menuSettings: MenuSettings = {
         options: [
           { label: '50%', value: '0.5' },
           { label: '100%', value: '1' },
-        ]
+        ],
       },
     },
     isRadio: true,
@@ -149,7 +153,16 @@ export const getSettingData = (keys: string[]) => {
 const Settings = forwardRef((props: SettingOptions, ref) => {
   const { handleToggle } = props;
   const subRef = useRef<HTMLDivElement>(null);
-  const { isStreaming, subtitles, qualities, configSetting, handleSpeedVideo, handleSubtitle, updateStyleSubtitle, handleChangeQualityVideo } = useVideoPlayer();
+  const {
+    isStreaming,
+    subtitles,
+    qualities,
+    configSetting,
+    handleSpeedVideo,
+    handleSubtitle,
+    updateStyleSubtitle,
+    handleChangeQualityVideo,
+  } = useVideoPlayer();
 
   const defaultList = Object.values(menuSettings);
   const [keys, setKeys] = useState<string[]>([]);
@@ -166,44 +179,77 @@ const Settings = forwardRef((props: SettingOptions, ref) => {
     [PLAYER_CONFIG.SUBTITLES]: (item: any) => {
       handleSubtitle(SUBTITLE_ACTIONS.SWITCH, item);
     },
-    [PLAYER_CONFIG.BACKGROUND]: (item: { label: string, value: string | number }) => {
+    [PLAYER_CONFIG.BACKGROUND]: (item: {
+      label: string;
+      value: string | number;
+    }) => {
       updateStyleSubtitle(item, lastKey);
     },
-    [PLAYER_CONFIG.COLOR]: (item: { label: string, value: string | number }) => {
+    [PLAYER_CONFIG.COLOR]: (item: {
+      label: string;
+      value: string | number;
+    }) => {
       updateStyleSubtitle(item, lastKey);
     },
-    [PLAYER_CONFIG.TEXT_OPACITY]: (item: { label: string, value: string | number }) => {
+    [PLAYER_CONFIG.TEXT_OPACITY]: (item: {
+      label: string;
+      value: string | number;
+    }) => {
       updateStyleSubtitle(item, lastKey);
     },
-    [PLAYER_CONFIG.FONT_PERCENT]: (item: { label: string, value: string | number }) => {
+    [PLAYER_CONFIG.FONT_PERCENT]: (item: {
+      label: string;
+      value: string | number;
+    }) => {
       updateStyleSubtitle(item, lastKey);
     },
-    [PLAYER_CONFIG.BACKGROUND_OPACITY]: (item: { label: string, value: string | number }) => {
+    [PLAYER_CONFIG.BACKGROUND_OPACITY]: (item: {
+      label: string;
+      value: string | number;
+    }) => {
       updateStyleSubtitle(item, lastKey);
     },
-    [PLAYER_CONFIG.FONT_FAMILY]: (item: { label: string, value: string | number }) => {
+    [PLAYER_CONFIG.FONT_FAMILY]: (item: {
+      label: string;
+      value: string | number;
+    }) => {
       updateStyleSubtitle(item, lastKey);
     },
-    [PLAYER_CONFIG.WINDOW_COLOR]: (item: { label: string, value: string | number }) => {
+    [PLAYER_CONFIG.WINDOW_COLOR]: (item: {
+      label: string;
+      value: string | number;
+    }) => {
       updateStyleSubtitle(item, lastKey);
     },
-    [PLAYER_CONFIG.WINDOW_OPACITY]: (item: { label: string, value: string | number }) => {
+    [PLAYER_CONFIG.WINDOW_OPACITY]: (item: {
+      label: string;
+      value: string | number;
+    }) => {
       updateStyleSubtitle(item, lastKey);
     },
-    [PLAYER_CONFIG.EDGE_STYLE]: (item: { label: string, value: string | number }) => {
+    [PLAYER_CONFIG.EDGE_STYLE]: (item: {
+      label: string;
+      value: string | number;
+    }) => {
       updateStyleSubtitle(item, lastKey);
     },
-    [PLAYER_CONFIG.QUALITY]: (item: { label: string, value: string | number }) => {
+    [PLAYER_CONFIG.QUALITY]: (item: {
+      label: string;
+      value: string | number;
+    }) => {
       handleChangeQualityVideo(item);
     },
   };
-  const isRadio = !!keys.length && keys[keys.length - 1] !== 'child' || false;
+  const isRadio = (!!keys.length && keys[keys.length - 1] !== 'child') || false;
 
   useEffect(() => {
     // trigger click outside setting component
     const handleClickOutside = (e: Event) => {
       const targetElement = e?.target as HTMLDivElement;
-      if (!subRef.current?.contains(targetElement) && targetElement?.className !== 'vjs-icon-placeholder') {
+      if (
+        !subRef.current?.contains(targetElement) &&
+        targetElement?.className !== 'vjs-icon-placeholder'
+      ) {
         handleToggle();
       }
     };
@@ -267,28 +313,32 @@ const Settings = forwardRef((props: SettingOptions, ref) => {
 
   return (
     <div className='settings' ref={subRef}>
-      {
-        keys.length ?
+      {keys.length ? (
         <SettingHeader
           title={settingData?.label || 'Subtitles'}
-          hasChild={settingData?.child && true || false}
+          hasChild={(settingData?.child && true) || false}
           goBack={removeLastKey}
           optionsClick={showChild}
-        /> : null
-      }
-      {
-        options.length && options.map((item: any, index: number) =>
+        />
+      ) : null}
+      {options.length &&
+        options.map((item: any, index: number) => (
           <Option
             key={index}
             isRadio={isRadio}
-            active={isRadio ? configSetting[settingData?.id || '']?.value === item.value : false}
+            active={
+              isRadio
+                ? configSetting[settingData?.id || '']?.value === item.value
+                : false
+            }
             icon={item.icon}
             label={item.label}
-            labelCurrentValue={configSetting[item?.id || settingData?.id]?.label}
+            labelCurrentValue={
+              configSetting[item?.id || settingData?.id]?.label
+            }
             onClick={() => handleClick(item)}
           />
-        )
-      }
+        ))}
     </div>
   );
 });

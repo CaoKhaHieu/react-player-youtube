@@ -17,17 +17,15 @@ export default {
       format: 'es',
       exports: 'named',
       sourcemap: true,
-    }
+    },
   ],
   plugins: [
     babel({
       exclude: 'node_modules/**',
-      presets: ['@babel/preset-react']
+      presets: ['@babel/preset-react'],
     }),
     cleaner({
-      targets: [
-        './dist/'
-      ]
+      targets: ['./dist/'],
     }),
     typescript({
       tsconfig: './tsconfig.json',

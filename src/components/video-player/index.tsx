@@ -1,4 +1,11 @@
-import React, { createContext, forwardRef, useContext, useEffect, useRef, useState } from 'react';
+import React, {
+  createContext,
+  forwardRef,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import classNames from 'classnames';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
@@ -10,9 +17,27 @@ import '../../stylesheets/style.scss';
 import Settings from '../settings';
 import { getConfigSetting, getDataLocal } from '../../utils';
 import useToggle from '../../hooks/useToggle';
-import { NextButton, PrevButton, SettingButton, TheaterButton } from '../controls-btn/index.js';
-import { QualityVideo, SubtitleActions, SubtitleItem, VideoOptions } from '../../types';
-import { CAPTIONS, ERRORS, PLAYER_CONFIG, SUBTITLE_ACTIONS, SUBTITLE_MODE, SUBTITLE_OFF, dummySubtitle } from '../../constants';
+import {
+  NextButton,
+  PrevButton,
+  SettingButton,
+  TheaterButton,
+} from '../controls-btn/index.js';
+import {
+  QualityVideo,
+  SubtitleActions,
+  SubtitleItem,
+  VideoOptions,
+} from '../../types';
+import {
+  CAPTIONS,
+  ERRORS,
+  PLAYER_CONFIG,
+  SUBTITLE_ACTIONS,
+  SUBTITLE_MODE,
+  SUBTITLE_OFF,
+  dummySubtitle,
+} from '../../constants';
 
 const VideoContext = createContext<any>({
   playerRef: null,
@@ -37,7 +62,8 @@ videojs.registerComponent('TheaterButton', TheaterButton);
 
 const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   const { options, subtitles = [], isStreaming, initSuccess } = props;
-  const defaultSub = subtitles?.find((item: SubtitleItem) => item.isDefault) || dummySubtitle;
+  const defaultSub =
+    subtitles?.find((item: SubtitleItem) => item.isDefault) || dummySubtitle;
   const dataLocal = getDataLocal();
 
   const videoRef = useRef<any>();
@@ -49,16 +75,46 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
       label: 'Off',
       value: 'off',
     },
-    [PLAYER_CONFIG.SPEED_CONTROL]: getConfigSetting(PLAYER_CONFIG.SPEED_CONTROL, { label: 'Normal', value: 1 }),
-    [PLAYER_CONFIG.BACKGROUND]: getConfigSetting(PLAYER_CONFIG.BACKGROUND, { label: 'Black', value: '#000' }),
-    [PLAYER_CONFIG.COLOR]: getConfigSetting(PLAYER_CONFIG.COLOR, { label: 'White', value: '#FFF' }),
-    [PLAYER_CONFIG.BACKGROUND_OPACITY]: getConfigSetting(PLAYER_CONFIG.BACKGROUND_OPACITY, { label: '100%', value: '1' }),
-    [PLAYER_CONFIG.FONT_PERCENT]: getConfigSetting(PLAYER_CONFIG.FONT_PERCENT, { label: '100%', value: 1 }),
-    [PLAYER_CONFIG.TEXT_OPACITY]: getConfigSetting(PLAYER_CONFIG.TEXT_OPACITY, { label: '100%', value: '1' }),
-    [PLAYER_CONFIG.FONT_FAMILY]: getConfigSetting(PLAYER_CONFIG.TEXT_OPACITY, { label: 'Proportional Sans-Serif', value: 'proportionalSansSerif' }),
-    [PLAYER_CONFIG.EDGE_STYLE]: getConfigSetting(PLAYER_CONFIG.EDGE_STYLE, { label: 'None', value: 'none' }),
-    [PLAYER_CONFIG.WINDOW_COLOR]: getConfigSetting(PLAYER_CONFIG.WINDOW_COLOR, { label: 'Black', value: '#000' }),
-    [PLAYER_CONFIG.WINDOW_OPACITY]: getConfigSetting(PLAYER_CONFIG.WINDOW_OPACITY, { label: '100%', value: '1' }),
+    [PLAYER_CONFIG.SPEED_CONTROL]: getConfigSetting(
+      PLAYER_CONFIG.SPEED_CONTROL,
+      { label: 'Normal', value: 1 },
+    ),
+    [PLAYER_CONFIG.BACKGROUND]: getConfigSetting(PLAYER_CONFIG.BACKGROUND, {
+      label: 'Black',
+      value: '#000',
+    }),
+    [PLAYER_CONFIG.COLOR]: getConfigSetting(PLAYER_CONFIG.COLOR, {
+      label: 'White',
+      value: '#FFF',
+    }),
+    [PLAYER_CONFIG.BACKGROUND_OPACITY]: getConfigSetting(
+      PLAYER_CONFIG.BACKGROUND_OPACITY,
+      { label: '100%', value: '1' },
+    ),
+    [PLAYER_CONFIG.FONT_PERCENT]: getConfigSetting(PLAYER_CONFIG.FONT_PERCENT, {
+      label: '100%',
+      value: 1,
+    }),
+    [PLAYER_CONFIG.TEXT_OPACITY]: getConfigSetting(PLAYER_CONFIG.TEXT_OPACITY, {
+      label: '100%',
+      value: '1',
+    }),
+    [PLAYER_CONFIG.FONT_FAMILY]: getConfigSetting(PLAYER_CONFIG.TEXT_OPACITY, {
+      label: 'Proportional Sans-Serif',
+      value: 'proportionalSansSerif',
+    }),
+    [PLAYER_CONFIG.EDGE_STYLE]: getConfigSetting(PLAYER_CONFIG.EDGE_STYLE, {
+      label: 'None',
+      value: 'none',
+    }),
+    [PLAYER_CONFIG.WINDOW_COLOR]: getConfigSetting(PLAYER_CONFIG.WINDOW_COLOR, {
+      label: 'Black',
+      value: '#000',
+    }),
+    [PLAYER_CONFIG.WINDOW_OPACITY]: getConfigSetting(
+      PLAYER_CONFIG.WINDOW_OPACITY,
+      { label: '100%', value: '1' },
+    ),
   });
   const [inited, setInited] = useState<boolean>(false);
   const [subLanguage, setSubLanguage] = useState<SubtitleItem>(defaultSub);
@@ -93,7 +149,11 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     if (!playerRef.current) {
       const newPlayer = videojs(videoRef.current, videojsOptions, () => {
         playerRef.current = newPlayer;
-        playerRef.current.playbackRate(configPlayerDefault ? configPlayerDefault[PLAYER_CONFIG.SPEED_CONTROL].value : 1);
+        playerRef.current.playbackRate(
+          configPlayerDefault
+            ? configPlayerDefault[PLAYER_CONFIG.SPEED_CONTROL].value
+            : 1,
+        );
         initBtnControls();
         if (subtitles?.length && !isStreaming) {
           addTextTracks();
@@ -113,14 +173,23 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     const settingBtn = playerRef.current.controlBar.getChild('SettingButton');
     const PrevButton = playerRef.current.controlBar.getChild('PrevButton');
     const NextButton = playerRef.current.controlBar.getChild('NextButton');
-    const TheaterButton = playerRef.current.controlBar.getChild('TheaterButton');
+    const TheaterButton =
+      playerRef.current.controlBar.getChild('TheaterButton');
     if (!settingBtn && !PrevButton && !NextButton && !TheaterButton) {
-      playerRef.current.controlBar.addChild('SettingButton', {
-        onClick: handleToggle
-      }, isStreaming ? 11 : 15);
+      playerRef.current.controlBar.addChild(
+        'SettingButton',
+        {
+          onClick: handleToggle,
+        },
+        isStreaming ? 11 : 15,
+      );
       playerRef.current.controlBar.addChild('PrevButton', {}, 0);
       playerRef.current.controlBar.addChild('NextButton', {}, 2);
-      playerRef.current.controlBar.addChild('TheaterButton', {}, isStreaming ? 16 : 19);
+      playerRef.current.controlBar.addChild(
+        'TheaterButton',
+        {},
+        isStreaming ? 16 : 19,
+      );
     }
   };
 
@@ -132,7 +201,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
 
   // SPEED VIDEO
 
-  const handleSpeedVideo = (data: { label: string, value: number}) => {
+  const handleSpeedVideo = (data: { label: string; value: number }) => {
     handleConfigSetting({
       [PLAYER_CONFIG.SPEED_CONTROL]: {
         label: data.label,
@@ -145,19 +214,27 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   // SUBTITLES
 
   const addTextTracks = () => {
-    subtitles?.length && subtitles.forEach((item: SubtitleItem) => {
-      playerRef.current.addRemoteTextTrack({
-        src: item.url,
-        kind: 'captions',
-        srclang: item.value,
-        label: item.label,
-      }, false);
-    });
+    subtitles?.length &&
+      subtitles.forEach((item: SubtitleItem) => {
+        playerRef.current.addRemoteTextTrack(
+          {
+            src: item.url,
+            kind: 'captions',
+            srclang: item.value,
+            label: item.label,
+          },
+          false,
+        );
+      });
   };
 
   const showDefaultSubtitle = () => {
     if (defaultSub) {
-      handleSubtitle(SUBTITLE_ACTIONS.SWITCH as SubtitleActions, defaultSub, () => {});
+      handleSubtitle(
+        SUBTITLE_ACTIONS.SWITCH as SubtitleActions,
+        defaultSub,
+        () => {},
+      );
     }
   };
 
@@ -170,11 +247,12 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     // Clear event click registered previous
     subtitleButton.off('click');
     subtitleButton.on('click', () => {
-      const hasActive = subtitleButton.el().classList?.contains('active') || false;
+      const hasActive =
+        subtitleButton.el().classList?.contains('active') || false;
       const actions = {
         type: hasActive ? SUBTITLE_ACTIONS.TURNOFF : SUBTITLE_ACTIONS.SWITCH,
         label: hasActive ? 'Off' : subLanguage.label,
-        value: hasActive ? SUBTITLE_OFF : subLanguage.value
+        value: hasActive ? SUBTITLE_OFF : subLanguage.value,
       };
       handleSubtitle(actions.type as SubtitleActions, subLanguage, () => {});
       toggleSubtitleBtn(actions.value);
@@ -203,7 +281,8 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
             },
           };
           if (track.kind === CAPTIONS && track.language === subtitle.value) {
-            subtitle.value !== SUBTITLE_OFF && handleChooseSubLanguage(subtitle);
+            subtitle.value !== SUBTITLE_OFF &&
+              handleChooseSubLanguage(subtitle);
             track.mode = SUBTITLE_MODE.SHOWING as TextTrackMode;
           } else {
             track.mode = SUBTITLE_MODE.DISABLED as TextTrackMode;
@@ -218,7 +297,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
           if (track.kind === CAPTIONS && track.mode === SUBTITLE_MODE.SHOWING) {
             callback && callback(track);
           }
-        }
+        },
       };
       for (let i = 0; i < tracksList.length; i++) {
         const track = tracksList[i];
@@ -239,11 +318,14 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     }
   };
 
-  const updateStyleSubtitle = (data: { label: string, value: string | number }, key: string) => {
+  const updateStyleSubtitle = (
+    data: { label: string; value: string | number },
+    key: string,
+  ) => {
     const settings = playerRef.current.textTrackSettings;
     const previousValue = settings.getValues();
     const newConfigSetting = {
-      [key]: data
+      [key]: data,
     };
     // fix not update style when change  fontsize from 1 to other value
     if (data.value === 1 && key === PLAYER_CONFIG.FONT_PERCENT) {
@@ -251,7 +333,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     }
     const newStyle = {
       ...previousValue,
-      [key]: data.value
+      [key]: data.value,
     };
     settings.setValues(newStyle);
     settings.updateDisplay();
@@ -267,8 +349,12 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     hlsRef.current = hls;
 
     const listQualities = hlsRef.current.representations();
-    const qualitiesMapping: QualityVideo[] = listQualities.map((item: any) => new QualityVideo(item));
-    const sortedQualities: QualityVideo[] = qualitiesMapping.sort((a: QualityVideo, b: QualityVideo) => b.value - a.value);
+    const qualitiesMapping: QualityVideo[] = listQualities.map(
+      (item: any) => new QualityVideo(item),
+    );
+    const sortedQualities: QualityVideo[] = qualitiesMapping.sort(
+      (a: QualityVideo, b: QualityVideo) => b.value - a.value,
+    );
     setQualities(sortedQualities);
 
     // Show default quality
@@ -277,17 +363,17 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
       value: hlsRef.current.selectPlaylist().attributes.BANDWIDTH,
     };
     handleConfigSetting({
-      [PLAYER_CONFIG.QUALITY]: defaultQuality
+      [PLAYER_CONFIG.QUALITY]: defaultQuality,
     });
   };
 
-  const handleChangeQualityVideo = (data: { label: string, value: number }) => {
+  const handleChangeQualityVideo = (data: { label: string; value: number }) => {
     const listQualities = hlsRef.current.representations();
     listQualities.forEach((quality: any) => {
       quality.enabled(quality?.bandwidth === data.value);
     });
     handleConfigSetting({
-      [PLAYER_CONFIG.QUALITY]: data
+      [PLAYER_CONFIG.QUALITY]: data,
     });
   };
 
@@ -313,27 +399,33 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
 
   return (
     <VideoContext.Provider value={valueContext}>
-      <div className="player">
+      <div className='player'>
         <Helmet>
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" />
-          <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-          <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500;1,700&family=Rubik+Vinyl&display=swap" rel="stylesheet" />
-          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+          <link rel='preconnect' href='https://fonts.googleapis.com' />
+          <link rel='preconnect' href='https://fonts.gstatic.com' />
+          <link
+            href='https://fonts.googleapis.com/icon?family=Material+Icons'
+            rel='stylesheet'
+          />
+          <link
+            href='https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500;1,700&family=Rubik+Vinyl&display=swap'
+            rel='stylesheet'
+          />
+          <link
+            rel='stylesheet'
+            href='https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0'
+          />
         </Helmet>
-        <div className={classNames('video-js-custom', {
-          'tv-player': isStreaming
-        })}>
+        <div
+          className={classNames('video-js-custom', {
+            'tv-player': isStreaming,
+          })}
+        >
           <div data-vjs-player>
-            <video ref={videoRef} className="video-js">
-            </video>
-            {
-              toggle &&
-              <Settings
-                ref={settingRef}
-                handleToggle={handleToggle}
-              />
-            }
+            <video ref={videoRef} className='video-js'></video>
+            {toggle && (
+              <Settings ref={settingRef} handleToggle={handleToggle} />
+            )}
           </div>
         </div>
       </div>
