@@ -1,7 +1,7 @@
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import './style.scss';
 import Option from '../option';
-import { PLAYER_CONFIG, SUBTITLE_ACTIONS } from '../../constants';
+import { PLAYER_CONFIG, SUBTITLE_ACTIONS, dummySubtitle } from '../../constants';
 import { MenuSettingItem, MenuSettings } from '../../types';
 import { useVideoPlayer } from '../video-player';
 import SettingHeader from './setting-header';
@@ -149,7 +149,7 @@ export const getSettingData = (keys: string[]) => {
 const Settings = forwardRef((props: SettingOptions, ref) => {
   const { handleToggle } = props;
   const subRef = useRef<HTMLDivElement>(null);
-  const { subtitles, qualities, configSetting, handleSpeedVideo, handleSubtitle, updateStyleSubtitle, handleChangeQualityVideo } = useVideoPlayer();
+  const { isStreaming, subtitles, qualities, configSetting, handleSpeedVideo, handleSubtitle, updateStyleSubtitle, handleChangeQualityVideo } = useVideoPlayer();
 
   const defaultList = Object.values(menuSettings);
   const [keys, setKeys] = useState<string[]>([]);
@@ -200,7 +200,6 @@ const Settings = forwardRef((props: SettingOptions, ref) => {
   };
   const isRadio = !!keys.length && keys[keys.length - 1] !== 'child' || false;
 
-  console.log({settingData})
   useEffect(() => {
     // trigger click outside setting component
     const handleClickOutside = (e: Event) => {
@@ -221,6 +220,11 @@ const Settings = forwardRef((props: SettingOptions, ref) => {
     const settingData = getSettingData(keys);
     setSettingData(settingData);
     if (settingData.id === PLAYER_CONFIG.SUBTITLES) {
+      if (isStreaming) {
+        const listSubtitles = [dummySubtitle];
+        setOptions(listSubtitles);
+        return;
+      }
       setOptions(subtitles);
       return;
     }

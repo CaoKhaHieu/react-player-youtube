@@ -306,7 +306,9 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     subtitles: [dummySubtitle, ...subtitles],
     // quality video
     qualities,
-    handleChangeQualityVideo
+    handleChangeQualityVideo,
+    // streaming
+    isStreaming,
   };
 
   return (
