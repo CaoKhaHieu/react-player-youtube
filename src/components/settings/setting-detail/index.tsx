@@ -8,7 +8,6 @@
 // import { PLAYER_CONFIG, SUBTITLE_ACTIONS } from '../../../constants';
 // import { MenuSettingItem } from '../../../types';
 
-
 // interface SettingDetailOptions {
 //   type: string;
 //   goBack: () => void;

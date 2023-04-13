@@ -11,7 +11,6 @@ export class SettingButton extends Button {
     this.getClass();
     this.controlText('Settings');
   }
-
   
   handleClick() {
     this.toggle = !this.toggle;

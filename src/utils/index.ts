@@ -1,4 +1,4 @@
-import { LIBRARY_NAME } from "../constants";
+import { LIBRARY_NAME } from '../constants';
 
 export const saveDataLocal = (key: string, value: any) => {
   const oldValueLocal = getDataLocal();

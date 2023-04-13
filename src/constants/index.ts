@@ -1,4 +1,4 @@
-import { SubtitleItem } from "../types";
+import { SubtitleItem } from '../types';
 
 export const ERRORS = {
   NO_CONTEXT: 'No Context',

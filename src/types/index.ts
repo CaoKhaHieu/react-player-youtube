@@ -4,7 +4,7 @@ export interface VideoOptions {
   subtitles?: SubtitleItem[];
   isStreaming?: boolean;
   initSuccess?: () => void;
-};
+}
 
 export interface MenuSettingItem {
   id: string;
@@ -24,16 +24,16 @@ export interface SubtitleItem {
   value: string;
   label: string;
   url?: string;
-};
+}
 
 export interface QualityVideo {
   label: string;
   value: number;
-};
+}
 
 export class QualityVideo {
   constructor(data: any) {
     this.label = `${data?.height}p`;
     this.value = data?.bandwidth;
   }
-};
+}

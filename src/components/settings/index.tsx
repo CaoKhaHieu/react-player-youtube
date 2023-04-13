@@ -9,7 +9,7 @@ import { saveDataLocal } from '../../utils';
 
 interface SettingOptions {
   handleToggle: () => void;
-};
+}
 
 export const menuSettings: MenuSettings = {
   [PLAYER_CONFIG.SPEED_CONTROL]: {
@@ -194,8 +194,7 @@ const Settings = forwardRef((props: SettingOptions, ref) => {
       updateStyleSubtitle(item, lastKey);
     },
     [PLAYER_CONFIG.QUALITY]: (item: { label: string, value: string | number }) => {
-      console.log({item})
-      handleChangeQualityVideo(item)
+      handleChangeQualityVideo(item);
     },
   };
   const isRadio = !!keys.length && keys[keys.length - 1] !== 'child' || false;
@@ -269,10 +268,10 @@ const Settings = forwardRef((props: SettingOptions, ref) => {
   return (
     <div className='settings' ref={subRef}>
       {
-        keys.length ? 
+        keys.length ?
         <SettingHeader
           title={settingData?.label || 'Subtitles'}
-          hasChild={settingData?.child ? true : false}
+          hasChild={settingData?.child && true || false}
           goBack={removeLastKey}
           optionsClick={showChild}
         /> : null

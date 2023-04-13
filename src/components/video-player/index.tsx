@@ -2,7 +2,7 @@ import React, { createContext, forwardRef, useContext, useEffect, useRef, useSta
 import classNames from 'classnames';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
-import { Helmet } from "react-helmet";
+import { Helmet } from 'react-helmet';
 
 import './style.scss';
 import '../../stylesheets/style.scss';
@@ -36,7 +36,7 @@ videojs.registerComponent('NextButton', NextButton);
 videojs.registerComponent('TheaterButton', TheaterButton);
 
 const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
-  const { options, subtitles = [], isStreaming, initSuccess} = props;
+  const { options, subtitles = [], isStreaming, initSuccess } = props;
   const defaultSub = subtitles?.find((item: SubtitleItem) => item.isDefault) || dummySubtitle;
   const dataLocal = getDataLocal();
 
@@ -127,7 +127,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   // SAVE DATA SETTINGS
 
   const handleConfigSetting = (data: any) => {
-    setConfigSetting((prev: any) => ({...prev, ...data}));
+    setConfigSetting((prev: any) => ({ ...prev, ...data }));
   };
 
   // SPEED VIDEO
@@ -175,7 +175,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
         type: hasActive ? SUBTITLE_ACTIONS.TURNOFF : SUBTITLE_ACTIONS.SWITCH,
         label: hasActive ? 'Off' : subLanguage.label,
         value: hasActive ? SUBTITLE_OFF : subLanguage.value
-      }
+      };
       handleSubtitle(actions.type as SubtitleActions, subLanguage, () => {});
       toggleSubtitleBtn(actions.value);
       handleConfigSetting({
@@ -183,7 +183,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
           label: actions.label,
           value: actions.value,
         },
-      })
+      });
     });
   };
 
@@ -252,7 +252,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     const newStyle = {
       ...previousValue,
       [key]: data.value
-    }
+    };
     settings.setValues(newStyle);
     settings.updateDisplay();
     handleConfigSetting(newConfigSetting);
