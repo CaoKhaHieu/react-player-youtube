@@ -41,3 +41,8 @@ export const dummySubtitle: SubtitleItem = {
   value: SUBTITLE_OFF,
   label: 'Off',
 };
+
+export const TYPE_ADS = {
+  CSAI: 'CSAI',
+  SSAI: 'SSAI',
+};
