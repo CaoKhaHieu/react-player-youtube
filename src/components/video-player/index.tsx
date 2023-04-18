@@ -24,6 +24,8 @@ import {
   TheaterButton,
 } from '../controls-btn/index.js';
 import {
+  AdMarker,
+  Cue,
   QualityVideo,
   SubtitleActions,
   SubtitleItem,
@@ -36,8 +38,11 @@ import {
   SUBTITLE_ACTIONS,
   SUBTITLE_MODE,
   SUBTITLE_OFF,
+  TYPE_ADS,
   dummySubtitle,
 } from '../../constants';
+import { parse } from '../../utils/vttParser';
+import { compile } from '../../utils/vttCompiler';
 
 const VideoContext = createContext<any>({
   playerRef: null,
@@ -61,14 +66,13 @@ videojs.registerComponent('NextButton', NextButton);
 videojs.registerComponent('TheaterButton', TheaterButton);
 
 const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
-  const { options, subtitles = [], isStreaming, initSuccess } = props;
+  const { options, subtitles = [], ads, isStreaming, initSuccess } = props;
   const defaultSub =
     subtitles?.find((item: SubtitleItem) => item.isDefault) || dummySubtitle;
-  const dataLocal = getDataLocal();
-
   const videoRef = useRef<any>();
   const settingRef = useRef<any>();
   const hlsRef = useRef<any>();
+  const listCues = useRef<Cue[][]>([]);
 
   const [configSetting, setConfigSetting] = useState({
     [PLAYER_CONFIG.SUBTITLES]: {
@@ -156,8 +160,12 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
         );
         initBtnControls();
         if (subtitles?.length && !isStreaming) {
-          addTextTracks();
-          showDefaultSubtitle();
+          if (ads?.type === TYPE_ADS.SSAI) {
+            handleSubtitleSSAIVideo();
+          } else {
+            addTextTracks();
+            showDefaultSubtitle();
+          }
         }
         if (typeof initSuccess === 'function') {
           initSuccess();
@@ -304,6 +312,97 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
         actions[action](track);
       }
     }
+  };
+
+  const handleSubtitleSSAIVideo = () => {
+    subtitles.forEach((item: SubtitleItem) => {
+      item.url && fetchListCues(item.url);
+    });
+  };
+
+  const fetchListCues = (url: string) => {
+    fetch(url)
+      .then((response) => response.text())
+      .then((data) => {
+        listCues.current.push(parse(data).cues);
+        handleGenerateNewCues();
+      });
+  };
+
+  const handleGenerateNewCues = () => {
+    let newListCues = JSON.parse(JSON.stringify([...listCues.current]));
+
+    ads?.adsMarker &&
+      ads.adsMarker.forEach((adMarkerItem: AdMarker) => {
+        const duration = adMarkerItem.endTime - adMarkerItem.startTime;
+
+        newListCues = [...newListCues].map((listCue) => {
+          let newListCueAdsInSub = [...listCue];
+          // find ssai inserted when subtitles playing
+          const indexCueAdsIn = newListCueAdsInSub.findIndex(
+            (item) =>
+              item.start < adMarkerItem.startTime &&
+              item.end > adMarkerItem.startTime,
+          );
+
+          if (indexCueAdsIn !== -1) {
+            // separate item in half
+            const newList = JSON.parse(
+              JSON.stringify(Array(2).fill(newListCueAdsInSub[indexCueAdsIn])),
+            );
+            newList[0].end = adMarkerItem.startTime;
+            newList[1].start = adMarkerItem.startTime;
+
+            // insert to list cue in position of cue
+            newListCueAdsInSub.splice(indexCueAdsIn, 1, ...newList);
+            newListCueAdsInSub = [...newListCueAdsInSub].map(
+              (item, index: number) => {
+                return { ...item, identifier: `${index + 1}` };
+              },
+            );
+          }
+
+          // update start time and end time of cue
+          const newListCue = newListCueAdsInSub.map(
+            (cue: Cue, index: number) => {
+              if (newListCueAdsInSub[index]?.start >= adMarkerItem.startTime) {
+                return {
+                  ...cue,
+                  start: cue.start + duration,
+                  end: cue.end + duration,
+                };
+              }
+              return cue;
+            },
+          );
+          return newListCue;
+        });
+      });
+
+    handleCompile(newListCues);
+  };
+
+  const handleCompile = (data: any) => {
+    data.forEach((listCue: Cue[], index: number) => {
+      const input = {
+        cues: listCue,
+        valid: true,
+      };
+      const vttText = compile(input);
+      const vttBlob = new Blob([vttText], {
+        type: 'text/plain',
+      });
+      playerRef.current.addRemoteTextTrack(
+        {
+          src: URL.createObjectURL(vttBlob),
+          kind: 'captions',
+          srclang: subtitles[index]?.value,
+          label: subtitles[index]?.label,
+        },
+        false,
+      );
+    });
+    showDefaultSubtitle();
   };
 
   const toggleSubtitleBtn = (value: string) => {

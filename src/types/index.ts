@@ -3,6 +3,7 @@ export interface VideoOptions {
   options: any;
   subtitles?: SubtitleItem[];
   isStreaming?: boolean;
+  ads?: Ads;
   initSuccess?: () => void;
 }
 
@@ -42,4 +43,22 @@ export class QualityVideo {
     this.label = `${data?.height}p`;
     this.value = data?.bandwidth;
   }
+}
+
+export interface Cue {
+  identifier: string;
+  start: number;
+  end: number;
+  styles: string;
+  text: string;
+}
+
+export interface AdMarker {
+  startTime: number;
+  endTime: number;
+}
+
+export interface Ads {
+  type: 'CSAI' | 'SSAI';
+  adsMarker: AdMarker[];
 }
