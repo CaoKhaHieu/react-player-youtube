@@ -1,7 +1,14 @@
 import videojs from 'video.js';
 
 const Button = videojs.getComponent('Button');
-// const VjsComponent = videojs.getComponent('Component');
+const VjsComponent = videojs.getComponent('Component');
+
+export class VjsPlaceholder extends VjsComponent {
+  constructor(player, options) {
+    super(player, options);
+    this.addClass('video-js-placeholder');
+  }
+}
 
 export class SettingButton extends Button {
   constructor(player, options) {
@@ -61,5 +68,16 @@ export class TheaterButton extends Button {
 
   buildCSSClass() {
     return `${super.buildCSSClass()} vjs-theater-btn`;
+  }
+}
+
+export class MiniPlayerModeButton extends Button {
+  constructor(player, options) {
+    super(player, options);
+    this.controlText('Picture-in-Picture');
+  }
+
+  buildCSSClass() {
+    return `vjs-mini-btn ${super.buildCSSClass()}`;
   }
 }

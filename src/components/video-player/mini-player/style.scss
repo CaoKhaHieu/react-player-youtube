@@ -1,0 +1,94 @@
+.mini-player {
+  position: fixed;
+  width: 25rem;
+  right: 1rem;
+  bottom: 0;
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+
+  .vjs-control-bar {
+    // all button
+    .vjs-button {
+      z-index: 1;
+    }
+
+    // Play button
+    .vjs-play-control {
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      bottom: 80px;
+      .vjs-icon-placeholder {
+        &::before {
+          font-size: 5.5em !important;
+        }
+      }
+    }
+
+    // Next button
+    .vjs-next-btn {
+      position: absolute;
+      left: 70%;
+      transform: translate(-50%, -50%);
+      bottom: 80px;
+      .vjs-icon-placeholder {
+        &::before {
+          font-size: 4.5em !important;
+        }
+      }
+    }
+
+    // Prev Button
+    .vjs-prev-btn {
+      position: absolute;
+      left: 29%;
+      transform: translate(-50%, -50%);
+      bottom: 80px;
+      .vjs-icon-placeholder {
+        &::before {
+          font-size: 4.5em !important;
+        }
+      }
+    }
+
+    // Progress bar
+    .vjs-progress-control {
+      height: auto;
+      margin: 0;
+      top: unset !important;
+      bottom: 0;
+      .vjs-progress-holder {
+        margin: 0;
+      }
+    }
+
+    // Hide some control button
+    .vjs-volume-panel,
+    .vjs-subs-caps-button,
+    .vjs-setting-btn,
+    .vjs-picture-in-picture-control,
+    .vjs-fullscreen-control,
+    .vjs-theater-btn,
+    .vjs-mini-btn {
+      display: none;
+    }
+  }
+
+  .vjs-big-play-button {
+    z-index: 1;
+  }
+
+  .vjs-user-active {
+    .video-js-placeholder {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      transition: all .5s ease;
+    }
+  }
+};
