@@ -82,7 +82,16 @@ videojs.registerComponent('ExpandButton', ExpandButton);
 videojs.registerComponent('CloseButton', CloseButton);
 
 const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
-  const { options, subtitles = [], ads, isStreaming, initSuccess } = props;
+  const {
+    options,
+    subtitles = [],
+    ads,
+    isStreaming,
+    initSuccess,
+    onExpand,
+    onMini,
+    onDestroy,
+  } = props;
   const defaultSub =
     subtitles?.find((item: SubtitleItem) => item.isDefault) || dummySubtitle;
 
@@ -256,14 +265,23 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
 
     miniModeButton.on('click', () => {
       handleChangeMode(MODE.MINI as Mode);
+      if (typeof onMini === 'function') {
+        onMini();
+      }
     });
 
     expandButton.on('click', () => {
       handleChangeMode(MODE.NORMAL as Mode);
+      if (typeof onExpand === 'function') {
+        onExpand();
+      }
     });
 
     closeButton.on('click', () => {
       handleDisposeVideo();
+      if (typeof onDestroy === 'function') {
+        onDestroy();
+      }
     });
   };
 

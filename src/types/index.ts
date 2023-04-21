@@ -7,6 +7,9 @@ export interface VideoOptions {
   isStreaming?: boolean;
   ads?: Ads;
   initSuccess?: () => void;
+  onExpand?: () => void;
+  onMini?: () => void;
+  onDestroy?: () => void;
 }
 
 export interface MenuSettingItem {
