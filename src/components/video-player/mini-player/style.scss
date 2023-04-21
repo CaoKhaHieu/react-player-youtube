@@ -10,18 +10,20 @@
     .video-js {
       // Control bar
       .vjs-control-bar {
-        // all button
         position: absolute;
         height: 100%;
         padding: 0;
 
+        // all button
         .vjs-button {
           z-index: 1;
+          height: fit-content;
         }
 
         // Play button
         .vjs-play-control {
           position: absolute;
+          top: 50%;
           left: 50%;
           transform: translateX(-50%);
           .vjs-icon-placeholder {
@@ -34,6 +36,7 @@
         // Next button
         .vjs-next-btn {
           position: absolute;
+          top: 50%;
           left: 70%;
           transform: translateX(-50%);
           .vjs-icon-placeholder {
@@ -46,6 +49,7 @@
         // Prev Button
         .vjs-prev-btn {
           position: absolute;
+          top: 50%;
           left: 30%;
           transform: translateX(-50%);
           .vjs-icon-placeholder {
