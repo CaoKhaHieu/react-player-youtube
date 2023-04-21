@@ -13,7 +13,7 @@
         // all button
         position: absolute;
         height: 100%;
-        padding: 0 !important;
+        padding: 0;
     
         .vjs-button {
           z-index: 1;
@@ -26,7 +26,7 @@
           transform: translateX(-50%);
           .vjs-icon-placeholder {
             &::before {
-              font-size: 5.5em !important;
+              font-size: 5.5em;
             }
           }
         }
@@ -38,7 +38,7 @@
           transform: translateX(-50%);
           .vjs-icon-placeholder {
             &::before {
-              font-size: 4.5em !important;
+              font-size: 4.5em;
             }
           }
         }
@@ -50,7 +50,7 @@
           transform: translateX(-50%);
           .vjs-icon-placeholder {
             &::before {
-              font-size: 4.5em !important;
+              font-size: 4.5em;
             }
           }
         }
@@ -59,7 +59,7 @@
         .vjs-progress-control {
           height: auto;
           margin: 0;
-          top: unset !important;
+          top: unset;
           bottom: 0;
           .vjs-progress-holder {
             margin: 0;
@@ -68,18 +68,18 @@
     
         // time display
         .vjs-time-control {
-          align-items: end !important;
+          align-items: end;
         }
     
         // expand button
         .vjs-expand-btn {
           position: absolute;
           height: 4em;
-          display: block !important;
+          display: block;
           .vjs-icon-placeholder::before {
             font-family: "Material Icons";
             content: "\e89e";
-            font-size: 2.5em !important;
+            font-size: 2.5em;
           }
         }
     
@@ -89,7 +89,7 @@
           right: 0;
           margin: 0;
           height: 4em;
-          display: block !important;
+          display: block;
           .vjs-icon-placeholder::before {
             font-family: "Material Icons";
             content: "\e5cd";
