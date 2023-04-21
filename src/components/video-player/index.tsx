@@ -87,6 +87,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     subtitles = [],
     ads,
     isStreaming,
+    miniPlayerFooter,
     initSuccess,
     onExpand,
     onMini,
@@ -624,7 +625,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
             )}
           </div>
         </div>
-        {mode === MODE.MINI && <MiniPlayer />}
+        {mode === MODE.MINI && <MiniPlayer>{miniPlayerFooter}</MiniPlayer>}
       </div>
     </VideoContext.Provider>
   );

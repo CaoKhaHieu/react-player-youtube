@@ -1,3 +1,5 @@
+import { ReactElement } from 'react';
+
 export type SubtitleActions = 'SWITCH' | 'TURNOFF' | 'GET_CURRENT_SUB';
 export type Mode = 'NORMAL' | 'MINI';
 
@@ -10,6 +12,7 @@ export interface VideoOptions {
   onExpand?: () => void;
   onMini?: () => void;
   onDestroy?: () => void;
+  miniPlayerFooter?: ReactElement;
 }
 
 export interface MenuSettingItem {
