@@ -197,6 +197,12 @@
         display: none;
       }
 
+      // expand button
+      .vjs-expand-btn,
+      .vjs-close-btn {
+        display: none;
+      }
+
       // timer style
       .vjs-time-control {
         display: flex;

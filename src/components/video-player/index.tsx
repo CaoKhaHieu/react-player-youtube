@@ -18,6 +18,8 @@ import Settings from '../settings';
 import { getConfigSetting, getDataLocal } from '../../utils';
 import useToggle from '../../hooks/useToggle';
 import {
+  CloseButton,
+  ExpandButton,
   MiniPlayerModeButton,
   NextButton,
   PrevButton,
@@ -75,12 +77,17 @@ videojs.registerComponent('NextButton', NextButton);
 videojs.registerComponent('MiniPlayerModeButton', MiniPlayerModeButton);
 videojs.registerComponent('TheaterButton', TheaterButton);
 
+// Mini player button
+videojs.registerComponent('ExpandButton', ExpandButton);
+videojs.registerComponent('CloseButton', CloseButton);
+
 const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   const { options, subtitles = [], ads, isStreaming, initSuccess } = props;
   const defaultSub =
     subtitles?.find((item: SubtitleItem) => item.isDefault) || dummySubtitle;
 
   const videoRef = useRef<any>();
+  const videoNormalRef = useRef<any>();
   const playerElementRef = useRef<any>();
   const settingRef = useRef<any>();
   const hlsRef = useRef<any>();
@@ -173,7 +180,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
         );
         initBtnControls();
         initComponents();
-        watchMiniModeButton();
+        watchCustomButtons();
         if (subtitles?.length && !isStreaming) {
           if (ads?.type === TYPE_ADS.SSAI) {
             handleSubtitleSSAIVideo();
@@ -189,6 +196,10 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
         watchEvents();
       });
     }
+  };
+
+  const handleDisposeVideo = () => {
+    playerRef.current.dispose();
   };
 
   // CUSTOM BUTTON
@@ -210,6 +221,9 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
       );
       playerRef.current.controlBar.addChild('PrevButton', {}, 0);
       playerRef.current.controlBar.addChild('NextButton', {}, 2);
+      playerRef.current.controlBar.addChild('ExpandButton', {});
+      playerRef.current.controlBar.addChild('CloseButton', {});
+
       playerRef.current.controlBar.addChild('MiniPlayerModeButton', {}, 18);
       playerRef.current.controlBar.addChild(
         'TheaterButton',
@@ -219,10 +233,21 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     }
   };
 
-  const watchMiniModeButton = () => {
+  const watchCustomButtons = () => {
     const miniModeButton = playerRef.current.controlBar.getChild('MiniPlayerModeButton');
+    const expandButton = playerRef.current.controlBar.getChild('ExpandButton');
+    const closeButton = playerRef.current.controlBar.getChild('CloseButton');
+
     miniModeButton.on('click', () => {
       handleChangeMode(MODE.MINI as Mode);
+    });
+
+    expandButton.on('click', () => {
+      handleChangeMode(MODE.NORMAL as Mode);
+    });
+
+    closeButton.on('click', () => {
+      handleDisposeVideo();
     });
   };
 
@@ -506,6 +531,9 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   };
 
   const handleChangeMode = (mode: Mode) => {
+    if (mode === MODE.NORMAL) {
+      videoNormalRef.current.appendChild(playerElementRef.current);
+    }
     setMode(mode);
   };
 
@@ -532,23 +560,23 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
 
   return (
     <VideoContext.Provider value={valueContext}>
-      <div className='player'>
-        <Helmet>
-          <link rel='preconnect' href='https://fonts.googleapis.com' />
-          <link rel='preconnect' href='https://fonts.gstatic.com' />
-          <link
-            href='https://fonts.googleapis.com/icon?family=Material+Icons'
-            rel='stylesheet'
-          />
-          <link
-            href='https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500;1,700&family=Rubik+Vinyl&display=swap'
-            rel='stylesheet'
-          />
-          <link
-            rel='stylesheet'
-            href='https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0'
-          />
-        </Helmet>
+      <Helmet>
+        <link rel='preconnect' href='https://fonts.googleapis.com' />
+        <link rel='preconnect' href='https://fonts.gstatic.com' />
+        <link
+          href='https://fonts.googleapis.com/icon?family=Material+Icons'
+          rel='stylesheet'
+        />
+        <link
+          href='https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500;1,700&family=Rubik+Vinyl&display=swap'
+          rel='stylesheet'
+        />
+        <link
+          rel='stylesheet'
+          href='https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0'
+        />
+      </Helmet>
+      <div className='player' ref={videoNormalRef}>
         <div
           ref={playerElementRef}
           className={classNames('video-js-custom', {

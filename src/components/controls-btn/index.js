@@ -81,3 +81,25 @@ export class MiniPlayerModeButton extends Button {
     return `vjs-mini-btn ${super.buildCSSClass()}`;
   }
 }
+
+export class ExpandButton extends Button {
+  constructor(player, options) {
+    super(player, options);
+    this.controlText('Expand');
+  }
+
+  buildCSSClass() {
+    return `vjs-expand-btn ${super.buildCSSClass()}`;
+  }
+}
+
+export class CloseButton extends Button {
+  constructor(player, options) {
+    super(player, options);
+    this.controlText('Close');
+  }
+
+  buildCSSClass() {
+    return `vjs-close-btn ${super.buildCSSClass()}`;
+  }
+}
