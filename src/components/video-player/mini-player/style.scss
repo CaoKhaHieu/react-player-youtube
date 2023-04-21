@@ -2,7 +2,7 @@
   position: fixed;
   width: 25rem;
   right: 1rem;
-  bottom: 0;
+  bottom: 10px;
   border-radius: 12px 12px 0 0;
   overflow: hidden;
 
@@ -14,11 +14,11 @@
         position: absolute;
         height: 100%;
         padding: 0;
-    
+
         .vjs-button {
           z-index: 1;
         }
-    
+
         // Play button
         .vjs-play-control {
           position: absolute;
@@ -30,7 +30,7 @@
             }
           }
         }
-    
+
         // Next button
         .vjs-next-btn {
           position: absolute;
@@ -42,7 +42,7 @@
             }
           }
         }
-    
+
         // Prev Button
         .vjs-prev-btn {
           position: absolute;
@@ -54,7 +54,7 @@
             }
           }
         }
-    
+
         // Progress bar
         .vjs-progress-control {
           height: auto;
@@ -65,24 +65,24 @@
             margin: 0;
           }
         }
-    
+
         // time display
         .vjs-time-control {
           align-items: end;
         }
-    
+
         // expand button
         .vjs-expand-btn {
           position: absolute;
           height: 4em;
           display: block;
           .vjs-icon-placeholder::before {
-            font-family: "Material Icons";
-            content: "\e89e";
+            font-family: 'Material Icons';
+            content: '\e89e';
             font-size: 2.5em;
           }
         }
-    
+
         // close button
         .vjs-close-btn {
           position: absolute;
@@ -91,12 +91,12 @@
           height: 4em;
           display: block;
           .vjs-icon-placeholder::before {
-            font-family: "Material Icons";
-            content: "\e5cd";
+            font-family: 'Material Icons';
+            content: '\e5cd';
             font-size: 2.5em;
           }
         }
-    
+
         // Hide some control button
         .vjs-volume-panel,
         .vjs-subs-caps-button,
@@ -108,7 +108,7 @@
           display: none;
         }
       }
-    
+
       // Big play button
       .vjs-big-play-button {
         z-index: 1;
@@ -129,4 +129,4 @@
       transition: all 1s ease;
     }
   }
-};
+}

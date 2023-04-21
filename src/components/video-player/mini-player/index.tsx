@@ -10,10 +10,7 @@ const MiniPlayer = () => {
     miniPlayerRef.current.appendChild(playerElementRef.current);
   }, []);
 
-  return (
-    <div ref={miniPlayerRef} className='mini-player'>
-    </div>
-  );
+  return <div ref={miniPlayerRef} className='mini-player'></div>;
 };
 
 export default MiniPlayer;

@@ -49,5 +49,5 @@ export const TYPE_ADS = {
 
 export const MODE = {
   NORMAL: 'NORMAL',
-  MINI: "MINI",
+  MINI: 'MINI',
 };

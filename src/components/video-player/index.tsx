@@ -153,6 +153,12 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   }, []);
 
   useEffect(() => {
+    if (mode === MODE.MINI && toggle) {
+      handleToggle(false);
+    }
+  }, [mode]);
+
+  useEffect(() => {
     if (playerRef.current) {
       watchSubtitleBtn();
     }
@@ -207,11 +213,19 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     const settingBtn = playerRef.current.controlBar.getChild('SettingButton');
     const PrevButton = playerRef.current.controlBar.getChild('PrevButton');
     const NextButton = playerRef.current.controlBar.getChild('NextButton');
-    const miniModeButton = playerRef.current.controlBar.getChild('MiniPlayerModeButton');
+    const miniModeButton = playerRef.current.controlBar.getChild(
+      'MiniPlayerModeButton',
+    );
 
     const TheaterButton =
       playerRef.current.controlBar.getChild('TheaterButton');
-    if (!settingBtn && !PrevButton && !NextButton && !TheaterButton && !miniModeButton) {
+    if (
+      !settingBtn &&
+      !PrevButton &&
+      !NextButton &&
+      !TheaterButton &&
+      !miniModeButton
+    ) {
       playerRef.current.controlBar.addChild(
         'SettingButton',
         {
@@ -234,7 +248,9 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   };
 
   const watchCustomButtons = () => {
-    const miniModeButton = playerRef.current.controlBar.getChild('MiniPlayerModeButton');
+    const miniModeButton = playerRef.current.controlBar.getChild(
+      'MiniPlayerModeButton',
+    );
     const expandButton = playerRef.current.controlBar.getChild('ExpandButton');
     const closeButton = playerRef.current.controlBar.getChild('CloseButton');
 
@@ -590,9 +606,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
             )}
           </div>
         </div>
-        {
-          mode === MODE.MINI && <MiniPlayer />
-        }
+        {mode === MODE.MINI && <MiniPlayer />}
       </div>
     </VideoContext.Provider>
   );
