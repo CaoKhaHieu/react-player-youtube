@@ -148,7 +148,7 @@
         }
       }
 
-      // next button
+      // theater button
       .vjs-theater-btn {
         .vjs-icon-placeholder {
           &::before {
@@ -182,8 +182,25 @@
       }
 
       // pip icon
-      .vjs-picture-in-picture-control .vjs-icon-placeholder::before {
-        font-size: 2.4em;
+      .vjs-mini-btn {
+        .vjs-icon-placeholder {
+          &::before {
+            font-family: 'VideoJS';
+            content: '\f121';
+            font-size: 2.4em;
+          }
+        }
+      }
+
+      // button PIP default
+      .vjs-picture-in-picture-control {
+        display: none;
+      }
+
+      // expand button
+      .vjs-expand-btn,
+      .vjs-close-btn {
+        display: none;
       }
 
       // timer style
@@ -207,6 +224,7 @@
         }
       }
 
+      // time video
       .vjs-remaining-time {
         display: none;
       }
@@ -250,6 +268,7 @@
     }
   }
 
+  // Live stream UI
   &.tv-player {
     .vjs-live-control {
       position: relative;

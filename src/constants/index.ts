@@ -46,3 +46,8 @@ export const TYPE_ADS = {
   CSAI: 'CSAI',
   SSAI: 'SSAI',
 };
+
+export const MODE = {
+  NORMAL: 'NORMAL',
+  MINI: 'MINI',
+};

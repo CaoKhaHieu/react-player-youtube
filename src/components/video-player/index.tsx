@@ -18,14 +18,19 @@ import Settings from '../settings';
 import { getConfigSetting, getDataLocal } from '../../utils';
 import useToggle from '../../hooks/useToggle';
 import {
+  CloseButton,
+  ExpandButton,
+  MiniPlayerModeButton,
   NextButton,
   PrevButton,
   SettingButton,
   TheaterButton,
+  VjsPlaceholder,
 } from '../controls-btn/index.js';
 import {
   AdMarker,
   Cue,
+  Mode,
   QualityVideo,
   SubtitleActions,
   SubtitleItem,
@@ -34,6 +39,7 @@ import {
 import {
   CAPTIONS,
   ERRORS,
+  MODE,
   PLAYER_CONFIG,
   SUBTITLE_ACTIONS,
   SUBTITLE_MODE,
@@ -43,6 +49,7 @@ import {
 } from '../../constants';
 import { parse } from '../../utils/vttParser';
 import { compile } from '../../utils/vttCompiler';
+import MiniPlayer from './mini-player';
 
 const VideoContext = createContext<any>({
   playerRef: null,
@@ -60,16 +67,37 @@ export const useVideoPlayer = () => {
   return context;
 };
 
+// Register component
+videojs.registerComponent('VjsPlaceholder', VjsPlaceholder);
+
+// Register button
 videojs.registerComponent('SettingButton', SettingButton);
 videojs.registerComponent('PrevButton', PrevButton);
 videojs.registerComponent('NextButton', NextButton);
+videojs.registerComponent('MiniPlayerModeButton', MiniPlayerModeButton);
 videojs.registerComponent('TheaterButton', TheaterButton);
 
+// Mini player button
+videojs.registerComponent('ExpandButton', ExpandButton);
+videojs.registerComponent('CloseButton', CloseButton);
+
 const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
-  const { options, subtitles = [], ads, isStreaming, initSuccess } = props;
+  const {
+    options,
+    subtitles = [],
+    ads,
+    isStreaming,
+    initSuccess,
+    onExpand,
+    onMini,
+    onDestroy,
+  } = props;
   const defaultSub =
     subtitles?.find((item: SubtitleItem) => item.isDefault) || dummySubtitle;
+
   const videoRef = useRef<any>();
+  const videoNormalRef = useRef<any>();
+  const playerElementRef = useRef<any>();
   const settingRef = useRef<any>();
   const hlsRef = useRef<any>();
   const listCues = useRef<Cue[][]>([]);
@@ -123,6 +151,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   const [inited, setInited] = useState<boolean>(false);
   const [subLanguage, setSubLanguage] = useState<SubtitleItem>(defaultSub);
   const [qualities, setQualities] = useState<QualityVideo[]>([]);
+  const [mode, setMode] = useState<Mode>(MODE.NORMAL as Mode);
 
   const { toggle, handleToggle } = useToggle();
 
@@ -131,6 +160,12 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
       initPlayer();
     }
   }, []);
+
+  useEffect(() => {
+    if (mode === MODE.MINI && toggle) {
+      handleToggle(false);
+    }
+  }, [mode]);
 
   useEffect(() => {
     if (playerRef.current) {
@@ -159,6 +194,8 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
             : 1,
         );
         initBtnControls();
+        initComponents();
+        watchCustomButtons();
         if (subtitles?.length && !isStreaming) {
           if (ads?.type === TYPE_ADS.SSAI) {
             handleSubtitleSSAIVideo();
@@ -176,14 +213,28 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     }
   };
 
+  const handleDisposeVideo = () => {
+    playerRef.current.dispose();
+  };
+
   // CUSTOM BUTTON
   const initBtnControls = () => {
     const settingBtn = playerRef.current.controlBar.getChild('SettingButton');
     const PrevButton = playerRef.current.controlBar.getChild('PrevButton');
     const NextButton = playerRef.current.controlBar.getChild('NextButton');
+    const miniModeButton = playerRef.current.controlBar.getChild(
+      'MiniPlayerModeButton',
+    );
+
     const TheaterButton =
       playerRef.current.controlBar.getChild('TheaterButton');
-    if (!settingBtn && !PrevButton && !NextButton && !TheaterButton) {
+    if (
+      !settingBtn &&
+      !PrevButton &&
+      !NextButton &&
+      !TheaterButton &&
+      !miniModeButton
+    ) {
       playerRef.current.controlBar.addChild(
         'SettingButton',
         {
@@ -193,12 +244,49 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
       );
       playerRef.current.controlBar.addChild('PrevButton', {}, 0);
       playerRef.current.controlBar.addChild('NextButton', {}, 2);
+      playerRef.current.controlBar.addChild('ExpandButton', {});
+      playerRef.current.controlBar.addChild('CloseButton', {});
+
+      playerRef.current.controlBar.addChild('MiniPlayerModeButton', {}, 18);
       playerRef.current.controlBar.addChild(
         'TheaterButton',
         {},
         isStreaming ? 16 : 19,
       );
     }
+  };
+
+  const watchCustomButtons = () => {
+    const miniModeButton = playerRef.current.controlBar.getChild(
+      'MiniPlayerModeButton',
+    );
+    const expandButton = playerRef.current.controlBar.getChild('ExpandButton');
+    const closeButton = playerRef.current.controlBar.getChild('CloseButton');
+
+    miniModeButton.on('click', () => {
+      handleChangeMode(MODE.MINI as Mode);
+      if (typeof onMini === 'function') {
+        onMini();
+      }
+    });
+
+    expandButton.on('click', () => {
+      handleChangeMode(MODE.NORMAL as Mode);
+      if (typeof onExpand === 'function') {
+        onExpand();
+      }
+    });
+
+    closeButton.on('click', () => {
+      handleDisposeVideo();
+      if (typeof onDestroy === 'function') {
+        onDestroy();
+      }
+    });
+  };
+
+  const initComponents = () => {
+    playerRef.current.addChild('VjsPlaceholder');
   };
 
   // SAVE DATA SETTINGS
@@ -476,7 +564,15 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     });
   };
 
+  const handleChangeMode = (mode: Mode) => {
+    if (mode === MODE.NORMAL) {
+      videoNormalRef.current.appendChild(playerElementRef.current);
+    }
+    setMode(mode);
+  };
+
   const valueContext = {
+    playerElementRef,
     playerRef,
     // CONFIG SETTING
     configSetting,
@@ -498,24 +594,25 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
 
   return (
     <VideoContext.Provider value={valueContext}>
-      <div className='player'>
-        <Helmet>
-          <link rel='preconnect' href='https://fonts.googleapis.com' />
-          <link rel='preconnect' href='https://fonts.gstatic.com' />
-          <link
-            href='https://fonts.googleapis.com/icon?family=Material+Icons'
-            rel='stylesheet'
-          />
-          <link
-            href='https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500;1,700&family=Rubik+Vinyl&display=swap'
-            rel='stylesheet'
-          />
-          <link
-            rel='stylesheet'
-            href='https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0'
-          />
-        </Helmet>
+      <Helmet>
+        <link rel='preconnect' href='https://fonts.googleapis.com' />
+        <link rel='preconnect' href='https://fonts.gstatic.com' />
+        <link
+          href='https://fonts.googleapis.com/icon?family=Material+Icons'
+          rel='stylesheet'
+        />
+        <link
+          href='https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500;1,700&family=Rubik+Vinyl&display=swap'
+          rel='stylesheet'
+        />
+        <link
+          rel='stylesheet'
+          href='https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0'
+        />
+      </Helmet>
+      <div className='player' ref={videoNormalRef}>
         <div
+          ref={playerElementRef}
           className={classNames('video-js-custom', {
             'tv-player': isStreaming,
           })}
@@ -527,6 +624,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
             )}
           </div>
         </div>
+        {mode === MODE.MINI && <MiniPlayer />}
       </div>
     </VideoContext.Provider>
   );

@@ -1,10 +1,15 @@
 export type SubtitleActions = 'SWITCH' | 'TURNOFF' | 'GET_CURRENT_SUB';
+export type Mode = 'NORMAL' | 'MINI';
+
 export interface VideoOptions {
   options: any;
   subtitles?: SubtitleItem[];
   isStreaming?: boolean;
   ads?: Ads;
   initSuccess?: () => void;
+  onExpand?: () => void;
+  onMini?: () => void;
+  onDestroy?: () => void;
 }
 
 export interface MenuSettingItem {
