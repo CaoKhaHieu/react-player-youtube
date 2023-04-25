@@ -254,7 +254,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
       playerRef.current.controlBar.addChild('ExpandButton', {});
       playerRef.current.controlBar.addChild('CloseButton', {});
 
-      playerRef.current.controlBar.addChild('MiniPlayerModeButton', {}, 18);
+      playerRef.current.controlBar.addChild('MiniPlayerModeButton', {}, isStreaming ? 15 : 18);
       playerRef.current.controlBar.addChild(
         'TheaterButton',
         {},
