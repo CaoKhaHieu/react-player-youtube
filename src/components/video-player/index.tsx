@@ -90,7 +90,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     ads,
     isStreaming,
     miniPlayerFooter,
-    initSuccess,
+    onReady,
     onExpand,
     onMini,
     onDestroy,
@@ -212,8 +212,8 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
             showDefaultSubtitle();
           }
         }
-        if (typeof initSuccess === 'function') {
-          initSuccess();
+        if (typeof onReady === 'function') {
+          onReady();
         }
         setInited(true);
         watchEvents();

@@ -11,7 +11,7 @@ export interface VideoOptions {
   subtitles?: SubtitleItem[];
   isStreaming?: boolean;
   ads?: Ads;
-  initSuccess?: () => void;
+  onReady?: () => void;
   onExpand?: () => void;
   onMini?: () => void;
   onDestroy?: () => void;
