@@ -4,6 +4,7 @@ export type SubtitleActions = 'SWITCH' | 'TURNOFF' | 'GET_CURRENT_SUB';
 export type Mode = 'NORMAL' | 'MINI';
 
 export interface VideoOptions {
+  privateKey: number;
   options: any;
   subtitles?: SubtitleItem[];
   isStreaming?: boolean;

@@ -83,6 +83,7 @@ videojs.registerComponent('CloseButton', CloseButton);
 
 const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   const {
+    privateKey,
     options,
     subtitles = [],
     ads,
@@ -159,8 +160,9 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   useEffect(() => {
     if (options) {
       initPlayer();
+      console.log('init')
     }
-  }, []);
+  }, [options]);
 
   useEffect(() => {
     if (mode === MODE.MINI && toggle) {
@@ -177,8 +179,13 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   // INITPLAYER
 
   const initPlayer = () => {
-    const videojsOptions = {
-      ...options,
+    const videojsOptions ={
+      autoplay: true,
+      persistentControls: true,
+      muted: true,
+      fill: true,
+      controls: true,
+      sources: [options],
       controlBar: {
         currentTimeDisplay: !isStreaming,
         durationDisplay: !isStreaming,
@@ -186,7 +193,6 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
       },
     };
     const configPlayerDefault = getDataLocal();
-    if (!playerRef.current) {
       const newPlayer = videojs(videoRef.current, videojsOptions, () => {
         playerRef.current = newPlayer;
         playerRef.current.playbackRate(
@@ -211,7 +217,6 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
         setInited(true);
         watchEvents();
       });
-    }
   };
 
   const handleDisposeVideo = () => {
@@ -618,7 +623,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
             'tv-player': isStreaming,
           })}
         >
-          <div data-vjs-player>
+          <div data-vjs-player key={privateKey}>
             <video ref={videoRef} className='video-js'></video>
             {toggle && (
               <Settings ref={settingRef} handleToggle={handleToggle} />
