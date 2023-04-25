@@ -7,7 +7,7 @@ import React, {
   useState,
 } from 'react';
 import classNames from 'classnames';
-import videojs from 'video.js';
+import videojs, { VideoJsPlayerOptions } from 'video.js';
 import 'video.js/dist/video-js.css';
 import { Helmet } from 'react-helmet';
 
@@ -84,6 +84,7 @@ videojs.registerComponent('CloseButton', CloseButton);
 const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   const {
     privateKey,
+    source,
     options,
     subtitles = [],
     ads,
@@ -158,11 +159,12 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   const { toggle, handleToggle } = useToggle();
 
   useEffect(() => {
-    if (options) {
+    if (source) {
+      console.log(source)
       initPlayer();
       console.log('init')
     }
-  }, [options]);
+  }, [source]);
 
   useEffect(() => {
     if (mode === MODE.MINI && toggle) {
@@ -179,18 +181,17 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   // INITPLAYER
 
   const initPlayer = () => {
-    const videojsOptions ={
+    const videojsOptions: VideoJsPlayerOptions = {
       autoplay: true,
-      persistentControls: true,
-      muted: true,
       fill: true,
       controls: true,
-      sources: [options],
+      sources: [source],
       controlBar: {
         currentTimeDisplay: !isStreaming,
         durationDisplay: !isStreaming,
         timeDivider: !isStreaming,
       },
+      ...options,
     };
     const configPlayerDefault = getDataLocal();
       const newPlayer = videojs(videoRef.current, videojsOptions, () => {

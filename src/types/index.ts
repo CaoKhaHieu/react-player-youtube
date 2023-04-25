@@ -1,11 +1,13 @@
 import { ReactElement } from 'react';
+import { VideoJsPlayerOptions } from 'video.js';
 
 export type SubtitleActions = 'SWITCH' | 'TURNOFF' | 'GET_CURRENT_SUB';
 export type Mode = 'NORMAL' | 'MINI';
 
 export interface VideoOptions {
   privateKey: number;
-  options: any;
+  source: { type: string, src: string };
+  options: VideoJsPlayerOptions,
   subtitles?: SubtitleItem[];
   isStreaming?: boolean;
   ads?: Ads;
