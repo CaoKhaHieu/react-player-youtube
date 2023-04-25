@@ -6,8 +6,8 @@ export type Mode = 'NORMAL' | 'MINI';
 
 export interface VideoOptions {
   privateKey: number;
-  source: { type: string, src: string };
-  options: VideoJsPlayerOptions,
+  source: { type: string; src: string };
+  options: VideoJsPlayerOptions;
   subtitles?: SubtitleItem[];
   isStreaming?: boolean;
   ads?: Ads;

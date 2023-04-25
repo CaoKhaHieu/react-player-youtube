@@ -160,9 +160,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
 
   useEffect(() => {
     if (source) {
-      console.log(source)
       initPlayer();
-      console.log('init')
     }
   }, [source]);
 
@@ -194,30 +192,30 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
       ...options,
     };
     const configPlayerDefault = getDataLocal();
-      const newPlayer = videojs(videoRef.current, videojsOptions, () => {
-        playerRef.current = newPlayer;
-        playerRef.current.playbackRate(
-          configPlayerDefault
-            ? configPlayerDefault[PLAYER_CONFIG.SPEED_CONTROL].value
-            : 1,
-        );
-        initBtnControls();
-        initComponents();
-        watchCustomButtons();
-        if (subtitles?.length && !isStreaming) {
-          if (ads?.type === TYPE_ADS.SSAI) {
-            handleSubtitleSSAIVideo();
-          } else {
-            addTextTracks();
-            showDefaultSubtitle();
-          }
+    const newPlayer = videojs(videoRef.current, videojsOptions, () => {
+      playerRef.current = newPlayer;
+      playerRef.current.playbackRate(
+        configPlayerDefault
+          ? configPlayerDefault[PLAYER_CONFIG.SPEED_CONTROL].value
+          : 1,
+      );
+      initBtnControls();
+      initComponents();
+      watchCustomButtons();
+      if (subtitles?.length && !isStreaming) {
+        if (ads?.type === TYPE_ADS.SSAI) {
+          handleSubtitleSSAIVideo();
+        } else {
+          addTextTracks();
+          showDefaultSubtitle();
         }
-        if (typeof onReady === 'function') {
-          onReady();
-        }
-        setInited(true);
-        watchEvents();
-      });
+      }
+      if (typeof onReady === 'function') {
+        onReady();
+      }
+      setInited(true);
+      watchEvents();
+    });
   };
 
   const handleDisposeVideo = () => {
@@ -254,7 +252,11 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
       playerRef.current.controlBar.addChild('ExpandButton', {});
       playerRef.current.controlBar.addChild('CloseButton', {});
 
-      playerRef.current.controlBar.addChild('MiniPlayerModeButton', {}, isStreaming ? 15 : 18);
+      playerRef.current.controlBar.addChild(
+        'MiniPlayerModeButton',
+        {},
+        isStreaming ? 15 : 18,
+      );
       playerRef.current.controlBar.addChild(
         'TheaterButton',
         {},
