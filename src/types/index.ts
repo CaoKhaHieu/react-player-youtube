@@ -1,15 +1,21 @@
+import { ReactElement } from 'react';
+import { VideoJsPlayerOptions } from 'video.js';
+
 export type SubtitleActions = 'SWITCH' | 'TURNOFF' | 'GET_CURRENT_SUB';
 export type Mode = 'NORMAL' | 'MINI';
 
 export interface VideoOptions {
-  options: any;
+  privateKey: number;
+  source: { type: string; src: string };
+  options: VideoJsPlayerOptions;
   subtitles?: SubtitleItem[];
   isStreaming?: boolean;
   ads?: Ads;
-  initSuccess?: () => void;
+  onReady?: () => void;
   onExpand?: () => void;
   onMini?: () => void;
   onDestroy?: () => void;
+  miniPlayerFooter?: ReactElement;
 }
 
 export interface MenuSettingItem {

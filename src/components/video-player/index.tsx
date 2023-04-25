@@ -7,7 +7,7 @@ import React, {
   useState,
 } from 'react';
 import classNames from 'classnames';
-import videojs from 'video.js';
+import videojs, { VideoJsPlayerOptions } from 'video.js';
 import 'video.js/dist/video-js.css';
 import { Helmet } from 'react-helmet';
 
@@ -83,11 +83,14 @@ videojs.registerComponent('CloseButton', CloseButton);
 
 const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   const {
+    privateKey,
+    source,
     options,
     subtitles = [],
     ads,
     isStreaming,
-    initSuccess,
+    miniPlayerFooter,
+    onReady,
     onExpand,
     onMini,
     onDestroy,
@@ -156,10 +159,10 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   const { toggle, handleToggle } = useToggle();
 
   useEffect(() => {
-    if (options) {
+    if (source) {
       initPlayer();
     }
-  }, []);
+  }, [source]);
 
   useEffect(() => {
     if (mode === MODE.MINI && toggle) {
@@ -176,41 +179,43 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   // INITPLAYER
 
   const initPlayer = () => {
-    const videojsOptions = {
-      ...options,
+    const videojsOptions: VideoJsPlayerOptions = {
+      autoplay: true,
+      fill: true,
+      controls: true,
+      sources: [source],
       controlBar: {
         currentTimeDisplay: !isStreaming,
         durationDisplay: !isStreaming,
         timeDivider: !isStreaming,
       },
+      ...options,
     };
     const configPlayerDefault = getDataLocal();
-    if (!playerRef.current) {
-      const newPlayer = videojs(videoRef.current, videojsOptions, () => {
-        playerRef.current = newPlayer;
-        playerRef.current.playbackRate(
-          configPlayerDefault
-            ? configPlayerDefault[PLAYER_CONFIG.SPEED_CONTROL].value
-            : 1,
-        );
-        initBtnControls();
-        initComponents();
-        watchCustomButtons();
-        if (subtitles?.length && !isStreaming) {
-          if (ads?.type === TYPE_ADS.SSAI) {
-            handleSubtitleSSAIVideo();
-          } else {
-            addTextTracks();
-            showDefaultSubtitle();
-          }
+    const newPlayer = videojs(videoRef.current, videojsOptions, () => {
+      playerRef.current = newPlayer;
+      playerRef.current.playbackRate(
+        configPlayerDefault
+          ? configPlayerDefault[PLAYER_CONFIG.SPEED_CONTROL].value
+          : 1,
+      );
+      initBtnControls();
+      initComponents();
+      watchCustomButtons();
+      if (subtitles?.length && !isStreaming) {
+        if (ads?.type === TYPE_ADS.SSAI) {
+          handleSubtitleSSAIVideo();
+        } else {
+          addTextTracks();
+          showDefaultSubtitle();
         }
-        if (typeof initSuccess === 'function') {
-          initSuccess();
-        }
-        setInited(true);
-        watchEvents();
-      });
-    }
+      }
+      if (typeof onReady === 'function') {
+        onReady();
+      }
+      setInited(true);
+      watchEvents();
+    });
   };
 
   const handleDisposeVideo = () => {
@@ -247,7 +252,11 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
       playerRef.current.controlBar.addChild('ExpandButton', {});
       playerRef.current.controlBar.addChild('CloseButton', {});
 
-      playerRef.current.controlBar.addChild('MiniPlayerModeButton', {}, 18);
+      playerRef.current.controlBar.addChild(
+        'MiniPlayerModeButton',
+        {},
+        isStreaming ? 15 : 18,
+      );
       playerRef.current.controlBar.addChild(
         'TheaterButton',
         {},
@@ -617,14 +626,14 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
             'tv-player': isStreaming,
           })}
         >
-          <div data-vjs-player>
+          <div data-vjs-player key={privateKey}>
             <video ref={videoRef} className='video-js'></video>
             {toggle && (
               <Settings ref={settingRef} handleToggle={handleToggle} />
             )}
           </div>
         </div>
-        {mode === MODE.MINI && <MiniPlayer />}
+        {mode === MODE.MINI && <MiniPlayer>{miniPlayerFooter}</MiniPlayer>}
       </div>
     </VideoContext.Provider>
   );

@@ -1,8 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { ReactElement, useEffect, useRef } from 'react';
 import { useVideoPlayer } from '..';
 import './style.scss';
 
-const MiniPlayer = () => {
+interface MiniPlayerOptions {
+  children?: ReactElement;
+}
+
+const MiniPlayer = (props: MiniPlayerOptions) => {
+  const { children } = props;
   const miniPlayerRef = useRef<any>();
   const { playerElementRef } = useVideoPlayer();
 
@@ -10,7 +15,12 @@ const MiniPlayer = () => {
     miniPlayerRef.current.appendChild(playerElementRef.current);
   }, []);
 
-  return <div ref={miniPlayerRef} className='mini-player'></div>;
+  return (
+    <div className='mini-player'>
+      <div ref={miniPlayerRef}></div>
+      {children && children}
+    </div>
+  );
 };
 
 export default MiniPlayer;
