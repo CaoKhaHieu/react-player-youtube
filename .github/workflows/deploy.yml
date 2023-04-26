@@ -3,7 +3,7 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "task/eslint-check" ]
   pull_request:
     branches: [ "master" ]
 
