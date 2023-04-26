@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "scripts": {
+    "start": "cd example && npm run dev",
     "lint": "eslint --ignore-path .gitignore --ext .js,.jsx,.ts,.tsx .",
     "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
     "build": "rollup -c"
