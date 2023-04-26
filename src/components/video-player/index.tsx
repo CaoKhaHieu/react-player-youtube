@@ -103,7 +103,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   const playerElementRef = useRef<any>();
   const settingRef = useRef<any>();
   const hlsRef = useRef<any>();
-  const listCues = useRef<Cue[][]>([]);
+  const listCues = useRef<Cue[][]>([]);;
 
   const [configSetting, setConfigSetting] = useState({
     [PLAYER_CONFIG.SUBTITLES]: {
