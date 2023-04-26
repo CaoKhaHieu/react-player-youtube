@@ -57,4 +57,5 @@ module.exports = {
     // prettier
     'prettier/prettier': 'error',
   },
+  ignorePatterns: ["example/"],
 };
