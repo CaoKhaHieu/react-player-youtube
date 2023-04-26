@@ -176,7 +176,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     }
   }, [inited, subLanguage]);
 
-  // INITPLAYER
+  // INIT PLAYER
 
   const initPlayer = () => {
     const videojsOptions: VideoJsPlayerOptions = {

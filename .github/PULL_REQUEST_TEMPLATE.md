@@ -1,14 +1,14 @@
 #### References
 
-> Describe what it related
+- Describe what it related
 
 #### Description
 
-> Describe what it implement or changed
+- Describe what it implement or changed
 
 #### Screenshots
 
-> UI screenshots for Pixel perfect
+- UI screenshots for Pixel perfect
 
 #### Before submitting a pull request, please make sure the following is done:
 

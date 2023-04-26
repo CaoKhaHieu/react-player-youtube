@@ -1,35 +1,125 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useRef, useState } from 'react';
+import './App.css';
+
+import { VideoPlayer} from '../../index';
+import { AdsType } from '../../src/types';
+
+const urlVideo = 'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8';
+const urlVideo2 = 'https://vod.dev2.lunativi.com/vods/4/Lp7XnCt69GyqiAoYmmyz_MEDIA_20230322-093606_1679452566475_GdVtPmp4/playlist.m3u8';
+const typeVideo = 'application/x-mpegURL';
+
+// live url
+// const urlVideo = 'https://nmxlive.akamaized.net/hls/live/529965/Live_1/index.m3u8'
+
+const MetaData = () => {
+  return (
+    <div>
+      meta data
+    </div>
+  );
+};
 
 function App() {
-  const [count, setCount] = useState(0)
+  const options = {
+    muted: true,
+    fill: true,
+    controls: true,
+  };
+  const playerRef = useRef<any>();
+  const [config, setConfig] = useState({
+    src: urlVideo,
+    type: typeVideo
+  });
 
+  const [key, setKey] = useState(1);
+
+  const onReady = () => {
+    console.log('init success')
+    // const btnSubtitle = playerRef.current.controlBar.getChild('SettingButton');
+  }
+
+  const subtitles = [
+    {
+      isDefault: true,
+      value: 'en',
+      label: 'English',
+      url: 'https://kot-politiken.s3-eu-west-1.amazonaws.com/2019/114_en.vtt.txt'
+    },
+    {
+      isDefault: false,
+      value: 'vn',
+      label: 'Vietnamese',
+      url: 'https://d2zihajmogu5jn.cloudfront.net/elephantsdream/captions.ar.vtt'
+    },
+    {
+      value: "sw", 
+      label: "Swedish", 
+      url: "https://d2zihajmogu5jn.cloudfront.net/elephantsdream/captions.sv.vtt", 
+      isDefault: false
+    }
+  ];
+
+  const changeSource = () => {
+    const newSource = {
+      src: urlVideo2,
+      type: typeVideo
+    }
+    console.log('change src')
+    setKey((prev) => prev + 1);
+    setConfig(newSource)
+  }
+
+  const ads = {
+    type: 'SSAI' as AdsType,
+    adsMarker: [
+      {
+        startTime: 10,
+        endTime: 15,
+      },
+      {
+        startTime: 15,
+        endTime: 35,
+      },
+      {
+        startTime: 40,
+        endTime: 50,
+      }
+    ]
+  };
+
+  const handleExpand = () => {
+    console.log('expand')
+  };
+
+  const handleMini = () => {
+    console.log('mini')
+  };
+
+  const handleDestroy = () => {
+    console.log('huy')
+  };
+  
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="App">
+      <div className="video-player">
+        <VideoPlayer
+          privateKey={key}
+          ads={ads} 
+          ref={playerRef}
+          source={config}
+          options={options}
+          subtitles={subtitles}
+          onReady={onReady}
+          onExpand={handleExpand}
+          onDestroy={handleDestroy}
+          onMini={handleMini}
+          miniPlayerFooter={<MetaData />}
+        />
+
+        <button className='change-source' onClick={changeSource}>Change source</button>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
   )
 }
 
-export default App
+export default App;

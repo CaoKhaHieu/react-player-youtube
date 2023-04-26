@@ -3,6 +3,7 @@ import { VideoJsPlayerOptions } from 'video.js';
 
 export type SubtitleActions = 'SWITCH' | 'TURNOFF' | 'GET_CURRENT_SUB';
 export type Mode = 'NORMAL' | 'MINI';
+export type AdsType = 'CSAI' | 'SSAI';
 
 export interface VideoOptions {
   privateKey: number;
@@ -70,6 +71,6 @@ export interface AdMarker {
 }
 
 export interface Ads {
-  type: 'CSAI' | 'SSAI';
+  type: AdsType;
   adsMarker: AdMarker[];
 }
