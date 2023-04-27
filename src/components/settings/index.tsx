@@ -5,11 +5,11 @@ import {
   PLAYER_CONFIG,
   SUBTITLE_ACTIONS,
   dummySubtitle,
-} from '../../constants';
-import { MenuSettingItem, MenuSettings } from '../../types';
+} from '@constants/index';
+import { MenuSettingItem, MenuSettings } from 'types';
 import { useVideoPlayer } from '../video-player';
 import SettingHeader from './setting-header';
-import { saveDataLocal } from '../../utils';
+import { saveDataLocal } from '@utils/index';
 
 interface SettingOptions {
   handleToggle: () => void;

@@ -12,5 +12,6 @@
     "outDir": "dist"
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "example"],
+  "exclude": ["node_modules"],
+  "extends": ["./tsconfig.paths.json"]
 }

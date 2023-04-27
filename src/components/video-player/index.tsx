@@ -12,11 +12,11 @@ import 'video.js/dist/video-js.css';
 import { Helmet } from 'react-helmet';
 
 import './style.scss';
-import '../../stylesheets/style.scss';
+import '@stylesheets/style.scss';
 
 import Settings from '../settings';
-import { getConfigSetting, getDataLocal } from '../../utils';
-import useToggle from '../../hooks/useToggle';
+import { getConfigSetting, getDataLocal } from '@utils/index';
+import useToggle from '@hooks/useToggle';
 import {
   CloseButton,
   ExpandButton,
@@ -35,7 +35,7 @@ import {
   SubtitleActions,
   SubtitleItem,
   VideoOptions,
-} from '../../types';
+} from 'types';
 import {
   CAPTIONS,
   ERRORS,
@@ -46,7 +46,7 @@ import {
   SUBTITLE_OFF,
   TYPE_ADS,
   dummySubtitle,
-} from '../../constants';
+} from '@constants/index';
 import { parse } from '../../utils/vttParser';
 import { compile } from '../../utils/vttCompiler';
 import MiniPlayer from './mini-player';
