@@ -74,11 +74,11 @@ function App() {
         startTime: 40,
         endTime: 50,
       },
-    ]
-  }
+    ],
+  };
 
   const handleExpand = () => {
-    console.log('expand')
+    console.log('expand');
   };
 
   const handleMini = () => {
