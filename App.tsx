@@ -85,6 +85,8 @@ function App() {
     console.log('mini');
   };
 
+  const a = 'Cao KhaHieu';
+
   const handleDestroy = () => {
     console.log('huy');
   };
