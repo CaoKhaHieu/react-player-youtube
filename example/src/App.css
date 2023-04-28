@@ -1,0 +1,13 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.video-player {
+  width: 900px;
+}
+
+.change-source {
+  margin-top: 1rem;
+}
