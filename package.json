@@ -8,7 +8,8 @@
     "start": "rollup -c rollup.config.dev.js --watch",
     "lint": "eslint --ignore-path .gitignore --ext .js,.jsx,.ts,.tsx .",
     "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
-    "build": "rollup -c rollup.config.js"
+    "build": "rollup -c rollup.config.js",
+    "prepare": "husky install"
   },
   "author": "",
   "license": "ISC",
@@ -46,6 +47,8 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.3.4",
     "html": "^1.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
     "node-sass": "^8.0.0",
     "postcss": "^8.4.21",
     "prettier": "^2.8.7",
@@ -67,5 +70,8 @@
     "rollup-plugin-typescript2": "^0.34.1",
     "sass": "^1.60.0",
     "typescript": "^5.0.4"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "eslint --cache --fix"
   }
 }
