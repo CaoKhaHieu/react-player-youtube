@@ -9,6 +9,7 @@
     "lint": "eslint --ignore-path .gitignore --ext .js,.jsx,.ts,.tsx .",
     "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
     "build": "rollup -c rollup.config.js",
+    "commit": "git-cz --allow-empty",
     "prepare": "husky install"
   },
   "author": "",
