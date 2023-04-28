@@ -23,7 +23,7 @@ const output = [
     file: 'build/index.js',
     format: 'umd',
     sourcemap: true,
-    globals
+    globals,
   },
 ];
 

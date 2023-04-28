@@ -56,8 +56,8 @@ function App() {
     // setKey((prev) => prev + 1);
     // setConfig(newSource);
   };
-  
-  console.log('first ---- ')
+
+  console.log('first ---- ');
 
   const ads = {
     type: 'SSAI',
@@ -89,7 +89,7 @@ function App() {
     console.log('huy');
   };
 
-  console.log('////')
+  console.log('////');
 
   return (
     <div className='App'>
