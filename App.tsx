@@ -85,15 +85,9 @@ function App() {
     console.log('mini');
   };
 
-  const a = 'Cao KhaHieu';
-
   const handleDestroy = () => {
     console.log('huy');
   };
-
-  const b = '';
-  console.log('demo');
-  console.log('////--cadscd change');
 
   return (
     <div className='App'>
