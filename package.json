@@ -71,5 +71,9 @@
     "rollup-plugin-typescript2": "^0.34.1",
     "sass": "^1.60.0",
     "typescript": "^5.0.4"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "npm run lint",
+    "*.{css,scss,md,html,json,js,jsx,tsx,ts}": "npm run prettier"
   }
 }
