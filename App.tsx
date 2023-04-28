@@ -78,7 +78,7 @@ function App() {
   }
 
   const handleExpand = () => {
-    console.log('expand');
+    console.log('expand')
   };
 
   const handleMini = () => {
