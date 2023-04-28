@@ -8,8 +8,9 @@
     "start": "rollup -c rollup.config.dev.js --watch",
     "lint": "eslint --ignore-path .gitignore --ext .js,.jsx,.ts,.tsx .",
     "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
+    "pre-commit": "npm run lint && npm run prettier",
+    "pre-build": "npm run pre-commit",
     "build": "rollup -c rollup.config.js",
-    "commit": "git-cz --allow-empty",
     "prepare": "husky install"
   },
   "author": "",
@@ -75,5 +76,10 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "npm run lint",
     "*.{css,scss,md,html,json,js,jsx,tsx,ts}": "npm run prettier"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run pre-commit"
+    }
   }
 }
