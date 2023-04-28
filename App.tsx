@@ -57,8 +57,6 @@ function App() {
     // setConfig(newSource);
   };
 
-  console.log('first ---- ');
-
   const ads = {
     type: 'SSAI',
     adsMarker: [
