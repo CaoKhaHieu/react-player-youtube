@@ -92,8 +92,6 @@ function App() {
   };
 
   console.log('////--cadscd');
-  const b = '';
-  const demo = 'djsank';
 
   return (
     <div className='App'>
