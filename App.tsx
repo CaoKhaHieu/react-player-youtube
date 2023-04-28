@@ -91,6 +91,7 @@ function App() {
     console.log('huy');
   };
 
+  const b = '';
   console.log('demo');
   console.log('////--cadscd change');
 
