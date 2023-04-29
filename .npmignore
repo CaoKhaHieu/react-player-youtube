@@ -1,0 +1,25 @@
+// system file
+*.log
+.DS_Store*
+.idea/
+
+// specific files
+node_modules/
+example/
+build/
+test/
+src/
+public/
+
+// setting files
+.prettierrc.js
+.eslintignore
+.eslintrc.js
+
+// misc folders
+.husky/
+.github/
+
+// bundler - rollup
+rollup.config.dev.js
+rollup.config.js

@@ -75,8 +75,8 @@ const plugins = [
   browsersync({
     server: 'build',
     watch: true,
-    ui: true,
-    open: true,
+    ui: false,
+    open: false,
   }),
 ];
 
