@@ -230,9 +230,9 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     const miniModeButton = playerRef.current.controlBar.getChild(
       'MiniPlayerModeButton',
     );
-
     const TheaterButton =
       playerRef.current.controlBar.getChild('TheaterButton');
+
     if (
       !settingBtn &&
       !PrevButton &&
@@ -245,7 +245,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
         {
           onClick: handleToggle,
         },
-        isStreaming ? 11 : 15,
+        isStreaming ? 11 : 14,
       );
       playerRef.current.controlBar.addChild('PrevButton', {}, 0);
       playerRef.current.controlBar.addChild('NextButton', {}, 2);
@@ -594,31 +594,15 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     handleChooseSubLanguage,
     updateStyleSubtitle,
     subtitles: [dummySubtitle, ...subtitles],
-    // quality video
+    // QUALITY VIDEO
     qualities,
     handleChangeQualityVideo,
-    // streaming
+    // STREAMING
     isStreaming,
   };
 
   return (
     <VideoContext.Provider value={valueContext}>
-      <Helmet>
-        <link rel='preconnect' href='https://fonts.googleapis.com' />
-        <link rel='preconnect' href='https://fonts.gstatic.com' />
-        <link
-          href='https://fonts.googleapis.com/icon?family=Material+Icons'
-          rel='stylesheet'
-        />
-        <link
-          href='https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500;1,700&family=Rubik+Vinyl&display=swap'
-          rel='stylesheet'
-        />
-        <link
-          rel='stylesheet'
-          href='https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0'
-        />
-      </Helmet>
       <div className='player' ref={videoNormalRef}>
         <div
           ref={playerElementRef}

@@ -75,6 +75,14 @@
           align-items: end;
         }
 
+        // Live badge
+        .vjs-live-control {
+          align-items: end;
+          .vjs-live-display {
+            position: relative;
+          }
+        }
+
         // expand button
         .vjs-expand-btn {
           position: absolute;
