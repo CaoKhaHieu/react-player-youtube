@@ -1,9 +1,15 @@
 {
+  "author": "Cao Kha Hieu",
+  "homepage": "https://github.com/CaoKhaHieu/react-player-youtube",
   "name": "react-player-youtube",
   "version": "1.0.0",
-  "description": "",
+  "description": "React player for video",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CaoKhaHieu/react-player-youtube"
+  },
   "scripts": {
     "start": "rollup -c rollup.config.dev.js --watch",
     "lint": "eslint --ignore-path .gitignore --ext .js,.jsx,.ts,.tsx .",
@@ -11,7 +17,6 @@
     "build": "rollup -c rollup.config.js",
     "prepare": "husky install"
   },
-  "author": "",
   "license": "ISC",
   "dependencies": {
     "classnames": "^2.3.2",
@@ -74,5 +79,11 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "npm run lint",
     "*.{css,scss,md,html,json,js,jsx,tsx,ts}": "npm run prettier"
-  }
+  },
+  "keywords": [
+    "react",
+    "player",
+    "video",
+    "youtube"
+  ]
 }
