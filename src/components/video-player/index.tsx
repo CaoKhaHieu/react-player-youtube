@@ -9,7 +9,6 @@ import React, {
 import classNames from 'classnames';
 import videojs, { VideoJsPlayerOptions } from 'video.js';
 import 'video.js/dist/video-js.css';
-import { Helmet } from 'react-helmet';
 
 import './style.scss';
 import '@stylesheets/style.scss';
@@ -184,10 +183,11 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
       fill: true,
       controls: true,
       sources: [source],
+      inactivityTimeout: 1000,
       controlBar: {
-        currentTimeDisplay: !isStreaming,
-        durationDisplay: !isStreaming,
-        timeDivider: !isStreaming,
+        currentTimeDisplay: true,
+        durationDisplay: true,
+        timeDivider: true,
       },
       ...options,
     };
@@ -230,9 +230,9 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     const miniModeButton = playerRef.current.controlBar.getChild(
       'MiniPlayerModeButton',
     );
-
     const TheaterButton =
       playerRef.current.controlBar.getChild('TheaterButton');
+
     if (
       !settingBtn &&
       !PrevButton &&
@@ -245,23 +245,15 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
         {
           onClick: handleToggle,
         },
-        isStreaming ? 11 : 15,
+        15,
       );
       playerRef.current.controlBar.addChild('PrevButton', {}, 0);
       playerRef.current.controlBar.addChild('NextButton', {}, 2);
       playerRef.current.controlBar.addChild('ExpandButton', {});
       playerRef.current.controlBar.addChild('CloseButton', {});
 
-      playerRef.current.controlBar.addChild(
-        'MiniPlayerModeButton',
-        {},
-        isStreaming ? 15 : 18,
-      );
-      playerRef.current.controlBar.addChild(
-        'TheaterButton',
-        {},
-        isStreaming ? 16 : 19,
-      );
+      playerRef.current.controlBar.addChild('MiniPlayerModeButton', {}, 18);
+      playerRef.current.controlBar.addChild('TheaterButton', {}, 19);
     }
   };
 
@@ -541,26 +533,30 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   };
 
   const getListQualityVideo = () => {
-    const hls = playerRef.current.tech({ IWillNotUseThisInPlugins: true }).hls;
+    const hls = playerRef.current.tech({ IWillNotUseThisInPlugins: false }).hls;
     hlsRef.current = hls;
 
-    const listQualities = hlsRef.current.representations();
-    const qualitiesMapping: QualityVideo[] = listQualities.map(
-      (item: any) => new QualityVideo(item),
-    );
-    const sortedQualities: QualityVideo[] = qualitiesMapping.sort(
-      (a: QualityVideo, b: QualityVideo) => b.value - a.value,
-    );
-    setQualities(sortedQualities);
+    if (hls) {
+      const listQualities = hlsRef.current?.representations() || [];
+      const qualitiesMapping: QualityVideo[] = listQualities.map(
+        (item: any) => new QualityVideo(item),
+      );
+      const sortedQualities: QualityVideo[] = qualitiesMapping.sort(
+        (a: QualityVideo, b: QualityVideo) => b.value - a.value,
+      );
+      setQualities(sortedQualities);
 
-    // Show default quality
-    const defaultQuality = {
-      label: `${hlsRef.current.selectPlaylist().attributes.RESOLUTION.height}p`,
-      value: hlsRef.current.selectPlaylist().attributes.BANDWIDTH,
-    };
-    handleConfigSetting({
-      [PLAYER_CONFIG.QUALITY]: defaultQuality,
-    });
+      // Show default quality
+      const defaultQuality = {
+        label: `${
+          hlsRef.current.selectPlaylist().attributes.RESOLUTION.height
+        }p`,
+        value: hlsRef.current.selectPlaylist().attributes.BANDWIDTH,
+      };
+      handleConfigSetting({
+        [PLAYER_CONFIG.QUALITY]: defaultQuality,
+      });
+    }
   };
 
   const handleChangeQualityVideo = (data: { label: string; value: number }) => {
@@ -594,31 +590,15 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
     handleChooseSubLanguage,
     updateStyleSubtitle,
     subtitles: [dummySubtitle, ...subtitles],
-    // quality video
+    // QUALITY VIDEO
     qualities,
     handleChangeQualityVideo,
-    // streaming
+    // STREAMING
     isStreaming,
   };
 
   return (
     <VideoContext.Provider value={valueContext}>
-      <Helmet>
-        <link rel='preconnect' href='https://fonts.googleapis.com' />
-        <link rel='preconnect' href='https://fonts.gstatic.com' />
-        <link
-          href='https://fonts.googleapis.com/icon?family=Material+Icons'
-          rel='stylesheet'
-        />
-        <link
-          href='https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500;1,700&family=Rubik+Vinyl&display=swap'
-          rel='stylesheet'
-        />
-        <link
-          rel='stylesheet'
-          href='https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0'
-        />
-      </Helmet>
       <div className='player' ref={videoNormalRef}>
         <div
           ref={playerElementRef}
@@ -630,6 +610,12 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
             <video ref={videoRef} className='video-js'></video>
             {toggle && (
               <Settings ref={settingRef} handleToggle={handleToggle} />
+            )}
+            {isStreaming && (
+              <div className='badge-live'>
+                <span className='dot'></span>
+                <p className='badge-text'>LIVE</p>
+              </div>
             )}
           </div>
         </div>

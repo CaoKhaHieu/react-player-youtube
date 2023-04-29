@@ -75,6 +75,14 @@
           align-items: end;
         }
 
+        // Live badge
+        .vjs-live-control {
+          align-items: end;
+          .vjs-live-display {
+            position: relative;
+          }
+        }
+
         // expand button
         .vjs-expand-btn {
           position: absolute;
@@ -116,6 +124,14 @@
       // Big play button
       .vjs-big-play-button {
         z-index: 1;
+      }
+    }
+
+    &.tv-player {
+      .badge-live {
+        top: unset;
+        bottom: 0.5rem;
+        left: 0.5rem;
       }
     }
   }
