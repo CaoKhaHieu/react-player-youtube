@@ -183,10 +183,11 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
       fill: true,
       controls: true,
       sources: [source],
+      inactivityTimeout: 1000,
       controlBar: {
-        currentTimeDisplay: !isStreaming,
-        durationDisplay: !isStreaming,
-        timeDivider: !isStreaming,
+        currentTimeDisplay: true,
+        durationDisplay: true,
+        timeDivider: true,
       },
       ...options,
     };
@@ -244,23 +245,15 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
         {
           onClick: handleToggle,
         },
-        isStreaming ? 11 : 14,
+        15,
       );
       playerRef.current.controlBar.addChild('PrevButton', {}, 0);
       playerRef.current.controlBar.addChild('NextButton', {}, 2);
       playerRef.current.controlBar.addChild('ExpandButton', {});
       playerRef.current.controlBar.addChild('CloseButton', {});
 
-      playerRef.current.controlBar.addChild(
-        'MiniPlayerModeButton',
-        {},
-        isStreaming ? 15 : 18,
-      );
-      playerRef.current.controlBar.addChild(
-        'TheaterButton',
-        {},
-        isStreaming ? 16 : 19,
-      );
+      playerRef.current.controlBar.addChild('MiniPlayerModeButton', {}, 18);
+      playerRef.current.controlBar.addChild('TheaterButton', {}, 19);
     }
   };
 
@@ -613,6 +606,12 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
             <video ref={videoRef} className='video-js'></video>
             {toggle && (
               <Settings ref={settingRef} handleToggle={handleToggle} />
+            )}
+            {isStreaming && (
+              <div className='badge-live'>
+                <span className='dot'></span>
+                <p className='badge-text'>LIVE</p>
+              </div>
             )}
           </div>
         </div>

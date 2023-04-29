@@ -126,6 +126,14 @@
         z-index: 1;
       }
     }
+
+    &.tv-player {
+      .badge-live {
+        top: unset;
+        bottom: 0.5rem;
+        left: 0.5rem;
+      }
+    }
   }
 
   .vjs-user-active {

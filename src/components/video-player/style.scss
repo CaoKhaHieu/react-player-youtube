@@ -275,29 +275,38 @@
 
   // Live stream UI
   &.tv-player {
-    .vjs-live-control {
-      position: relative;
-      display: flex;
-      align-items: center;
-      margin-left: 0.5rem;
-    }
-    .vjs-live-display {
-      font-size: 1.25em;
-      padding-left: 0.5rem;
-      &::before {
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        content: '';
-        width: 5px;
-        height: 5px;
-        background: red;
-        border-radius: 50%;
+    .vjs-control-bar {
+      .vjs-time-control {
+        visibility: hidden;
+      }
+      .vjs-live-control {
+        display: none;
       }
     }
-    .vjs-subs-caps-button {
-      display: none;
+
+    // live icon
+    .badge-live {
+      position: absolute;
+      top: 1.25rem;
+      left: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.2rem;
+      border-radius: 2px;
+      height: 25px;
+      width: 45px;
+      background: #cc0000;
+      .badge-text {
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .dot {
+        width: 4px;
+        height: 4px;
+        background: white;
+        border-radius: 100%;
+      }
     }
   }
 }
