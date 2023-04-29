@@ -533,26 +533,30 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   };
 
   const getListQualityVideo = () => {
-    const hls = playerRef.current.tech({ IWillNotUseThisInPlugins: true }).hls;
+    const hls = playerRef.current.tech({ IWillNotUseThisInPlugins: false }).hls;
     hlsRef.current = hls;
 
-    const listQualities = hlsRef.current.representations();
-    const qualitiesMapping: QualityVideo[] = listQualities.map(
-      (item: any) => new QualityVideo(item),
-    );
-    const sortedQualities: QualityVideo[] = qualitiesMapping.sort(
-      (a: QualityVideo, b: QualityVideo) => b.value - a.value,
-    );
-    setQualities(sortedQualities);
+    if (hls) {
+      const listQualities = hlsRef.current?.representations() || [];
+      const qualitiesMapping: QualityVideo[] = listQualities.map(
+        (item: any) => new QualityVideo(item),
+      );
+      const sortedQualities: QualityVideo[] = qualitiesMapping.sort(
+        (a: QualityVideo, b: QualityVideo) => b.value - a.value,
+      );
+      setQualities(sortedQualities);
 
-    // Show default quality
-    const defaultQuality = {
-      label: `${hlsRef.current.selectPlaylist().attributes.RESOLUTION.height}p`,
-      value: hlsRef.current.selectPlaylist().attributes.BANDWIDTH,
-    };
-    handleConfigSetting({
-      [PLAYER_CONFIG.QUALITY]: defaultQuality,
-    });
+      // Show default quality
+      const defaultQuality = {
+        label: `${
+          hlsRef.current.selectPlaylist().attributes.RESOLUTION.height
+        }p`,
+        value: hlsRef.current.selectPlaylist().attributes.BANDWIDTH,
+      };
+      handleConfigSetting({
+        [PLAYER_CONFIG.QUALITY]: defaultQuality,
+      });
+    }
   };
 
   const handleChangeQualityVideo = (data: { label: string; value: number }) => {
