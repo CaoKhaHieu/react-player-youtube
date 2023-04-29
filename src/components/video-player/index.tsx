@@ -9,7 +9,6 @@ import React, {
 import classNames from 'classnames';
 import videojs, { VideoJsPlayerOptions } from 'video.js';
 import 'video.js/dist/video-js.css';
-import { Helmet } from 'react-helmet';
 
 import './style.scss';
 import '@stylesheets/style.scss';
