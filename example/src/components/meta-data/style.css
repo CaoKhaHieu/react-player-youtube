@@ -1,0 +1,15 @@
+.meta-data {
+  background: #212121;
+  padding: 14px 16px 16px;
+}
+
+.meta-data-header {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.meta-data-description {
+  font-size: 0.8rem;
+  font-weight: 400;
+  margin-top: 0.5rem;
+}

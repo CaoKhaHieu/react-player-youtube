@@ -1,0 +1,20 @@
+.footer {
+  margin-top: 2.5rem;
+  display: flex;
+  gap: 2rem;
+  justify-content: end;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn a {
+  color: white;
+}
+
+.btn i {
+  font-size: 30px;
+}
