@@ -24,6 +24,7 @@ A Simple player
 
 ```js
 import { VideoPlayerProvider } from 'react-player-youtube';
+import App from './App';
 
 <VideoPlayerProvider>
   <App />
@@ -33,8 +34,7 @@ import { VideoPlayerProvider } from 'react-player-youtube';
 ```js
 import { VideoPlayer } from 'react-player-youtube';
 
-const urlVideo =
-  'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8';
+const urlVideo = 'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8';
 const typeVideo = 'application/x-mpegURL';
 const source = {
   src: urlVideo,
@@ -50,14 +50,14 @@ const playerRef = useRef();
 
 | Prop               | Description                             | Type                          | require |
 | ------------------ | --------------------------------------- | ----------------------------- | ------- |
-| `privateKey`       | A private key for video component       | number                        | `false` |
-| `source`           | Include url and type of a video to play | { type: string; src: string } | `true`  |
-| `options`          | Override default config of player       | VideoJsPlayerOptions;         | `false` |
-| `subtitles`        | List subtitles                          | SubtitleItem                  | `false` |
-| `isStreaming`      | Set player for streaming video          | VideoJsPlayerOptions;         | `false` |
-| `ads`              | Adsense for video                       | Ads                           | `false` |
-| `onReady`          | Callback after init player              | () => void                    | false   |
-| `onExpand`         | Callback open player with normal mode   | () => void                    | false   |
-| `onMini`           | Callback open player with mini mode     | () => void                    | false   |
-| `onDestroy`        | Callback close player                   | () => void                    | false   |
-| `miniPlayerFooter` | the element is below the mini player    | ReactElement                  | false   |
+| privateKey         | A private key for video component       | number                        | `false` |
+| source             | Include url and type of a video to play | { type: string; src: string } | `true`  |
+| options            | Override default config of player       | VideoJsPlayerOptions;         | `false` |
+| subtitles          | List subtitles                          | SubtitleItem                  | `false` |
+| isStreaming        | Set player for streaming video          | VideoJsPlayerOptions;         | `false` |
+| ads                | Adsense for video                       | Ads                           | false` |
+| onReady            | Callback after init player              | () => void                    | false   |
+| onExpand           | Callback open player with normal mode   | () => void                    | false   |
+| onMini             | Callback open player with mini mode     | () => void                    | false   |
+| onDestroy          | Callback close player                   | () => void                    | false   |
+| miniPlayerFooter   | the element is below the mini player    | ReactElement                  | false   |
