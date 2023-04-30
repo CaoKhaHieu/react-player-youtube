@@ -1,5 +1,9 @@
 # react-player-youtube
 
+[![Version](https://www.npmjs.org/package/react-player-youtube)
+![typescript](https://badgen.net/badge/icon/typescript?icon=typescript&label)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+
 A Simple player
 
 ## Demo
@@ -72,3 +76,15 @@ const playerRef = useRef();
 | Ads                  | { type: AdsType; adsMarker: AdMarker[] }                            |
 | AdsType              | 'CSAI' or 'SSAI'                                                    |
 | AdMarker             | { startTime: number; endTime: number }                              |
+
+### Issues
+
+If you have some bug or have any feature request, feel free to submit an issue on the [github repo](https://github.com/CaoKhaHieu/react-player-youtube/issues).
+
+## Contributing
+
+We welcome your contribution! Fork the repo, make some changes, submit a pull-request!
+
+## License
+
+MIT
