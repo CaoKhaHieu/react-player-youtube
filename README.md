@@ -72,7 +72,7 @@ const playerRef = useRef();
 | Name                 | Type                                                                | Reference                                                                  |
 | -------------------- | ------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 | VideoJsPlayerOptions |                                                                     | [https://videojs.com/guides/options/](https://videojs.com/guides/options/) |
-| SubtitleItem         | { isDefault?: boolean; value: string; label: string; url?: string } |
+| SubtitleItem         | { isDefault?: boolean; value: string; label: string; url: string }  |
 | Ads                  | { type: AdsType; adsMarker: AdMarker[] }                            |
 | AdsType              | 'CSAI' or 'SSAI'                                                    |
 | AdMarker             | { startTime: number; endTime: number }                              |
@@ -96,7 +96,7 @@ If you have some bug or have any feature request, feel free to submit an issue o
 ## Contributing
 
 We welcome your contribution! Fork the repo, make some changes, submit a pull-request!
-See the [contribution guidelines](https://github.com/CaoKhaHieu/react-player-youtube/CONTRIBUTING.md) before creating a pull request.
+See the [contribution guidelines](https://github.com/CaoKhaHieu/react-player-youtube/blob/master/CONTRIBUTING.md) before creating a pull request.
 
 ## License
 
