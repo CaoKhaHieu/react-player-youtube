@@ -56,8 +56,8 @@ const playerRef = useRef();
 | `subtitles`        | List subtitles                          | SubtitleItem                  | `false` |
 | `isStreaming`      | Set player for streaming video          | VideoJsPlayerOptions;         | `false` |
 | `ads`              | Adsense for video                       | Ads                           | `false` |
-| `onReady`          | Callback after init player              | () => {}                      | false   |
-| `onExpand`         | Callback open player with normal mode   | () => {}                      | false   |
-| `onMini`           | Callback open player with mini mode     | () => {}                      | false   |
-| `onDestroy`        | Callback close player                   | () => {}                      | false   |
+| `onReady`          | Callback after init player              | () => void                    | false   |
+| `onExpand`         | Callback open player with normal mode   | () => void                    | false   |
+| `onMini`           | Callback open player with mini mode     | () => void                    | false   |
+| `onDestroy`        | Callback close player                   | () => void                    | false   |
 | `miniPlayerFooter` | the element is below the mini player    | ReactElement                  | false   |
