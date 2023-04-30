@@ -4,11 +4,11 @@
 ![typescript](https://badgen.net/badge/icon/typescript?icon=typescript&label)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
-A Simple player
+A Simple player like youtube
 
 ## Demo
 
-[https://fancy-taffy-aec1a6.netlify.app/](https://fancy-taffy-aec1a6.netlify.app/)
+[https://marvelous-starship-013ffe.netlify.app/](https://marvelous-starship-013ffe.netlify.app/)
 
 ## Installation
 
@@ -77,6 +77,18 @@ const playerRef = useRef();
 | AdsType              | 'CSAI' or 'SSAI'                                                    |
 | AdMarker             | { startTime: number; endTime: number }                              |
 
+### Control Button
+
+| Name                   | Key                  |
+| ---------------------- | -------------------- |
+| Setting Button         | SettingButton        |
+| Previous Button        | PrevButton           |
+| Next Button            | NextButton           |
+| Mini Player Button     | MiniPlayerModeButton |
+| Theater Mode Button    | TheaterButton        |
+| Expand Button          | ExpandButton         |
+| Close Mini Mode Button | CloseButton          |
+
 ### Issues
 
 If you have some bug or have any feature request, feel free to submit an issue on the [github repo](https://github.com/CaoKhaHieu/react-player-youtube/issues).
@@ -84,6 +96,7 @@ If you have some bug or have any feature request, feel free to submit an issue o
 ## Contributing
 
 We welcome your contribution! Fork the repo, make some changes, submit a pull-request!
+See the [contribution guidelines](https://github.com/CaoKhaHieu/react-player-youtube/CONTRIBUTING.md) before creating a pull request.
 
 ## License
 
