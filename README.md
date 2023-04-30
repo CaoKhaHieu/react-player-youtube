@@ -65,7 +65,10 @@ const playerRef = useRef();
 
 ### Types
 
-| Name                 | Type                                                                 | Reference                                                                  |
-| -------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| VideoJsPlayerOptions | ---------------------------------                                    | [https://videojs.com/guides/options/](https://videojs.com/guides/options/) |
-| SubtitleItem         | { isDefault?: boolean; value: string; label: string; url?: string; } |
+| Name                 | Type                                                                | Reference                                                                  |
+| -------------------- | ------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| VideoJsPlayerOptions |                                                                     | [https://videojs.com/guides/options/](https://videojs.com/guides/options/) |
+| SubtitleItem         | { isDefault?: boolean; value: string; label: string; url?: string } |
+| Ads                  | { type: AdsType; adsMarker: AdMarker[] }                            |
+| AdsType              | 'CSAI' or 'SSAI'                                                    |
+| AdMarker             | { startTime: number; endTime: number }                              |
