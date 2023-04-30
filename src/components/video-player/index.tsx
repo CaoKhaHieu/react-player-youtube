@@ -182,7 +182,6 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
       fill: true,
       controls: true,
       sources: [source],
-      inactivityTimeout: 1000,
       controlBar: {
         currentTimeDisplay: true,
         durationDisplay: true,
