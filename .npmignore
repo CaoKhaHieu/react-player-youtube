@@ -23,3 +23,10 @@ public/
 // bundler - rollup
 rollup.config.dev.js
 rollup.config.js
+
+// others
+App.tsx
+index.ts
+index.tsx
+ts.config.json
+ts.config.paths.json
