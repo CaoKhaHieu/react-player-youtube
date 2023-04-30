@@ -2,7 +2,7 @@
   "author": "Cao Kha Hieu",
   "homepage": "https://github.com/CaoKhaHieu/react-player-youtube",
   "name": "react-player-youtube",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "React player for video",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
