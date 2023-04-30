@@ -1,6 +1,6 @@
 # react-player-youtube
 
-[![Version](https://www.npmjs.org/package/react-player-youtube)
+[![Version](https://img.shields.io/badge/react--player--youtube-react--player--youtube-red)](https://www.npmjs.org/package/react-player-youtube)
 ![typescript](https://badgen.net/badge/icon/typescript?icon=typescript&label)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
