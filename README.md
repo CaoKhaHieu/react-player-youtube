@@ -53,19 +53,19 @@ const playerRef = useRef();
 
 ### Props
 
-| Prop             | Description                             | Type                          | Require |
-| ---------------- | --------------------------------------- | ----------------------------- | ------- |
-| privateKey       | A private key for video component       | number                        | false   |
-| source           | Include url and type of a video to play | { type: string; src: string } | true    |
-| options          | Override default config of player       | VideoJsPlayerOptions;         | false   |
-| subtitles        | List subtitles                          | SubtitleItem[]                | false   |
-| isStreaming      | Set player for streaming video          | VideoJsPlayerOptions;         | false   |
-| ads              | Adsense for video                       | Ads                           | false   |
-| onReady          | Callback after init player              | () => void                    | false   |
-| onExpand         | Callback open player with normal mode   | () => void                    | false   |
-| onMini           | Callback open player with mini mode     | () => void                    | false   |
-| onDestroy        | Callback close player                   | () => void                    | false   |
-| miniPlayerFooter | the element is below the mini player    | ReactElement                  | false   |
+| Prop             | Description                                   | Type                          | Require |
+| ---------------- | --------------------------------------------- | ----------------------------- | ------- |
+| privateKey       | A private key for video component             | number                        | false   |
+| source           | Include URL and type of a video to play       | { type: string; src: string } | true    |
+| options          | Override player default configuration         | VideoJsPlayerOptions;         | false   |
+| subtitles        | List subtitles                                | SubtitleItem[]                | false   |
+| isStreaming      | Set player to stream video                    | VideoJsPlayerOptions;         | false   |
+| ads              | Adsense for video                             | Ads                           | false   |
+| onReady          | Callback to call after init player            | () => void                    | false   |
+| onExpand         | Callback to call open player with normal mode | () => void                    | false   |
+| onMini           | Callback to call open player with mini mode   | () => void                    | false   |
+| onDestroy        | Callback to close the player                  | () => void                    | false   |
+| miniPlayerFooter | the element is below the mini player          | ReactElement                  | false   |
 
 ### Types
 
