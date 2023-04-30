@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
 import { VideoPlayer } from 'react-player-youtube';
 import MetaData from '../../components/meta-data';
+import { useRef } from 'react';
 
 const urlVideo =
   'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8';

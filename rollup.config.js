@@ -1,6 +1,5 @@
 import babel from 'rollup-plugin-babel';
 import typescript from 'rollup-plugin-typescript2';
-import cleaner from 'rollup-plugin-cleaner';
 import postcss from 'rollup-plugin-postcss';
 import alias from '@rollup/plugin-alias';
 import filesize from 'rollup-plugin-filesize';
@@ -36,9 +35,6 @@ const plugins = [
   babel({
     exclude: 'node_modules/**',
     presets: ['@babel/preset-react'],
-  }),
-  cleaner({
-    targets: ['./dist/'],
   }),
   typescript({
     tsconfig: './tsconfig.json',

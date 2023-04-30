@@ -2,7 +2,7 @@
   "author": "Cao Kha Hieu",
   "homepage": "https://github.com/CaoKhaHieu/react-player-youtube",
   "name": "react-player-youtube",
-  "version": "1.0.2",
+  "version": "1.0.8",
   "description": "React player for video",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -14,7 +14,8 @@
     "start": "rollup -c rollup.config.dev.js --watch",
     "lint": "eslint --ignore-path .gitignore --ext .js,.jsx,.ts,.tsx .",
     "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
-    "build": "rollup -c rollup.config.js",
+    "build": "npm run types && rollup -c rollup.config.js",
+    "types": "rollup -c rollup.config.types.js",
     "prepare": "husky install"
   },
   "license": "ISC",
@@ -73,6 +74,7 @@
     "rollup-plugin-serve": "^2.0.2",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.34.1",
+    "rollup-plugin-dts": "5.2.0",
     "sass": "^1.60.0",
     "typescript": "^5.0.4"
   },

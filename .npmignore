@@ -27,6 +27,7 @@ rollup.config.js
 // others
 App.tsx
 index.ts
+index.types.ts
 index.tsx
-ts.config.json
-ts.config.paths.json
+tsconfig.json
+tsconfig.paths.json

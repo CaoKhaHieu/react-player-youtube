@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { VideoPlayer } from 'react-player-youtube';
 import MetaData from '../../components/meta-data';
 
