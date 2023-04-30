@@ -1,4 +1,5 @@
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import classNames from 'classnames';
 import './style.scss';
 import Option from '../option';
 import {
@@ -12,7 +13,8 @@ import SettingHeader from './setting-header';
 import { saveDataLocal } from '@utils/index';
 
 interface SettingOptions {
-  handleToggle: () => void;
+  toggleSetting: boolean;
+  handleToggle: (value: boolean) => void;
 }
 
 export const menuSettings: MenuSettings = {
@@ -151,7 +153,7 @@ export const getSettingData = (keys: string[]) => {
 };
 
 const Settings = forwardRef((props: SettingOptions, ref) => {
-  const { handleToggle } = props;
+  const { toggleSetting, handleToggle } = props;
   const subRef = useRef<HTMLDivElement>(null);
   const {
     isStreaming,
@@ -250,7 +252,7 @@ const Settings = forwardRef((props: SettingOptions, ref) => {
         !subRef.current?.contains(targetElement) &&
         targetElement?.className !== 'vjs-icon-placeholder'
       ) {
-        handleToggle();
+        handleToggle(false);
       }
     };
 
@@ -312,7 +314,12 @@ const Settings = forwardRef((props: SettingOptions, ref) => {
   };
 
   return (
-    <div className='settings' ref={subRef}>
+    <div
+      className={classNames('settings', {
+        show: toggleSetting,
+      })}
+      ref={subRef}
+    >
       {keys.length ? (
         <SettingHeader
           title={settingData?.label || 'Subtitles'}
@@ -321,7 +328,7 @@ const Settings = forwardRef((props: SettingOptions, ref) => {
           optionsClick={showChild}
         />
       ) : null}
-      {options.length &&
+      {options.length > 0 &&
         options.map((item: any, index: number) => (
           <Option
             key={index}

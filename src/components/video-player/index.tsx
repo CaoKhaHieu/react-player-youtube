@@ -15,7 +15,6 @@ import '@stylesheets/style.scss';
 
 import Settings from '../settings';
 import { getConfigSetting, getDataLocal } from '@utils/index';
-import useToggle from '@hooks/useToggle';
 import {
   CloseButton,
   ExpandButton,
@@ -150,12 +149,12 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
       { label: '100%', value: '1' },
     ),
   });
+
   const [inited, setInited] = useState<boolean>(false);
   const [subLanguage, setSubLanguage] = useState<SubtitleItem>(defaultSub);
   const [qualities, setQualities] = useState<QualityVideo[]>([]);
   const [mode, setMode] = useState<Mode>(MODE.NORMAL as Mode);
-
-  const { toggle, handleToggle } = useToggle();
+  const [toggleSetting, setToggleSetting] = useState<boolean>(false);
 
   useEffect(() => {
     if (source) {
@@ -164,7 +163,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
   }, [source]);
 
   useEffect(() => {
-    if (mode === MODE.MINI && toggle) {
+    if (mode === MODE.MINI && toggleSetting) {
       handleToggle(false);
     }
   }, [mode]);
@@ -280,6 +279,7 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
 
     closeButton.on('click', () => {
       handleDisposeVideo();
+      handleChangeMode(MODE.NORMAL as Mode);
       if (typeof onDestroy === 'function') {
         onDestroy();
       }
@@ -288,6 +288,16 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
 
   const initComponents = () => {
     playerRef.current.addChild('VjsPlaceholder');
+  };
+
+  // TOGGLE SETTING
+
+  const handleToggle = (value?: boolean) => {
+    if (value !== undefined) {
+      setToggleSetting(value);
+    } else {
+      setToggleSetting((prevValue) => !prevValue);
+    }
   };
 
   // SAVE DATA SETTINGS
@@ -608,9 +618,11 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
         >
           <div data-vjs-player key={privateKey}>
             <video ref={videoRef} className='video-js'></video>
-            {toggle && (
-              <Settings ref={settingRef} handleToggle={handleToggle} />
-            )}
+            <Settings
+              ref={settingRef}
+              toggleSetting={toggleSetting}
+              handleToggle={handleToggle}
+            />
             {isStreaming && (
               <div className='badge-live'>
                 <span className='dot'></span>
