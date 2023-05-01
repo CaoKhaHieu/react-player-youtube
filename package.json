@@ -2,7 +2,7 @@
   "author": "Cao Kha Hieu",
   "homepage": "https://github.com/CaoKhaHieu/react-player-youtube",
   "name": "react-player-youtube",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "React player for video",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -24,8 +24,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-helmet": "^6.1.0",
-    "video.js": "^7.17.0",
-    "videojs-contrib-hls": "^5.15.0"
+    "video.js": "^7.17.0"
   },
   "devDependencies": {
     "@babel/core": "^7.21.3",
