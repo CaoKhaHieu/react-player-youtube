@@ -16,7 +16,7 @@ const MiniPlayer = (props: MiniPlayerOptions) => {
   }, []);
 
   const a = '';
-  const b = '1';
+  const b = '';
 
   return (
     <div className='mini-player'>
