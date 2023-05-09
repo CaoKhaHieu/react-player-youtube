@@ -15,7 +15,7 @@ const MiniPlayer = (props: MiniPlayerOptions) => {
     miniPlayerRef.current.appendChild(playerElementRef.current);
   }, []);
 
-  const a = '';
+  const a = '55';
 
   return (
     <div className='mini-player'>
