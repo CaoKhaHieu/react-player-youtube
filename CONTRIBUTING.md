@@ -19,12 +19,9 @@ When contributing to this repository, please first discuss the change you wish t
 
 ### Install
 
-Clone the repository and create a local branch from develop branch:
+Fork the repository and create a local branch from develop branch:
 
 ```sh
-git clone https://github.com/CaoKhaHieu/react-player-youtube
-cd react-toastify
-
 git checkout -b my-branch
 ```
 
@@ -37,9 +34,6 @@ npm i install
 ```sh
 # launch the playground
 npm start
-
-# Run tests 💩
-npm test
 
 # Prettify all the things
 npm run prettier
