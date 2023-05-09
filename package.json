@@ -78,8 +78,14 @@
     "typescript": "^5.0.4"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "eslint --fix",
-    "*.{css,scss,md,html,json,js,jsx,tsx,ts}": "npm run prettier"
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "git add ."
+    ],
+    "*.{css,scss,md,html,json,js,jsx,tsx,ts}": [
+      "npm run prettier",
+      "git add ."
+    ]
   },
   "keywords": [
     "react",
