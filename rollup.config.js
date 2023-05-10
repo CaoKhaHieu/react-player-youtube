@@ -6,7 +6,7 @@ import filesize from 'rollup-plugin-filesize';
 import progress from 'rollup-plugin-progress';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 
-const input = 'index.ts';
+const input = './src/index.ts';
 const output = [
   {
     file: 'dist/index.js',

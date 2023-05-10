@@ -250,14 +250,14 @@ const VideoPlayer = forwardRef((props: VideoOptions, playerRef: any) => {
       playerRef.current.controlBar.addChild('ExpandButton', {});
       playerRef.current.controlBar.addChild('CloseButton', {});
 
-      playerRef.current.controlBar.addChild('MiniPlayerModeButton', {}, 18);
+      // playerRef.current.controlBar.addChild('MiniPlayerModeButton', {}, 18);
       playerRef.current.controlBar.addChild('TheaterButton', {}, 19);
     }
   };
 
   const watchCustomButtons = () => {
     const miniModeButton = playerRef.current.controlBar.getChild(
-      'MiniPlayerModeButton',
+      'pictureInPictureToggle',
     );
     const expandButton = playerRef.current.controlBar.getChild('ExpandButton');
     const closeButton = playerRef.current.controlBar.getChild('CloseButton');
