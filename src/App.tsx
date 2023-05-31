@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import VideoPlayer from './src/components/video-player/index';
+import VideoPlayer from './components/video-player/index';
 
 const urlVideo =
   'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8';

@@ -17,7 +17,7 @@ const globals = {
   'react-dom': 'ReactDOM',
 };
 
-const input = 'index.tsx';
+const input = './src/index.tsx';
 const output = [
   {
     file: 'build/index.js',
