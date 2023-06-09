@@ -8,7 +8,7 @@ A Simple player like youtube
 
 ## Demo
 
-[[https://marvelous-starship-013ffe.netlify.app/](https://leafy-gaufre-5976e6.netlify.app/)]([https://marvelous-starship-013ffe.netlify.app/](https://leafy-gaufre-5976e6.netlify.app/))
+[https://marvelous-starship-013ffe.netlify.app/](https://leafy-gaufre-5976e6.netlify.app/](https://marvelous-starship-013ffe.netlify.app/](https://leafy-gaufre-5976e6.netlify.app/)
 
 ## Installation
 
